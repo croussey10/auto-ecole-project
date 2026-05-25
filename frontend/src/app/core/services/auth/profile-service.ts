@@ -23,7 +23,7 @@ export class ProfileService {
       schoolId: this.activeAutoEcoleId()
     }),
     loader: async ({params}) => {
-      if (!params.user || !params.schoolId) return null;
+      if (!params.user || !params.schoolId) return null
       try {
         return await this.getProfileInfos(params.user.id, params.schoolId);
       } catch {
@@ -33,7 +33,7 @@ export class ProfileService {
         this.activeAutoEcoleSlug.set(null)
         localStorage.removeItem('activeAutoEcoleId');
         localStorage.removeItem('activeAutoEcoleSlug');
-        await this.authService.supabase.auth.signOut({ scope: 'local' })
+        await this.authService.supabase.auth.signOut({scope: 'local'})
         void this.router.navigate([`/auth/login/${slugAutoEcole}`])
         return null
       }
@@ -63,6 +63,17 @@ export class ProfileService {
       .from('profile')
       .select('*')
       .eq('user_id', userId)
+      .eq('auto_ecole_id', autoEcoleId)
+      .single();
+    if (error) throw error;
+    return data
+  }
+
+  async getProfileInfosByProfile(profileId: string, autoEcoleId: string): Promise<Database['public']['Tables']['profile']['Row']> {
+    const {data, error} = await this.authService.supabase
+      .from('profile')
+      .select('*')
+      .eq('id', profileId)
       .eq('auto_ecole_id', autoEcoleId)
       .single();
     if (error) throw error;

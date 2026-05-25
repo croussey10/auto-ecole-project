@@ -1,4 +1,4 @@
-import {Component, computed, effect, inject, signal} from '@angular/core';
+import {Component, computed, effect, inject, input, resource, signal} from '@angular/core';
 import {Card} from 'primeng/card';
 import {ReservationService} from '../../../core/services/database/reservation-service';
 import {ProfileService} from '../../../core/services/auth/profile-service';
@@ -18,33 +18,14 @@ export class NextLessonCard {
   reservationService = inject(ReservationService)
   profileService = inject(ProfileService)
 
-  profile = this.profileService.currentProfile
-  reservations = signal<Database["public"]["Tables"]["reservation"]["Row"][] | []>([])
+  reservation = input.required<Database["public"]["Tables"]["reservation"]["Row"]>()
 
-  oneReservation = computed(() => {
-    const reservations = this.reservations()
-
-    if (!reservations) return
-    return reservations[0]
+  ressourceMoniteur = resource({
+    params: () => this.reservation(),
+    loader: async ({params}) => {
+      if (!params) return null
+      return await this.profileService.getProfileInfosByProfile(params.moniteur_id, params.auto_ecole_id)
+    }
   })
-
-  moniteur = computed(() => {
-    const profile = this.profile()
-    const reservation = this.oneReservation()
-
-    if (!profile || !reservation) return
-    return this.profileService.getProfileInfos(reservation.moniteur_id, profile.auto_ecole_id)
-  })
-
-  constructor() {
-    effect(async () => {
-      const profile = this.profile()
-      if (!profile) return
-      const reservations = await this.reservationService.getEleveReservations(profile.id)
-      this.reservations.set(reservations)
-      console.log(this.reservations())
-      console.log(this.oneReservation())
-    });
-  }
-
+  moniteur = this.ressourceMoniteur.value
 }

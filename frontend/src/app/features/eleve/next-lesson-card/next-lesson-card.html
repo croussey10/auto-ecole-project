@@ -1,8 +1,9 @@
 <p-card>
   <div>
-    <span>heure de départ : {{oneReservation()?.heure_debut}}</span>
-    <span>date : {{oneReservation()?.date_creneau}}</span>
-    <span>moniteur id : {{oneReservation()?.moniteur_id}}</span>
+    <div>heure de départ : {{ reservationOne()?.heure_debut }}</div>
+    <div>date : {{ reservationOne()?.date_creneau }}</div>
+    <div>moniteur id : {{ reservationOne()?.moniteur_id }}</div>
+    <div>moniteur : {{moniteur()?.prenom}} {{moniteur()?.nom}}</div>
   </div>
 
   <p-button
