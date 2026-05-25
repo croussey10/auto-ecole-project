@@ -1,2 +1,6 @@
-<p>next-lessons-list works!</p>
-<app-next-lesson-card/>
+<p-card>
+  Mes réservations à venir :
+  @for (reservation of reservations(); track reservation.id) {
+    <app-next-lesson-card [reservation]="reservation"/>
+  }
+</p-card>

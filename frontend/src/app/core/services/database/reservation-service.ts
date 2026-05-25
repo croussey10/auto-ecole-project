@@ -8,9 +8,9 @@ import {Database} from '../../../types/database.types';
 export class ReservationService {
   supabase = inject(SupabaseService)
 
-  async getEleveReservations(profileId: string): Promise<Database["public"]["Tables"]["reservation"]["Row"][]> {
+  async getEleveReservations(profileId: string): Promise<Database["public"]["Views"]["view_eleve_reservations"]["Row"][]> {
     const {data, error} = await this.supabase.supabase
-      .from('reservation')
+      .from('view_eleve_reservations')
       .select('*')
       .eq('eleve_id', profileId)
     if (error) throw error

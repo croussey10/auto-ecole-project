@@ -1,13 +1,11 @@
-<p-card>
+<p-card class="mb-3">
   <div>
-    <div>heure de départ : {{ reservationOne()?.heure_debut }}</div>
-    <div>date : {{ reservationOne()?.date_creneau }}</div>
-    <div>moniteur id : {{ reservationOne()?.moniteur_id }}</div>
-    <div>moniteur : {{moniteur()?.prenom}} {{moniteur()?.nom}}</div>
+    <div>heure de départ : {{ reservation().heure_debut }}</div>
+    <div>date : {{ reservation().date_creneau }}</div>
+    <div>moniteur : {{ reservation().moniteur_prenom }} {{ reservation().moniteur_nom }}</div>
   </div>
 
   <p-button
     label="annuler"
   />
-
 </p-card>

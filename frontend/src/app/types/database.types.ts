@@ -26,14 +26,14 @@ export type Database = {
           created_at?: string
           id?: string
           nom: string
-          slug?: string | null
+          slug: string
           updated_at?: string
         }
         Update: {
           created_at?: string
           id?: string
           nom?: string
-          slug?: string | null
+          slug?: string
           updated_at?: string
         }
         Relationships: []
@@ -410,7 +410,37 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      view_eleve_reservations: {
+        Row: {
+          auto_ecole_id: string | null
+          date_creneau: string | null
+          eleve_id: string | null
+          heure_debut: string | null
+          id: string | null
+          is_manuelle: boolean | null
+          is_reserved: boolean | null
+          moniteur_nom: string | null
+          moniteur_prenom: string | null
+          user_id: string | null
+          vehicule: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reservation_auto_ecole_id_fkey"
+            columns: ["auto_ecole_id"]
+            isOneToOne: false
+            referencedRelation: "auto_ecole"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reservation_eleve_id_fkey"
+            columns: ["eleve_id"]
+            isOneToOne: false
+            referencedRelation: "profile"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       [_ in never]: never

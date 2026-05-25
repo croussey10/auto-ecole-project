@@ -78,7 +78,7 @@ export class Login {
     localStorage.setItem('activeAutoEcoleSlug', autoEcole.slug)
     const {user} = await this.authService.login(email, password)
     if (!user) return
-    const profile = await this.profileService.getProfileInfos(user.id, autoEcole.id)
+    const profile = await this.profileService.getProfileInfos(user.id, 'user', autoEcole.id)
     if (!profile) return
     this.profileService.currentProfile.set(profile)
     this.profileRoutingService.redirectUrlByRole(profile.role)
