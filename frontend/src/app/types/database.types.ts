@@ -19,7 +19,7 @@ export type Database = {
           created_at: string
           id: string
           nom: string
-          slug: string | null
+          slug: string
           updated_at: string
         }
         Insert: {

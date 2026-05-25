@@ -6,10 +6,12 @@
     <div class="field">
       <label for="email">email</label>
       <input formControlName="email" class="w-full" id="email" type="text" pInputText>
+      <small class="invalid-feedback">email invalide !</small>
     </div>
     <div class="field">
       <label for="password">password</label>
       <p-password inputId="password" formControlName="password" class="w-full" inputStyleClass="w-full" feedback="false"/>
+      <small class="invalid-feedback">mot de passe invalide ! (min 6 carac.)</small>
     </div>
     <a routerLink="/auth/register/{{schoolSlug()}}">
       Pas encore de compte ?
@@ -18,6 +20,7 @@
       <p-button
         label="Se connecter"
         type="submit"
+        [loading]="loadingSubmit()"
       />
     </div>
   </form>

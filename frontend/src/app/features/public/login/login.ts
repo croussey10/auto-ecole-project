@@ -1,4 +1,4 @@
-import {Component, inject, input} from '@angular/core';
+import {Component, inject, input, signal} from '@angular/core';
 import {AuthCard} from '../../../shared/components/auth-card/auth-card';
 import {InputText} from 'primeng/inputtext';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
@@ -9,6 +9,9 @@ import {Password} from 'primeng/password';
 import {AutoEcoleService} from '../../../core/services/database/auto-ecole-service';
 import {ProfileRoutingService} from '../../../core/services/auth/profile-routing-service';
 import {AuthService} from '../../../core/services/auth/auth-service';
+import {MessageService} from 'primeng/api';
+import {AuthError} from '@supabase/supabase-js';
+import {FeedbackMessageService} from '../../../core/services/utility/feedback-message-service';
 
 @Component({
   selector: 'app-login',
@@ -17,21 +20,23 @@ import {AuthService} from '../../../core/services/auth/auth-service';
   styleUrl: './login.scss',
 })
 export class Login {
+  feedbackMessageService = inject(FeedbackMessageService)
   profileRoutingService = inject(ProfileRoutingService)
   autoEcoleService = inject(AutoEcoleService)
 
   schoolSlug = input<string>()
+  loadingSubmit = signal<boolean>(false)
 
   profileService = inject(ProfileService)
   authService = inject(AuthService)
 
   form = new FormGroup({
     email: new FormControl('', {
-      validators: [Validators.required],
+      validators: [Validators.required, Validators.email],
       nonNullable: true,
     }),
     password: new FormControl('', {
-      validators: [Validators.required, Validators.minLength(3)],
+      validators: [Validators.required, Validators.minLength(6)],
       nonNullable: true,
     }),
   });
@@ -41,14 +46,36 @@ export class Login {
     if (this.form.invalid) return
 
     const {email, password} = this.form.getRawValue()
-    await this.login(email, password)
+    this.loadingSubmit.set(true)
+
+    try {
+      await this.login(email, password)
+    } catch (error) {
+      const authError = error as AuthError
+      const authErrorStatus = authError.status
+      switch (authError.status) {
+        case undefined:
+          this.feedbackMessageService.errorFeedbackMessage(authErrorStatus, "Veuillez vérifier que vous etes connecté à internet !")
+          break
+        case 400:
+          this.feedbackMessageService.errorFeedbackMessage(authErrorStatus, "Email ou mot de passe incorrect !")
+          break
+        default:
+          this.feedbackMessageService.errorFeedbackMessage(authErrorStatus, "Une erreur est survenue !")
+          break
+      }
+    } finally {
+      this.loadingSubmit.set(false)
+    }
   }
 
   async login(email: string, password: string) {
     const autoEcole = await this.autoEcoleService.getAutoEcoleInfos(this.schoolSlug(), 'slug')
     if (!autoEcole) return
-    this.profileService.activeAutoEcoleId.set(autoEcole.id)
+    this.profileService.activeAutoEcoleId.set(autoEcole.id);
+    this.profileService.activeAutoEcoleSlug.set(autoEcole.slug);
     localStorage.setItem('activeAutoEcoleId', autoEcole.id)
+    localStorage.setItem('activeAutoEcoleSlug', autoEcole.slug)
     const {user} = await this.authService.login(email, password)
     if (!user) return
     const profile = await this.profileService.getProfileInfos(user.id, autoEcole.id)

@@ -3,10 +3,11 @@ import { RouterOutlet } from '@angular/router';
 import { AuthCard } from './shared/components/auth-card/auth-card';
 import { Login } from './features/public/login/login';
 import {Navbar} from './shared/layouts/navbar/navbar';
+import {Toast} from 'primeng/toast';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, AuthCard, Login, Navbar],
+  imports: [RouterOutlet, AuthCard, Login, Navbar, Toast],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

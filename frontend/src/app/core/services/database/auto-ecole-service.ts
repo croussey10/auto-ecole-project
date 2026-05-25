@@ -8,7 +8,7 @@ import {Database} from '../../../types/database.types';
 export class AutoEcoleService {
   supabase = inject(SupabaseService)
 
-  async getAutoEcoleInfos(value: string | undefined, type: 'id' | 'slug'): Promise<Database["public"]["Tables"]["auto_ecole"]["Row"]> {
+  async getAutoEcoleInfos(value: string | undefined | null, type: 'id' | 'slug'): Promise<Database["public"]["Tables"]["auto_ecole"]["Row"]> {
     const {data, error} = await this.supabase.supabase
       .from('auto_ecole')
       .select('*')

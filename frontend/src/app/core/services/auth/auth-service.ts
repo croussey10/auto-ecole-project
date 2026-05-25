@@ -17,6 +17,7 @@ export class AuthService {
       if (event === 'INITIAL_SESSION' && !session?.user) {
         this.currentUser.set(null);
         localStorage.removeItem('activeAutoEcoleId');
+        localStorage.removeItem('activeAutoEcoleSlug');
       }
     })
   }
