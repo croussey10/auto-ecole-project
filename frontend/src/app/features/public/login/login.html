@@ -9,12 +9,16 @@
     </div>
     <div class="field">
       <label for="password">password</label>
-      <input formControlName="password" class="w-full" id="password" type="text" pInputText>
+      <p-password inputId="password" formControlName="password" class="w-full" inputStyleClass="w-full" feedback="false"/>
     </div>
-    <p-button
-      label="Se connecter"
-      type="submit"
-      class="flex justify-content-center"
-    />
+    <a routerLink="/auth/register/{{schoolSlug()}}">
+      Pas encore de compte ?
+    </a>
+    <div class="flex justify-content-center gap-2">
+      <p-button
+        label="Se connecter"
+        type="submit"
+      />
+    </div>
   </form>
 </app-auth-card>

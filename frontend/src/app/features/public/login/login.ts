@@ -1,20 +1,29 @@
-import { Component, inject } from '@angular/core';
-import { AuthCard } from '../../../shared/layouts/auth-card/auth-card';
-import { InputText } from 'primeng/inputtext';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Button } from 'primeng/button';
-import { AuthService } from '../../../core/services/auth/auth-service';
-import { ProfileService } from '../../../core/services/auth/profile-service';
+import {Component, inject, input} from '@angular/core';
+import {AuthCard} from '../../../shared/components/auth-card/auth-card';
+import {InputText} from 'primeng/inputtext';
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {Button} from 'primeng/button';
+import {ProfileService} from '../../../core/services/auth/profile-service';
+import {RouterLink} from '@angular/router';
+import {Password} from 'primeng/password';
+import {AutoEcoleService} from '../../../core/services/database/auto-ecole-service';
+import {ProfileRoutingService} from '../../../core/services/auth/profile-routing-service';
+import {AuthService} from '../../../core/services/auth/auth-service';
 
 @Component({
   selector: 'app-login',
-  imports: [AuthCard, InputText, ReactiveFormsModule, Button],
+  imports: [AuthCard, InputText, ReactiveFormsModule, Button, RouterLink, Password],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
 export class Login {
-  authService = inject(AuthService)
+  profileRoutingService = inject(ProfileRoutingService)
+  autoEcoleService = inject(AutoEcoleService)
+
+  schoolSlug = input<string>()
+
   profileService = inject(ProfileService)
+  authService = inject(AuthService)
 
   form = new FormGroup({
     email: new FormControl('', {
@@ -36,6 +45,15 @@ export class Login {
   }
 
   async login(email: string, password: string) {
-    await this.profileService.login(email, password)
+    const autoEcole = await this.autoEcoleService.getAutoEcoleInfos(this.schoolSlug(), 'slug')
+    if (!autoEcole) return
+    this.profileService.activeAutoEcoleId.set(autoEcole.id)
+    localStorage.setItem('activeAutoEcoleId', autoEcole.id)
+    const {user} = await this.authService.login(email, password)
+    if (!user) return
+    const profile = await this.profileService.getProfileInfos(user.id, autoEcole.id)
+    if (!profile) return
+    this.profileService.currentProfile.set(profile)
+    this.profileRoutingService.redirectUrlByRole(profile.role)
   }
 }
