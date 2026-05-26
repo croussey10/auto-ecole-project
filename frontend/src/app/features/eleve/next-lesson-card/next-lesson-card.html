@@ -1,11 +1,21 @@
-<p-card class="mb-3">
-  <div>
-    <div>heure de départ : {{ reservation().heure_debut }}</div>
-    <div>date : {{ reservation().date_creneau }}</div>
-    <div>moniteur : {{ reservation().moniteur_prenom }} {{ reservation().moniteur_nom }}</div>
-  </div>
-
-  <p-button
-    label="annuler"
-  />
-</p-card>
+@if (timerNextLesson()) {
+  <p-card class="mb-3">
+    <div class="flex justify-content-between">
+      <div>
+        <div>heure de départ : {{ reservation().heure_debut }}</div>
+        <div>date : {{ reservation().date_creneau }}</div>
+        <div>moniteur : {{ reservation().moniteur_prenom }} {{ reservation().moniteur_nom }}</div>
+      </div>
+      <div class="flex flex-column align-items-end">
+        <div>{{ timerNextLesson() }}</div>
+        <p-button
+          label="annuler"
+          (onClick)="cancelReservation()"
+          [loading]="loadingCancel()"
+          [disabled]="!canCancelReservation()"
+          [severity]="canCancelReservation() ? 'primary' : 'secondary'"
+        />
+      </div>
+    </div>
+  </p-card>
+}

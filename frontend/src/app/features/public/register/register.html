@@ -1,39 +1,36 @@
 <app-auth-card>
-  <div>
-    Créer un compte
-  </div>
+  <div>Créer un compte</div>
   <form [formGroup]="form" (ngSubmit)="submit()">
     <div class="field">
       <label for="email">email</label>
-      <input formControlName="email" class="w-full" id="email" type="text" pInputText>
+      <input formControlName="email" class="w-full" id="email" type="text" pInputText />
       <small class="invalid-feedback">email invalide !</small>
     </div>
     <div class="field">
       <label for="password">password</label>
-      <p-password inputId="password" formControlName="password" class="w-full" inputStyleClass="w-full"/>
+      <p-password
+        inputId="password"
+        formControlName="password"
+        class="w-full"
+        inputStyleClass="w-full"
+      />
       <small class="invalid-feedback">mot de passe invalide ! (min 6 carac.)</small>
     </div>
     <div class="field flex justify-content-between">
       <div>
         <label for="name">Prénom</label>
-        <input formControlName="firstName" class="w-full" id="name" type="text" pInputText>
+        <input formControlName="firstName" class="w-full" id="name" type="text" pInputText />
         <small class="invalid-feedback">prénom invalide ! (min 3 carac.)</small>
       </div>
       <div>
         <label for="lastName">Nom</label>
-        <input formControlName="lastName" class="w-full" id="lastName" type="text" pInputText>
+        <input formControlName="lastName" class="w-full" id="lastName" type="text" pInputText />
         <small class="invalid-feedback">prénom invalide ! (min 3 carac.)</small>
       </div>
     </div>
-    <a routerLink="/auth/login/{{schoolSlug()}}">
-      J'ai déjà un compte !
-    </a>
+    <a routerLink="/auth/login/{{ schoolSlug() }}"> J'ai déjà un compte ! </a>
     <div class="flex justify-content-center gap-2">
-      <p-button
-        label="Créer un compte"
-        type="submit"
-        [loading]="loadingSubmit()"
-      />
+      <p-button label="Créer un compte" type="submit" [loading]="loadingSubmit()" />
     </div>
   </form>
 </app-auth-card>

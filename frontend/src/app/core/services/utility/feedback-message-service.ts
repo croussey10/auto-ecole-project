@@ -1,5 +1,5 @@
-import {inject, Injectable} from '@angular/core';
-import {MessageService} from 'primeng/api';
+import { inject, Injectable } from '@angular/core'
+import { MessageService } from 'primeng/api'
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +11,7 @@ export class FeedbackMessageService {
     this.messageService.add({
       severity: 'error',
       summary: `Erreur : ${errorStatus}`,
-      detail: detail
+      detail: detail,
     })
   }
 
@@ -19,7 +19,7 @@ export class FeedbackMessageService {
     this.messageService.add({
       severity: 'success',
       summary: `Success : ${summary}`,
-      detail: detail
+      detail: detail,
     })
   }
 }

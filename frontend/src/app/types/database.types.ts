@@ -1,16 +1,10 @@
-export type Json =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: Json | undefined }
-  | Json[]
+export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
 
 export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.5"
+    PostgrestVersion: '14.5'
   }
   public: {
     Tables: {
@@ -68,25 +62,25 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "chat_historique_auto_ecole_id_fkey"
-            columns: ["auto_ecole_id"]
+            foreignKeyName: 'chat_historique_auto_ecole_id_fkey'
+            columns: ['auto_ecole_id']
             isOneToOne: false
-            referencedRelation: "auto_ecole"
-            referencedColumns: ["id"]
+            referencedRelation: 'auto_ecole'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "chat_historique_eleve_id_fkey"
-            columns: ["eleve_id"]
+            foreignKeyName: 'chat_historique_eleve_id_fkey'
+            columns: ['eleve_id']
             isOneToOne: false
-            referencedRelation: "profile"
-            referencedColumns: ["id"]
+            referencedRelation: 'profile'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "chat_historique_forfait_id_fkey"
-            columns: ["forfait_id"]
+            foreignKeyName: 'chat_historique_forfait_id_fkey'
+            columns: ['forfait_id']
             isOneToOne: false
-            referencedRelation: "forfait"
-            referencedColumns: ["id"]
+            referencedRelation: 'forfait'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -114,8 +108,8 @@ export type Database = {
           date_upload: string
           fichier_url: string
           id: string
-          statut: Database["public"]["Enums"]["statut_document"]
-          type_doc: Database["public"]["Enums"]["type_document"]
+          statut: Database['public']['Enums']['statut_document']
+          type_doc: Database['public']['Enums']['type_document']
           updated_at: string
           user_id: string
         }
@@ -124,8 +118,8 @@ export type Database = {
           date_upload?: string
           fichier_url: string
           id?: string
-          statut?: Database["public"]["Enums"]["statut_document"]
-          type_doc: Database["public"]["Enums"]["type_document"]
+          statut?: Database['public']['Enums']['statut_document']
+          type_doc: Database['public']['Enums']['type_document']
           updated_at?: string
           user_id: string
         }
@@ -134,25 +128,25 @@ export type Database = {
           date_upload?: string
           fichier_url?: string
           id?: string
-          statut?: Database["public"]["Enums"]["statut_document"]
-          type_doc?: Database["public"]["Enums"]["type_document"]
+          statut?: Database['public']['Enums']['statut_document']
+          type_doc?: Database['public']['Enums']['type_document']
           updated_at?: string
           user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "document_auto_ecole_id_fkey"
-            columns: ["auto_ecole_id"]
+            foreignKeyName: 'document_auto_ecole_id_fkey'
+            columns: ['auto_ecole_id']
             isOneToOne: false
-            referencedRelation: "auto_ecole"
-            referencedColumns: ["id"]
+            referencedRelation: 'auto_ecole'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "document_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: 'document_user_id_fkey'
+            columns: ['user_id']
             isOneToOne: false
-            referencedRelation: "profile"
-            referencedColumns: ["id"]
+            referencedRelation: 'profile'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -189,11 +183,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "forfait_auto_ecole_id_fkey"
-            columns: ["auto_ecole_id"]
+            foreignKeyName: 'forfait_auto_ecole_id_fkey'
+            columns: ['auto_ecole_id']
             isOneToOne: false
-            referencedRelation: "auto_ecole"
-            referencedColumns: ["id"]
+            referencedRelation: 'auto_ecole'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -203,7 +197,7 @@ export type Database = {
           created_at: string
           eleve_id: string
           id: string
-          maitrise: Database["public"]["Enums"]["niveau_maitrise"]
+          maitrise: Database['public']['Enums']['niveau_maitrise']
           updated_at: string
         }
         Insert: {
@@ -211,7 +205,7 @@ export type Database = {
           created_at?: string
           eleve_id: string
           id?: string
-          maitrise?: Database["public"]["Enums"]["niveau_maitrise"]
+          maitrise?: Database['public']['Enums']['niveau_maitrise']
           updated_at?: string
         }
         Update: {
@@ -219,29 +213,29 @@ export type Database = {
           created_at?: string
           eleve_id?: string
           id?: string
-          maitrise?: Database["public"]["Enums"]["niveau_maitrise"]
+          maitrise?: Database['public']['Enums']['niveau_maitrise']
           updated_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: "livret_apprentissage_competence_id_fkey"
-            columns: ["competence_id"]
+            foreignKeyName: 'livret_apprentissage_competence_id_fkey'
+            columns: ['competence_id']
             isOneToOne: false
-            referencedRelation: "competence"
-            referencedColumns: ["id"]
+            referencedRelation: 'competence'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "livret_apprentissage_eleve_id_fkey"
-            columns: ["eleve_id"]
+            foreignKeyName: 'livret_apprentissage_eleve_id_fkey'
+            columns: ['eleve_id']
             isOneToOne: false
-            referencedRelation: "profile"
-            referencedColumns: ["id"]
+            referencedRelation: 'profile'
+            referencedColumns: ['id']
           },
         ]
       }
       log_action: {
         Row: {
-          action: Database["public"]["Enums"]["action_type"]
+          action: Database['public']['Enums']['action_type']
           auto_ecole_id: string
           created_at: string
           details: string
@@ -249,7 +243,7 @@ export type Database = {
           user_id: string | null
         }
         Insert: {
-          action: Database["public"]["Enums"]["action_type"]
+          action: Database['public']['Enums']['action_type']
           auto_ecole_id: string
           created_at?: string
           details: string
@@ -257,7 +251,7 @@ export type Database = {
           user_id?: string | null
         }
         Update: {
-          action?: Database["public"]["Enums"]["action_type"]
+          action?: Database['public']['Enums']['action_type']
           auto_ecole_id?: string
           created_at?: string
           details?: string
@@ -266,18 +260,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "log_action_auto_ecole_id_fkey"
-            columns: ["auto_ecole_id"]
+            foreignKeyName: 'log_action_auto_ecole_id_fkey'
+            columns: ['auto_ecole_id']
             isOneToOne: false
-            referencedRelation: "auto_ecole"
-            referencedColumns: ["id"]
+            referencedRelation: 'auto_ecole'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "log_action_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: 'log_action_user_id_fkey'
+            columns: ['user_id']
             isOneToOne: false
-            referencedRelation: "profile"
-            referencedColumns: ["id"]
+            referencedRelation: 'profile'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -292,7 +286,7 @@ export type Database = {
           id: string
           nom: string
           prenom: string
-          role: Database["public"]["Enums"]["user_role"]
+          role: Database['public']['Enums']['user_role']
           updated_at: string
           user_id: string
         }
@@ -306,7 +300,7 @@ export type Database = {
           id?: string
           nom: string
           prenom: string
-          role?: Database["public"]["Enums"]["user_role"]
+          role?: Database['public']['Enums']['user_role']
           updated_at?: string
           user_id: string
         }
@@ -320,24 +314,24 @@ export type Database = {
           id?: string
           nom?: string
           prenom?: string
-          role?: Database["public"]["Enums"]["user_role"]
+          role?: Database['public']['Enums']['user_role']
           updated_at?: string
           user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "profile_auto_ecole_id_fkey"
-            columns: ["auto_ecole_id"]
+            foreignKeyName: 'profile_auto_ecole_id_fkey'
+            columns: ['auto_ecole_id']
             isOneToOne: false
-            referencedRelation: "auto_ecole"
-            referencedColumns: ["id"]
+            referencedRelation: 'auto_ecole'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "profile_forfait_id_fkey"
-            columns: ["forfait_id"]
+            foreignKeyName: 'profile_forfait_id_fkey'
+            columns: ['forfait_id']
             isOneToOne: false
-            referencedRelation: "forfait"
-            referencedColumns: ["id"]
+            referencedRelation: 'forfait'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -386,25 +380,25 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "reservation_auto_ecole_id_fkey"
-            columns: ["auto_ecole_id"]
+            foreignKeyName: 'reservation_auto_ecole_id_fkey'
+            columns: ['auto_ecole_id']
             isOneToOne: false
-            referencedRelation: "auto_ecole"
-            referencedColumns: ["id"]
+            referencedRelation: 'auto_ecole'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "reservation_eleve_id_fkey"
-            columns: ["eleve_id"]
+            foreignKeyName: 'reservation_eleve_id_fkey'
+            columns: ['eleve_id']
             isOneToOne: false
-            referencedRelation: "profile"
-            referencedColumns: ["id"]
+            referencedRelation: 'profile'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "reservation_moniteur_id_fkey"
-            columns: ["moniteur_id"]
+            foreignKeyName: 'reservation_moniteur_id_fkey'
+            columns: ['moniteur_id']
             isOneToOne: false
-            referencedRelation: "profile"
-            referencedColumns: ["id"]
+            referencedRelation: 'profile'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -426,18 +420,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "reservation_auto_ecole_id_fkey"
-            columns: ["auto_ecole_id"]
+            foreignKeyName: 'reservation_auto_ecole_id_fkey'
+            columns: ['auto_ecole_id']
             isOneToOne: false
-            referencedRelation: "auto_ecole"
-            referencedColumns: ["id"]
+            referencedRelation: 'auto_ecole'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "reservation_eleve_id_fkey"
-            columns: ["eleve_id"]
+            foreignKeyName: 'reservation_eleve_id_fkey'
+            columns: ['eleve_id']
             isOneToOne: false
-            referencedRelation: "profile"
-            referencedColumns: ["id"]
+            referencedRelation: 'profile'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -447,17 +441,17 @@ export type Database = {
     }
     Enums: {
       action_type:
-        | "AUTH_LOGIN"
-        | "AUTH_REGISTER"
-        | "RESERVATION_CREATE"
-        | "RESERVATION_CANCEL"
-        | "DOCUMENT_UPLOAD"
-        | "DOCUMENT_VALIDATE"
-        | "ROLE_UPDATE"
-      niveau_maitrise: "A revoir" | "Moyen" | "Acquis"
-      statut_document: "En_attente" | "Valide" | "Refuse"
-      type_document: "CNI" | "ANTS" | "Permis" | "Justificatif_Domicile"
-      user_role: "eleve" | "moniteur" | "admin"
+        | 'AUTH_LOGIN'
+        | 'AUTH_REGISTER'
+        | 'RESERVATION_CREATE'
+        | 'RESERVATION_CANCEL'
+        | 'DOCUMENT_UPLOAD'
+        | 'DOCUMENT_VALIDATE'
+        | 'ROLE_UPDATE'
+      niveau_maitrise: 'A revoir' | 'Moyen' | 'Acquis'
+      statut_document: 'En_attente' | 'Valide' | 'Refuse'
+      type_document: 'CNI' | 'ANTS' | 'Permis' | 'Justificatif_Domicile'
+      user_role: 'eleve' | 'moniteur' | 'admin'
     }
     CompositeTypes: {
       [_ in never]: never
@@ -465,33 +459,31 @@ export type Database = {
   }
 }
 
-type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
+type DatabaseWithoutInternals = Omit<Database, '__InternalSupabase'>
 
-type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, 'public'>]
 
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
-    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
+    | keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
+    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
+        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Views'])
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
+      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Views'])[TableName] extends {
       Row: infer R
     }
     ? R
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
-        DefaultSchema["Views"])
-    ? (DefaultSchema["Tables"] &
-        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
+    ? (DefaultSchema['Tables'] & DefaultSchema['Views'])[DefaultSchemaTableNameOrOptions] extends {
         Row: infer R
       }
       ? R
@@ -500,23 +492,23 @@ export type Tables<
 
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
+    | keyof DefaultSchema['Tables']
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
       Insert: infer I
     }
     ? I
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
+    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
         Insert: infer I
       }
       ? I
@@ -525,23 +517,23 @@ export type TablesInsert<
 
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
+    | keyof DefaultSchema['Tables']
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
       Update: infer U
     }
     ? U
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
+    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
         Update: infer U
       }
       ? U
@@ -550,54 +542,54 @@ export type TablesUpdate<
 
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
-    | keyof DefaultSchema["Enums"]
+    | keyof DefaultSchema['Enums']
     | { schema: keyof DatabaseWithoutInternals },
   EnumName extends DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
+    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions['schema']]['Enums']
     : never = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
-  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
-    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
+  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions['schema']]['Enums'][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema['Enums']
+    ? DefaultSchema['Enums'][DefaultSchemaEnumNameOrOptions]
     : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
-    | keyof DefaultSchema["CompositeTypes"]
+    | keyof DefaultSchema['CompositeTypes']
     | { schema: keyof DatabaseWithoutInternals },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
     : never = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
-    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes'][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema['CompositeTypes']
+    ? DefaultSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
     : never
 
 export const Constants = {
   public: {
     Enums: {
       action_type: [
-        "AUTH_LOGIN",
-        "AUTH_REGISTER",
-        "RESERVATION_CREATE",
-        "RESERVATION_CANCEL",
-        "DOCUMENT_UPLOAD",
-        "DOCUMENT_VALIDATE",
-        "ROLE_UPDATE",
+        'AUTH_LOGIN',
+        'AUTH_REGISTER',
+        'RESERVATION_CREATE',
+        'RESERVATION_CANCEL',
+        'DOCUMENT_UPLOAD',
+        'DOCUMENT_VALIDATE',
+        'ROLE_UPDATE',
       ],
-      niveau_maitrise: ["A revoir", "Moyen", "Acquis"],
-      statut_document: ["En_attente", "Valide", "Refuse"],
-      type_document: ["CNI", "ANTS", "Permis", "Justificatif_Domicile"],
-      user_role: ["eleve", "moniteur", "admin"],
+      niveau_maitrise: ['A revoir', 'Moyen', 'Acquis'],
+      statut_document: ['En_attente', 'Valide', 'Refuse'],
+      type_document: ['CNI', 'ANTS', 'Permis', 'Justificatif_Domicile'],
+      user_role: ['eleve', 'moniteur', 'admin'],
     },
   },
 } as const

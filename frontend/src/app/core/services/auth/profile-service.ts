@@ -1,20 +1,20 @@
-import { inject, Injectable, resource, signal } from '@angular/core';
-import { AuthService } from './auth-service';
-import { Database } from '../../../types/database.types';
-import { Router } from '@angular/router';
+import { inject, Injectable, resource, signal } from '@angular/core'
+import { AuthService } from './auth-service'
+import { Database } from '../../../types/database.types'
+import { Router } from '@angular/router'
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProfileService {
-  router = inject(Router);
-  authService = inject(AuthService);
-  activeAutoEcoleId = signal<string | null>(null);
-  activeAutoEcoleSlug = signal<string | null>(null);
+  router = inject(Router)
+  authService = inject(AuthService)
+  activeAutoEcoleId = signal<string | null>(null)
+  activeAutoEcoleSlug = signal<string | null>(null)
 
   constructor() {
-    this.activeAutoEcoleId.set(localStorage.getItem('activeAutoEcoleId'));
-    this.activeAutoEcoleSlug.set(localStorage.getItem('activeAutoEcoleSlug'));
+    this.activeAutoEcoleId.set(localStorage.getItem('activeAutoEcoleId'))
+    this.activeAutoEcoleSlug.set(localStorage.getItem('activeAutoEcoleSlug'))
   }
 
   resourceProfile = resource({
@@ -23,24 +23,24 @@ export class ProfileService {
       schoolId: this.activeAutoEcoleId(),
     }),
     loader: async ({ params }) => {
-      if (!params.user || !params.schoolId) return null;
+      if (!params.user || !params.schoolId) return null
       try {
-        return await this.getProfileInfos(params.user.id, 'user', params.schoolId);
+        return await this.getProfileInfos(params.user.id, 'user', params.schoolId)
       } catch {
-        this.authService.currentUser.set(null);
-        this.activeAutoEcoleId.set(null);
-        const slugAutoEcole = this.activeAutoEcoleSlug();
-        this.activeAutoEcoleSlug.set(null);
-        localStorage.removeItem('activeAutoEcoleId');
-        localStorage.removeItem('activeAutoEcoleSlug');
-        await this.authService.supabase.auth.signOut({ scope: 'local' });
-        void this.router.navigate([`/auth/login/${slugAutoEcole}`]);
-        return null;
+        this.authService.currentUser.set(null)
+        this.activeAutoEcoleId.set(null)
+        const slugAutoEcole = this.activeAutoEcoleSlug()
+        this.activeAutoEcoleSlug.set(null)
+        localStorage.removeItem('activeAutoEcoleId')
+        localStorage.removeItem('activeAutoEcoleSlug')
+        await this.authService.supabase.auth.signOut({ scope: 'local' })
+        void this.router.navigate([`/auth/login/${slugAutoEcole}`])
+        return null
       }
     },
-  });
+  })
 
-  currentProfile = this.resourceProfile.value;
+  currentProfile = this.resourceProfile.value
 
   async registerProfile(
     userId: string,
@@ -58,9 +58,9 @@ export class ProfileService {
         role: 'eleve',
       })
       .select('*')
-      .single();
-    if (error) throw error;
-    return data;
+      .single()
+    if (error) throw error
+    return data
   }
 
   async getProfileInfos(
@@ -71,16 +71,16 @@ export class ProfileService {
     let query = this.authService.supabase
       .from('profile')
       .select('*')
-      .eq('auto_ecole_id', autoEcoleId);
+      .eq('auto_ecole_id', autoEcoleId)
 
     if (type == 'user') {
-      query = query.eq('user_id', id);
+      query = query.eq('user_id', id)
     } else {
-      query = query.eq('id', id);
+      query = query.eq('id', id)
     }
 
-    const { data, error } = await query.single();
-    if (error) throw error;
-    return data;
+    const { data, error } = await query.single()
+    if (error) throw error
+    return data
   }
 }

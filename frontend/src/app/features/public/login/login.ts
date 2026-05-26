@@ -1,17 +1,17 @@
-import {Component, inject, input, signal} from '@angular/core';
-import {AuthCard} from '../../../shared/components/auth-card/auth-card';
-import {InputText} from 'primeng/inputtext';
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {Button} from 'primeng/button';
-import {ProfileService} from '../../../core/services/auth/profile-service';
-import {RouterLink} from '@angular/router';
-import {Password} from 'primeng/password';
-import {AutoEcoleService} from '../../../core/services/database/auto-ecole-service';
-import {ProfileRoutingService} from '../../../core/services/auth/profile-routing-service';
-import {AuthService} from '../../../core/services/auth/auth-service';
-import {MessageService} from 'primeng/api';
-import {AuthError} from '@supabase/supabase-js';
-import {FeedbackMessageService} from '../../../core/services/utility/feedback-message-service';
+import { Component, inject, input, signal } from '@angular/core'
+import { AuthCard } from '../../../shared/components/auth-card/auth-card'
+import { InputText } from 'primeng/inputtext'
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
+import { Button } from 'primeng/button'
+import { ProfileService } from '../../../core/services/auth/profile-service'
+import { RouterLink } from '@angular/router'
+import { Password } from 'primeng/password'
+import { AutoEcoleService } from '../../../core/services/database/auto-ecole-service'
+import { ProfileRoutingService } from '../../../core/services/auth/profile-routing-service'
+import { AuthService } from '../../../core/services/auth/auth-service'
+import { MessageService } from 'primeng/api'
+import { AuthError } from '@supabase/supabase-js'
+import { FeedbackMessageService } from '../../../core/services/utility/feedback-message-service'
 
 @Component({
   selector: 'app-login',
@@ -39,13 +39,13 @@ export class Login {
       validators: [Validators.required, Validators.minLength(6)],
       nonNullable: true,
     }),
-  });
+  })
 
   async submit() {
     this.form.markAllAsTouched()
     if (this.form.invalid) return
 
-    const {email, password} = this.form.getRawValue()
+    const { email, password } = this.form.getRawValue()
     this.loadingSubmit.set(true)
 
     try {
@@ -55,13 +55,22 @@ export class Login {
       const authErrorStatus = authError.status
       switch (authError.status) {
         case undefined:
-          this.feedbackMessageService.errorFeedbackMessage(authErrorStatus, "Veuillez vérifier que vous etes connecté à internet !")
+          this.feedbackMessageService.errorFeedbackMessage(
+            authErrorStatus,
+            'Veuillez vérifier que vous etes connecté à internet !',
+          )
           break
         case 400:
-          this.feedbackMessageService.errorFeedbackMessage(authErrorStatus, "Email ou mot de passe incorrect !")
+          this.feedbackMessageService.errorFeedbackMessage(
+            authErrorStatus,
+            'Email ou mot de passe incorrect !',
+          )
           break
         default:
-          this.feedbackMessageService.errorFeedbackMessage(authErrorStatus, "Une erreur est survenue !")
+          this.feedbackMessageService.errorFeedbackMessage(
+            authErrorStatus,
+            'Une erreur est survenue !',
+          )
           break
       }
     } finally {
@@ -72,11 +81,11 @@ export class Login {
   async login(email: string, password: string) {
     const autoEcole = await this.autoEcoleService.getAutoEcoleInfos(this.schoolSlug(), 'slug')
     if (!autoEcole) return
-    this.profileService.activeAutoEcoleId.set(autoEcole.id);
-    this.profileService.activeAutoEcoleSlug.set(autoEcole.slug);
+    this.profileService.activeAutoEcoleId.set(autoEcole.id)
+    this.profileService.activeAutoEcoleSlug.set(autoEcole.slug)
     localStorage.setItem('activeAutoEcoleId', autoEcole.id)
     localStorage.setItem('activeAutoEcoleSlug', autoEcole.slug)
-    const {user} = await this.authService.login(email, password)
+    const { user } = await this.authService.login(email, password)
     if (!user) return
     const profile = await this.profileService.getProfileInfos(user.id, 'user', autoEcole.id)
     if (!profile) return
