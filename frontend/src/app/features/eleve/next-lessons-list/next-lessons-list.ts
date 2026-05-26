@@ -25,37 +25,40 @@ export class NextLessonsList {
 
   resourceReservation = resource({
     params: () => this.profile(),
-    loader: async ({params}) => {
+    loader: async ({ params }) => {
       if (!params) return null
       return await this.reservationService.getEleveReservations(params.id)
     },
   })
   reservations = this.resourceReservation.value
 
-  getReservations(type: 'past' | 'in_coming' | 'all') {
-    const reservations = this.reservations();
-    if (!reservations) return [];
+  filterReservations(type: 'past' | 'in_coming' | 'all') {
+    const reservations = this.reservations()
+    if (!reservations) return []
 
-    const currentDate = Date.now();
+    const currentDate = Date.now()
 
-    return reservations.filter(reservation => {
+    return reservations.filter((reservation) => {
       const reservationDate = new Date(
-        `${reservation.date_creneau} ${reservation.heure_debut}`
-      ).getTime();
+        `${reservation.date_creneau} ${reservation.heure_debut}`,
+      ).getTime()
 
-      if (type === 'in_coming') return reservationDate > currentDate;
-      if (type === 'past') return reservationDate <= currentDate;
-      return true;
-    });
+      if (type === 'in_coming') return reservationDate > currentDate
+      if (type === 'past') return reservationDate <= currentDate
+      return true
+    })
   }
 
+  reservationsInComing = computed(() => this.filterReservations('in_coming'))
+  reservationsPast = computed(() => this.filterReservations('past'))
+  allReservations = computed(() => this.filterReservations('all'))
+
   heightScrollPanel = computed(() => {
-    const numberReservations = this.getReservations('in_coming')?.length
-    if (!numberReservations) return "4rem"
+    const numberReservations = this.reservationsInComing().length
+    if (!numberReservations) return '4rem'
     if (!this.isMobile()) {
       return `${Math.min(numberReservations * 7, 28)}rem `
     }
     return `${Math.min(numberReservations * 7, 21)}rem `
-  });
-
+  })
 }

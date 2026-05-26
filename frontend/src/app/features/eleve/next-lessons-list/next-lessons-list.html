@@ -1,7 +1,7 @@
 <p-card>
   Mes réservations à venir :
   <p-scrollPanel [style]="{ width: '100%', height: heightScrollPanel() }">
-    @for (reservation of getReservations('in_coming'); track reservation.id) {
+    @for (reservation of reservationsInComing(); track reservation.id) {
       <app-next-lesson-card
         [reservation]="reservation"
         (cancelTrigger)="resourceReservation.reload()"
