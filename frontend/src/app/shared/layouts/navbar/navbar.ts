@@ -22,6 +22,8 @@ export class Navbar {
   router = inject(Router)
   breakPointObserver = inject(BreakpointObserver)
 
+  autoEcoleSlug = localStorage.getItem('activeAutoEcoleSlug')
+
   breakpointMobile = toSignal(this.breakPointObserver.observe(Breakpoints.Handset))
   isMobile = computed(() => (this.breakpointMobile()?.matches ? true : false))
 

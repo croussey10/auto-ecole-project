@@ -1,4 +1,5 @@
 <div>
-  Bonjour User, vous avez fais X heures au total, il vous en reste X
-  <app-next-lessons-list />
+  Bonjour {{ profile()?.prenom }}, vous avez fais {{ profile()?.heures_effectuees }} heures au total, il vous en
+  reste {{ profile()?.heures_restantes }}
+  <app-next-lessons-list/>
 </div>
