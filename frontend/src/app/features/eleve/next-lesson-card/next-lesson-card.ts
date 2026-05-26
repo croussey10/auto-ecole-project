@@ -59,7 +59,6 @@ export class NextLessonCard {
       this.cancelTrigger.emit()
     } catch (error) {
       const authError = error as AuthError
-      const authErrorStatus = authError.status
       this.messageService.add({
         severity: 'error',
         summary: `Erreur`,
