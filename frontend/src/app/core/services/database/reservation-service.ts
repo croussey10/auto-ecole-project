@@ -10,13 +10,26 @@ export class ReservationService {
 
   async getEleveReservations(
     profileId: string,
-  ): Promise<Database['public']['Views']['view_eleve_reservations']['Row'][]> {
+  ): Promise<Database['public']['Views']['view_reservations']['Row'][]> {
     const { data, error } = await this.supabase.supabase
-      .from('view_eleve_reservations')
+      .from('view_reservations')
       .select('*')
       .order('date_creneau', { ascending: true })
       .order('heure_debut', { ascending: true })
       .eq('eleve_id', profileId)
+    if (error) throw error
+    return data
+  }
+
+  async getMoniteurReservations(
+    profileId: string,
+  ): Promise<Database['public']['Views']['view_reservations']['Row'][]> {
+    const { data, error } = await this.supabase.supabase
+      .from('view_reservations')
+      .select('*')
+      .order('date_creneau', { ascending: true })
+      .order('heure_debut', { ascending: true })
+      .eq('moniteur_id', profileId)
     if (error) throw error
     return data
   }

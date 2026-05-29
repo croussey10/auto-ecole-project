@@ -4,7 +4,10 @@
     @for (reservation of reservationsInComing(); track reservation.id) {
       <app-next-lesson-card
         [reservation]="reservation"
-        (cancelTrigger)="resourceReservation.reload()"
+        personRole="Moniteur :"
+        [personName]="`${reservation.moniteur_prenom} ${reservation.moniteur_nom}`"
+        [loadingCancel]="idBeingCancelled() == reservation.id"
+        (cancelTrigger)="cancelReservation(reservation.id)"
       />
     }
   </p-scrollPanel>

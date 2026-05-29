@@ -1,19 +1,22 @@
 import {Component, computed, inject, resource, signal} from '@angular/core'
-import {NextLessonCard} from '../next-lesson-card/next-lesson-card'
+import {NextLessonCard} from '../../../shared/components/next-lesson-card/next-lesson-card'
 import {ProfileService} from '../../../core/services/auth/profile-service'
 import {ReservationService} from '../../../core/services/database/reservation-service'
 import {Card} from 'primeng/card'
 import {ScrollPanel} from 'primeng/scrollpanel'
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout'
 import {toSignal} from '@angular/core/rxjs-interop'
+import {AuthError} from '@supabase/supabase-js';
+import {MessageService} from 'primeng/api';
 
 @Component({
-  selector: 'app-next-lessons-list',
+  selector: 'app-eleve-next-lessons-list',
   imports: [NextLessonCard, Card, ScrollPanel],
-  templateUrl: './next-lessons-list.html',
-  styleUrl: './next-lessons-list.scss',
+  templateUrl: './eleve-next-lessons-list.html',
+  styleUrl: './eleve-next-lessons-list.scss',
 })
-export class NextLessonsList {
+export class EleveNextLessonsList {
+  messageService = inject(MessageService)
   breakPointObserver = inject(BreakpointObserver)
   reservationService = inject(ReservationService)
   profileService = inject(ProfileService)
@@ -23,14 +26,14 @@ export class NextLessonsList {
 
   profile = this.profileService.currentProfile
 
-  resourceReservation = resource({
+  resourceReservations = resource({
     params: () => this.profile(),
-    loader: async ({ params }) => {
+    loader: async ({params}) => {
       if (!params) return null
       return await this.reservationService.getEleveReservations(params.id)
     },
   })
-  reservations = this.resourceReservation.value
+  reservations = this.resourceReservations.value
 
   filterReservations(type: 'past' | 'in_coming' | 'all') {
     const reservations = this.reservations()
@@ -61,4 +64,25 @@ export class NextLessonsList {
     }
     return `${Math.min(numberReservations * 7, 21)}rem `
   })
+
+  idBeingCancelled = signal<string | null>(null)
+
+  async cancelReservation(reservationId: string | null) {
+    if (!reservationId) return
+    try {
+      this.idBeingCancelled.set(reservationId)
+      await this.reservationService.cancelReservation(reservationId)
+      this.resourceReservations.reload()
+    } catch (error) {
+      const authError = error as AuthError
+      this.messageService.add({
+        severity: 'error',
+        summary: `Erreur`,
+        detail: authError.message,
+      })
+    } finally {
+      this.idBeingCancelled.set(null)
+      console.log(reservationId)
+    }
+  }
 }

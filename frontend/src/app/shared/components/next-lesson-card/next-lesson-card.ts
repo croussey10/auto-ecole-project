@@ -1,10 +1,7 @@
-import { Component, computed, effect, inject, input, output, signal } from '@angular/core'
+import { Component, computed, input, output } from '@angular/core'
 import { Card } from 'primeng/card'
 import { Button } from 'primeng/button'
 import { Database } from '../../../types/database.types'
-import { ReservationService } from '../../../core/services/database/reservation-service'
-import { AuthError } from '@supabase/supabase-js'
-import { MessageService } from 'primeng/api'
 
 @Component({
   selector: 'app-next-lesson-card',
@@ -13,11 +10,12 @@ import { MessageService } from 'primeng/api'
   styleUrl: './next-lesson-card.scss',
 })
 export class NextLessonCard {
-  messageService = inject(MessageService)
-  reservationService = inject(ReservationService)
 
   cancelTrigger = output()
-  reservation = input.required<Database['public']['Views']['view_eleve_reservations']['Row']>()
+  reservation = input.required<Database['public']['Views']['view_reservations']['Row']>()
+  loadingCancel = input.required<boolean>()
+  personRole = input.required<string>()
+  personName = input.required<string>()
 
   canCancelReservation = computed(() => {
     const currentDate = Date.now()
@@ -48,24 +46,7 @@ export class NextLessonCard {
     return `Dans ${jours} jours, ${heures} heures et ${minutes} minutes`
   })
 
-  loadingCancel = signal<boolean>(false)
-
-  async cancelReservation() {
-    this.loadingCancel.set(true)
-    const reservation_id = this.reservation().id
-    if (!reservation_id) return
-    try {
-      await this.reservationService.cancelReservation(reservation_id)
-      this.cancelTrigger.emit()
-    } catch (error) {
-      const authError = error as AuthError
-      this.messageService.add({
-        severity: 'error',
-        summary: `Erreur`,
-        detail: authError.message,
-      })
-    } finally {
-      this.loadingCancel.set(false)
-    }
+  cancelReservation() {
+    this.cancelTrigger.emit()
   }
 }

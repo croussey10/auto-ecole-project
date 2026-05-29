@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core'
-import { NextLessonsList } from '../next-lessons-list/next-lessons-list'
+import { EleveNextLessonsList } from '../eleve-next-lessons-list/eleve-next-lessons-list'
 import { ProfileService } from '../../../core/services/auth/profile-service'
 
 @Component({
   selector: 'app-dashboard-eleve',
-  imports: [NextLessonsList],
+  imports: [EleveNextLessonsList, EleveNextLessonsList],
   templateUrl: './dashboard-eleve.html',
   styleUrl: './dashboard-eleve.scss',
 })

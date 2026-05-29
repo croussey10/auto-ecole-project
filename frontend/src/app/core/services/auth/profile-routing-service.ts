@@ -1,5 +1,5 @@
-import { inject, Injectable } from '@angular/core'
-import { Router } from '@angular/router'
+import {inject, Injectable} from '@angular/core'
+import {Router} from '@angular/router'
 
 @Injectable({
   providedIn: 'root',
@@ -11,10 +11,11 @@ export class ProfileRoutingService {
     switch (role) {
       case 'eleve':
         console.log('eleve')
-        void this.router.navigate(['dashboard'])
+        void this.router.navigate(['eleve/dashboard'])
         break
       case 'moniteur':
         console.log('moniteur')
+        void this.router.navigate(['moniteur/dashboard'])
         break
       case 'admin':
         console.log('admin')
