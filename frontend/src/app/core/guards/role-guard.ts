@@ -7,7 +7,7 @@ export const roleGuard: CanActivateFn = (route, state) => {
   const router = inject(Router)
   const profile = profileService.currentProfile()
 
-  const allowedRoles = route.data['roles'] as Array<string>;
+  const allowedRoles = route.data['roles'];
 
   if(!profile) {
     const slug = localStorage.getItem('activeAutoEcoleSlug')
@@ -15,7 +15,7 @@ export const roleGuard: CanActivateFn = (route, state) => {
     return false
   }
 
-  if (allowedRoles && allowedRoles.includes(profile.role)) {
+  if (allowedRoles?.includes(profile.role)) {
     return true;
   }
 
