@@ -15,7 +15,7 @@ import { AuthService } from './core/services/auth/auth-service'
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideAppInitializer(() => inject(AuthService).loadCurrentUser()),
+    provideAppInitializer(initializeAuthAndProfile),
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes, withComponentInputBinding()),
     providePrimeNG({
@@ -25,4 +25,23 @@ export const appConfig: ApplicationConfig = {
     }),
     MessageService,
   ],
+}
+
+async function initializeAuthAndProfile() {
+  const authService = inject(AuthService)
+  const profileService = inject(ProfileService)
+
+  const user = await authService.loadCurrentUser()
+
+  if (user) {
+    const autoEcoleId = localStorage.getItem('activeAutoEcoleId')
+    if (autoEcoleId) {
+      try {
+        const profile = await profileService.getProfileInfos(user.id, 'user', autoEcoleId)
+        profileService.currentProfile.set(profile)
+      } catch (error) {
+        console.error('Erreur au chargement du profil au démarrage', error)
+      }
+    }
+  }
 }

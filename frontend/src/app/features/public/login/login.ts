@@ -1,17 +1,17 @@
-import { Component, inject, input, signal } from '@angular/core'
+import { Component, effect, inject, input, signal } from '@angular/core'
 import { AuthCard } from '../../../shared/components/auth-card/auth-card'
 import { InputText } from 'primeng/inputtext'
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { Button } from 'primeng/button'
 import { ProfileService } from '../../../core/services/auth/profile-service'
-import { RouterLink } from '@angular/router'
+import { Router, RouterLink } from '@angular/router'
 import { Password } from 'primeng/password'
 import { AutoEcoleService } from '../../../core/services/database/auto-ecole-service'
 import { ProfileRoutingService } from '../../../core/services/auth/profile-routing-service'
 import { AuthService } from '../../../core/services/auth/auth-service'
-import { MessageService } from 'primeng/api'
 import { AuthError } from '@supabase/supabase-js'
 import { FeedbackMessageService } from '../../../core/services/utility/feedback-message-service'
+import { Database } from '../../../types/database.types'
 
 @Component({
   selector: 'app-login',
@@ -20,6 +20,7 @@ import { FeedbackMessageService } from '../../../core/services/utility/feedback-
   styleUrl: './login.scss',
 })
 export class Login {
+  router = inject(Router)
   feedbackMessageService = inject(FeedbackMessageService)
   profileRoutingService = inject(ProfileRoutingService)
   autoEcoleService = inject(AutoEcoleService)
@@ -79,7 +80,9 @@ export class Login {
   }
 
   async login(email: string, password: string) {
-    const autoEcole = await this.autoEcoleService.getAutoEcoleInfos(this.schoolSlug(), 'slug')
+    const slug = this.schoolSlug()
+    if (!slug) return
+    const autoEcole = await this.autoEcoleService.getAutoEcoleInfos(slug, 'slug')
     if (!autoEcole) return
     this.profileService.activeAutoEcoleId.set(autoEcole.id)
     this.profileService.activeAutoEcoleSlug.set(autoEcole.slug)

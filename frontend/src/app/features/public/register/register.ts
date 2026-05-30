@@ -1,4 +1,4 @@
-import { Component, inject, input, signal } from '@angular/core'
+import { Component, inject, input, signal, effect } from '@angular/core'
 import { AuthCard } from '../../../shared/components/auth-card/auth-card'
 import { Button } from 'primeng/button'
 import {
@@ -10,14 +10,14 @@ import {
 } from '@angular/forms'
 import { InputText } from 'primeng/inputtext'
 import { ProfileService } from '../../../core/services/auth/profile-service'
-import { RouterLink } from '@angular/router'
+import { Router, RouterLink } from '@angular/router'
 import { AutoEcoleService } from '../../../core/services/database/auto-ecole-service'
 import { Password } from 'primeng/password'
 import { ProfileRoutingService } from '../../../core/services/auth/profile-routing-service'
 import { AuthService } from '../../../core/services/auth/auth-service'
 import { AuthError } from '@supabase/supabase-js'
-import { MessageService } from 'primeng/api'
 import { FeedbackMessageService } from '../../../core/services/utility/feedback-message-service'
+import { Database } from '../../../types/database.types'
 
 @Component({
   selector: 'app-register',
@@ -26,6 +26,7 @@ import { FeedbackMessageService } from '../../../core/services/utility/feedback-
   styleUrl: './register.scss',
 })
 export class Register {
+  router = inject(Router)
   feedbackMessageService = inject(FeedbackMessageService)
   profileRoutingService = inject(ProfileRoutingService)
   autoEcoleService = inject(AutoEcoleService)
@@ -94,7 +95,9 @@ export class Register {
 
   async register(email: string, password: string) {
     const { firstName, lastName } = this.form.getRawValue()
-    const autoEcole = await this.autoEcoleService.getAutoEcoleInfos(this.schoolSlug(), 'slug')
+    const slug = this.schoolSlug()
+    if (!slug) return
+    const autoEcole = await this.autoEcoleService.getAutoEcoleInfos(slug, 'slug')
     if (!autoEcole) return
     this.profileService.activeAutoEcoleId.set(autoEcole.id)
     this.profileService.activeAutoEcoleSlug.set(autoEcole.slug)

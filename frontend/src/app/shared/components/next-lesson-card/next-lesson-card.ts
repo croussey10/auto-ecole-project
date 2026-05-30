@@ -41,8 +41,8 @@ export class NextLessonCard {
     const heures = Math.floor(resteMs / (1000 * 60 * 60))
     const minutes = Math.floor(resteMs / (1000 * 60)) % 60
 
+    if (heures <= 0) return `Dans ${minutes} minutes`
     if (jours <= 0) return `Dans ${heures} heures et ${minutes} minutes`
-
     return `Dans ${jours} jours, ${heures} heures et ${minutes} minutes`
   })
 

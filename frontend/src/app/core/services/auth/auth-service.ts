@@ -17,19 +17,18 @@ export class AuthService {
       if (event === 'INITIAL_SESSION' && !session?.user) {
         this.currentUser.set(null)
         localStorage.removeItem('activeAutoEcoleId')
-        localStorage.removeItem('activeAutoEcoleSlug')
       }
     })
   }
 
   async loadCurrentUser() {
     const {
-      data: { user },
+      data: { session },
       error,
-    } = await this.supabase.auth.getUser()
+    } = await this.supabase.auth.getSession()
     if (error) console.error(error)
-    console.log('loadCurrentUser : ', this.currentUser())
-    return user
+    console.log('loadCurrentUser : ', session?.user || null)
+    return session?.user || null
   }
 
   async login(email: string, password: string) {

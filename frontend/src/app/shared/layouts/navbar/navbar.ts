@@ -7,7 +7,6 @@ import { ProfileService } from '../../../core/services/auth/profile-service'
 import { Button } from 'primeng/button'
 import { Drawer } from 'primeng/drawer'
 import { AuthService } from '../../../core/services/auth/auth-service'
-import { AutoEcoleService } from '../../../core/services/database/auto-ecole-service'
 
 @Component({
   selector: 'app-navbar',
@@ -16,13 +15,13 @@ import { AutoEcoleService } from '../../../core/services/database/auto-ecole-ser
   styleUrl: './navbar.scss',
 })
 export class Navbar {
-  autoEcoleService = inject(AutoEcoleService)
   profileService = inject(ProfileService)
   authService = inject(AuthService)
   router = inject(Router)
   breakPointObserver = inject(BreakpointObserver)
 
-  autoEcoleSlug = localStorage.getItem('activeAutoEcoleSlug')
+  profile = this.profileService.currentProfile
+  slug = this.profileService.activeAutoEcoleSlug
 
   breakpointMobile = toSignal(this.breakPointObserver.observe(Breakpoints.Handset))
   isMobile = computed(() => (this.breakpointMobile()?.matches ? true : false))
@@ -38,10 +37,7 @@ export class Navbar {
   ]
 
   async logout() {
-    const profile = this.profileService.currentProfile()
-    if (!profile) return
-    const school = await this.autoEcoleService.getAutoEcoleInfos(profile.auto_ecole_id, 'id')
     await this.authService.logout()
-    void this.router.navigate([`auth/login/${school.slug}`])
+    void this.router.navigate([`auth/login/${this.slug()}`])
   }
 }

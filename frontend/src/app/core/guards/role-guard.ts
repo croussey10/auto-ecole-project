@@ -11,11 +11,12 @@ export const roleGuard: CanActivateFn = (route, state) => {
 
   if(!profile) {
     const slug = localStorage.getItem('activeAutoEcoleSlug')
-    void router.navigate([`/auth/login/${slug}`])
-    return false
+    if (slug) return router.parseUrl(`/auth/login/${slug}`)
+    return router.parseUrl('/ecole-introuvable')
   }
 
   if (allowedRoles?.includes(profile.role)) {
+    console.log("TON ROLE : ", allowedRoles)
     return true;
   }
 

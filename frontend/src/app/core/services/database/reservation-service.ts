@@ -1,41 +1,38 @@
 import { inject, Injectable } from '@angular/core'
 import { SupabaseService } from '../supabase/supabase-service'
 import { Database } from '../../../types/database.types'
+import { AuthService } from '../auth/auth-service'
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReservationService {
-  supabase = inject(SupabaseService)
+  authService = inject(AuthService)
 
-  async getEleveReservations(
+  async getReservations(
     profileId: string,
+    role: 'eleve' | 'moniteur',
   ): Promise<Database['public']['Views']['view_reservations']['Row'][]> {
-    const { data, error } = await this.supabase.supabase
+    let query = this.authService.supabase
       .from('view_reservations')
       .select('*')
       .order('date_creneau', { ascending: true })
       .order('heure_debut', { ascending: true })
-      .eq('eleve_id', profileId)
-    if (error) throw error
-    return data
-  }
 
-  async getMoniteurReservations(
-    profileId: string,
-  ): Promise<Database['public']['Views']['view_reservations']['Row'][]> {
-    const { data, error } = await this.supabase.supabase
-      .from('view_reservations')
-      .select('*')
-      .order('date_creneau', { ascending: true })
-      .order('heure_debut', { ascending: true })
-      .eq('moniteur_id', profileId)
+    if (role == 'eleve') {
+      query = query.eq('eleve_id', profileId)
+    } else {
+      query = query.eq('moniteur_id', profileId)
+    }
+
+    const { data, error } = await query
+
     if (error) throw error
     return data
   }
 
   async cancelReservation(reservation_id: string) {
-    const { data, error } = await this.supabase.supabase
+    const { data, error } = await this.authService.supabase
       .from('reservation')
       .update({ eleve_id: null })
       .eq('id', reservation_id)

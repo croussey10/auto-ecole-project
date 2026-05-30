@@ -1,4 +1,4 @@
-import { inject, Injectable, resource, signal } from '@angular/core'
+import { inject, Injectable, signal } from '@angular/core'
 import { AuthService } from './auth-service'
 import { Database } from '../../../types/database.types'
 import { Router } from '@angular/router'
@@ -15,32 +15,12 @@ export class ProfileService {
   constructor() {
     this.activeAutoEcoleId.set(localStorage.getItem('activeAutoEcoleId'))
     this.activeAutoEcoleSlug.set(localStorage.getItem('activeAutoEcoleSlug'))
+    this.authService.supabase.auth.onAuthStateChange((event) => {
+      if (event === 'SIGNED_OUT') this.currentProfile.set(null)
+    })
   }
 
-  resourceProfile = resource({
-    params: () => ({
-      user: this.authService.currentUser(),
-      schoolId: this.activeAutoEcoleId(),
-    }),
-    loader: async ({ params }) => {
-      if (!params.user || !params.schoolId) return null
-      try {
-        return await this.getProfileInfos(params.user.id, 'user', params.schoolId)
-      } catch {
-        this.authService.currentUser.set(null)
-        this.activeAutoEcoleId.set(null)
-        const slugAutoEcole = this.activeAutoEcoleSlug()
-        this.activeAutoEcoleSlug.set(null)
-        localStorage.removeItem('activeAutoEcoleId')
-        localStorage.removeItem('activeAutoEcoleSlug')
-        await this.authService.supabase.auth.signOut({ scope: 'local' })
-        void this.router.navigate([`/auth/login/${slugAutoEcole}`])
-        return null
-      }
-    },
-  })
-
-  currentProfile = this.resourceProfile.value
+  currentProfile = signal<Database['public']['Tables']['profile']['Row'] | null>(null)
 
   async registerProfile(
     userId: string,

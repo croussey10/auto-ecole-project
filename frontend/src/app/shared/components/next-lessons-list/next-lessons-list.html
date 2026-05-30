@@ -4,8 +4,8 @@
     @for (reservation of reservationsInComing(); track reservation.id) {
       <app-next-lesson-card
         [reservation]="reservation"
-        personRole="Moniteur :"
-        [personName]="`${reservation.moniteur_prenom} ${reservation.moniteur_nom}`"
+        [personRole]="profile()?.role == 'eleve' ? 'Moniteur : ' : 'Eleve : ' "
+        [personName]="profile()?.role == 'eleve' ? `${reservation.moniteur_prenom} ${reservation.moniteur_nom}` : `${reservation.eleve_prenom} ${reservation.eleve_nom}`"
         [loadingCancel]="idBeingCancelled() == reservation.id"
         (cancelTrigger)="cancelReservation(reservation.id)"
       />
