@@ -413,6 +413,7 @@ export type Database = {
       view_reservations: {
         Row: {
           auto_ecole_id: string | null
+          commentaire_moniteur: string | null
           date_creneau: string | null
           eleve_id: string | null
           eleve_nom: string | null

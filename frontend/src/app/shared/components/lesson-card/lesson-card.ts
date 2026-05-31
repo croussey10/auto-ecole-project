@@ -1,15 +1,22 @@
-import { Component, computed, input, output } from '@angular/core'
+import { Component, computed, inject, input, output, signal } from '@angular/core'
 import { Card } from 'primeng/card'
 import { Button } from 'primeng/button'
 import { Database } from '../../../types/database.types'
+import { ProfileService } from '../../../core/services/auth/profile-service'
 
 @Component({
-  selector: 'app-next-lesson-card',
+  selector: 'app-lesson-card',
   imports: [Card, Button],
-  templateUrl: './next-lesson-card.html',
-  styleUrl: './next-lesson-card.scss',
+  templateUrl: './lesson-card.html',
+  styleUrl: './lesson-card.scss',
 })
-export class NextLessonCard {
+export class LessonCard {
+  profileService = inject(ProfileService)
+  profile = this.profileService.currentProfile()
+  test = computed(() => {
+    if (!this.profile) return
+    return this.profile.role
+  })
 
   cancelTrigger = output()
   reservation = input.required<Database['public']['Views']['view_reservations']['Row']>()
@@ -36,14 +43,14 @@ export class NextLessonCard {
 
     if (diff < 0) return
 
-    const jours = Math.floor(diff / (1000 * 60 * 60 * 24))
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24))
     const resteMs = diff % (1000 * 60 * 60 * 24)
-    const heures = Math.floor(resteMs / (1000 * 60 * 60))
+    const hours = Math.floor(resteMs / (1000 * 60 * 60))
     const minutes = Math.floor(resteMs / (1000 * 60)) % 60
 
-    if (heures <= 0) return `Dans ${minutes} minutes`
-    if (jours <= 0) return `Dans ${heures} heures et ${minutes} minutes`
-    return `Dans ${jours} jours, ${heures} heures et ${minutes} minutes`
+    if (hours <= 0) return `Dans ${minutes} minutes`
+    if (days <= 0) return `Dans ${hours} heures et ${minutes} minutes`
+    return `Dans ${days} jours, ${hours} heures et ${minutes} minutes`
   })
 
   cancelReservation() {

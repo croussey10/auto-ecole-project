@@ -10,12 +10,12 @@ import {AuthError} from '@supabase/supabase-js';
 import {MessageService} from 'primeng/api';
 
 @Component({
-  selector: 'app-next-lessons-list',
+  selector: 'app-past-lessons-list',
   imports: [LessonCard, Card, ScrollPanel],
-  templateUrl: './next-lessons-list.html',
-  styleUrl: './next-lessons-list.scss',
+  templateUrl: './past-lessons-list.html',
+  styleUrl: './past-lessons-list.scss',
 })
-export class NextLessonsList {
+export class PastLessonsList {
   messageService = inject(MessageService)
   breakPointObserver = inject(BreakpointObserver)
   reservationService = inject(ReservationService)
@@ -28,7 +28,7 @@ export class NextLessonsList {
 
   resourceReservations = resource({
     params: () => this.profile(),
-    loader: async ({params}) => {
+    loader: async ({ params }) => {
       if (!params) return null
       if (params.role == 'eleve') {
         return await this.reservationService.getReservations(params.id, 'eleve')
@@ -61,7 +61,7 @@ export class NextLessonsList {
   allReservations = computed(() => this.filterReservations('all'))
 
   heightScrollPanel = computed(() => {
-    const numberReservations = this.reservationsInComing().length
+    const numberReservations = this.reservationsPast().length
     if (!numberReservations) return '4rem'
     if (!this.isMobile()) {
       return `${Math.min(numberReservations * 7, 28)}rem `
