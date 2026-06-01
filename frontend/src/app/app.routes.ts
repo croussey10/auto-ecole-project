@@ -6,25 +6,38 @@ import {EleveDashboard} from './features/eleve/eleve-dashboard/eleve-dashboard'
 import {MoniteurDashboard} from './features/moniteur/moniteur-dashboard/moniteur-dashboard'
 import {EcoleIntrouvable} from './features/public/ecole-introuvable/ecole-introuvable'
 import {schoolGuard} from './core/guards/school-guard'
-import {MesReservasions} from './shared/components/mes-reservasions/mes-reservasions';
+import {EleveReservations} from './features/eleve/eleve-reservations/eleve-reservations';
+import {MoniteurReservations} from "./features/moniteur/moniteur-reservations/moniteur-reservations";
 
 export const routes: Routes = [
-  {path: '', redirectTo: 'ecole-introuvable', pathMatch: 'full'},
-  {path: 'auth/login/:schoolSlug', component: Login, canActivate: [schoolGuard]},
-  {path: 'auth/register/:schoolSlug', component: Register, canActivate: [schoolGuard]},
-  {path: 'ecole-introuvable', component: EcoleIntrouvable},
-  {path: 'mes-reservations', component: MesReservasions},
+  { path: '', redirectTo: 'ecole-introuvable', pathMatch: 'full' },
+  { path: 'auth/login/:schoolSlug', component: Login, canActivate: [schoolGuard] },
+  { path: 'auth/register/:schoolSlug', component: Register, canActivate: [schoolGuard] },
+  { path: 'ecole-introuvable', component: EcoleIntrouvable },
 
   {
     path: 'eleve/dashboard',
     component: EleveDashboard,
     canActivate: [roleGuard],
-    data: {roles: ['eleve']},
+    data: { roles: ['eleve'] },
   },
   {
     path: 'moniteur/dashboard',
     component: MoniteurDashboard,
     canActivate: [roleGuard],
-    data: {roles: ['moniteur']},
+    data: { roles: ['moniteur'] },
+  },
+
+  {
+    path: 'eleve/reservations',
+    component: EleveReservations,
+    canActivate: [roleGuard],
+    data: { roles: ['eleve'] },
+  },
+  {
+    path: 'moniteur/reservations',
+    component: MoniteurReservations,
+    canActivate: [roleGuard],
+    data: { roles: ['moniteur'] },
   },
 ]

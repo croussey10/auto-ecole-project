@@ -1,0 +1,36 @@
+<div class="flex justify-content-center gap-4 mb-4">
+  <p-button
+    label="Passées"
+    [severity]="pageActive == 0 ? 'primary' : 'secondary'"
+    [text]="pageActive != 0"
+    (onClick)="changerPage(0)"
+  />
+  <p-button
+    label="A venir"
+    [severity]="pageActive == 1 ? 'primary' : 'secondary'"
+    [text]="pageActive != 1"
+    (onClick)="changerPage(1)"
+  />
+</div>
+
+<p-carousel
+  [value]="listePages"
+  [page]="pageActive"
+  (onPage)="pageActive = $event.page!"
+  [numVisible]="1"
+  [numScroll]="1"
+  [circular]="false"
+  [showIndicators]="false"
+  [showNavigators]="true"
+>
+
+  <ng-template let-page #item>
+
+    @if (page == 'past') {
+      <app-moniteur-past-lessons-list/>
+    } @else {
+      <app-moniteur-next-lessons-list/>
+    }
+
+  </ng-template>
+</p-carousel>

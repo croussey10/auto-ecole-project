@@ -8,8 +8,13 @@
         </a>
         <div class="flex align-items-center gap-2">
           <p-button label="Logout" severity="secondary" (onClick)="logout()"/>
-          @for (onglet of onglets; track onglet.label) {
-            <p-button label="{{ onglet.label }}" icon="{{ onglet.icon }}" styleClass="w-full" (onClick)="router.navigate([onglet.link])"/>
+          @for (onglet of onglets(); track onglet.label) {
+            <p-button
+              label="{{ onglet.label }}"
+              icon="{{ onglet.icon }}"
+              styleClass="w-full"
+              (onClick)="router.navigate([onglet.link])"
+            />
           }
         </div>
       } @else {
@@ -20,12 +25,12 @@
           <p-button label="Logout" severity="secondary" (onClick)="logout()"/>
           <p-drawer [(visible)]="visibleDrawer" position="right" [style]="{ width: '60%' }">
             <div class="flex flex-column gap-4">
-              @for (onglet of onglets; track onglet.label) {
+              @for (onglet of onglets(); track onglet.label) {
                 <p-button
                   label="{{ onglet.label }}"
                   icon="{{ onglet.icon }}"
                   styleClass="w-full justify-content-start gap-5"
-                  (onClick)="visibleDrawer.set(false)"
+                  (onClick)="visibleDrawer.set(false); router.navigate([onglet.link])"
                 />
               }
             </div>

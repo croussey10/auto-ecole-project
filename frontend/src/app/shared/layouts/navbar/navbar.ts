@@ -28,13 +28,17 @@ export class Navbar {
 
   visibleDrawer = signal<boolean>(false)
 
-  onglets = [
-    { label: 'Calendrier', icon: 'pi pi-calendar' },
-    { label: 'Mes heures', icon: 'pi pi-clock', link: 'mes-reservations' },
-    { label: "Livret d'apprentissage", icon: 'pi pi-book' },
-    { label: 'Mon compte', icon: 'pi pi-user' },
-    { label: 'Achats', icon: 'pi pi-wallet' },
-  ]
+  onglets = computed(() => {
+    const profileRole = this.profile()?.role
+    if (!profileRole) return []
+    return [
+      { label: 'Calendrier', icon: 'pi pi-calendar', link: `${profileRole}/calendrier` },
+      { label: 'Mes heures', icon: 'pi pi-clock', link: `${profileRole}/reservations` },
+      { label: "Livret d'apprentissage", icon: 'pi pi-book', link: `${profileRole}/livret` },
+      { label: 'Mon compte', icon: 'pi pi-user', link: `${profileRole}/compte` },
+      { label: 'Achats', icon: 'pi pi-wallet', link: `${profileRole}/achats` },
+    ]
+  })
 
   async logout() {
     await this.authService.logout()
