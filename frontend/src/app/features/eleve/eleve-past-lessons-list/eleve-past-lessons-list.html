@@ -1,0 +1,12 @@
+<p-card>
+  Mes réservations passées :
+  <p-scrollPanel [style]="{ width: '100%', height: heightScrollPanel() }">
+    @for (reservation of reservationsPast(); track reservation.id) {
+      <app-eleve-past-lesson-card
+        [reservation]="reservation"
+        personRole="Moniteur : "
+        [personName]="`${reservation.moniteur_prenom} ${reservation.moniteur_nom}`"
+      />
+    }
+  </p-scrollPanel>
+</p-card>

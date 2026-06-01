@@ -1,22 +1,19 @@
-import {Component, computed, inject, resource, signal} from '@angular/core'
-import {LessonCard} from '../lesson-card/lesson-card'
+import {Component, computed, inject, resource} from '@angular/core'
 import {ProfileService} from '../../../core/services/auth/profile-service'
 import {ReservationService} from '../../../core/services/database/reservation-service'
 import {Card} from 'primeng/card'
 import {ScrollPanel} from 'primeng/scrollpanel'
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout'
 import {toSignal} from '@angular/core/rxjs-interop'
-import {AuthError} from '@supabase/supabase-js';
-import {MessageService} from 'primeng/api';
+import {MoniteurPastLessonCard} from '../moniteur-past-lesson-card/moniteur-past-lesson-card';
 
 @Component({
-  selector: 'app-past-lessons-list',
-  imports: [LessonCard, Card, ScrollPanel],
-  templateUrl: './past-lessons-list.html',
-  styleUrl: './past-lessons-list.scss',
+  selector: 'app-moniteur-past-lessons-list',
+  imports: [Card, ScrollPanel, MoniteurPastLessonCard],
+  templateUrl: './moniteur-past-lessons-list.html',
+  styleUrl: './moniteur-past-lessons-list.scss',
 })
-export class PastLessonsList {
-  messageService = inject(MessageService)
+export class MoniteurPastLessonsList {
   breakPointObserver = inject(BreakpointObserver)
   reservationService = inject(ReservationService)
   profileService = inject(ProfileService)
@@ -28,13 +25,9 @@ export class PastLessonsList {
 
   resourceReservations = resource({
     params: () => this.profile(),
-    loader: async ({ params }) => {
+    loader: async ({params}) => {
       if (!params) return null
-      if (params.role == 'eleve') {
-        return await this.reservationService.getReservations(params.id, 'eleve')
-      } else {
-        return await this.reservationService.getReservations(params.id, 'moniteur')
-      }
+      return await this.reservationService.getReservations(params.id, 'moniteur')
     },
   })
   reservations = this.resourceReservations.value
@@ -68,25 +61,4 @@ export class PastLessonsList {
     }
     return `${Math.min(numberReservations * 7, 21)}rem `
   })
-
-  idBeingCancelled = signal<string | null>(null)
-
-  async cancelReservation(reservationId: string | null) {
-    if (!reservationId) return
-    try {
-      this.idBeingCancelled.set(reservationId)
-      await this.reservationService.cancelReservation(reservationId)
-      this.resourceReservations.reload()
-    } catch (error) {
-      const authError = error as AuthError
-      this.messageService.add({
-        severity: 'error',
-        summary: `Erreur`,
-        detail: authError.message,
-      })
-    } finally {
-      this.idBeingCancelled.set(null)
-      console.log(reservationId)
-    }
-  }
 }

@@ -2,8 +2,8 @@ import { Routes } from '@angular/router'
 import { Login } from './features/public/login/login'
 import { Register } from './features/public/register/register'
 import { roleGuard } from './core/guards/role-guard'
-import { DashboardEleve } from './features/eleve/dashboard-eleve/dashboard-eleve'
-import { DashboardMoniteur } from './features/moniteur/dashboard-moniteur/dashboard-moniteur'
+import { EleveDashboard } from './features/eleve/eleve-dashboard/eleve-dashboard'
+import { MoniteurDashboard } from './features/moniteur/moniteur-dashboard/moniteur-dashboard'
 import { EcoleIntrouvable } from './features/public/ecole-introuvable/ecole-introuvable'
 import { schoolGuard } from './core/guards/school-guard'
 
@@ -15,13 +15,13 @@ export const routes: Routes = [
 
   {
     path: 'eleve/dashboard',
-    component: DashboardEleve,
+    component: EleveDashboard,
     canActivate: [roleGuard],
     data: { roles: ['eleve'] },
   },
   {
     path: 'moniteur/dashboard',
-    component: DashboardMoniteur,
+    component: MoniteurDashboard,
     canActivate: [roleGuard],
     data: { roles: ['moniteur'] },
   },

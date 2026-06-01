@@ -2,10 +2,10 @@
   Mes réservations à venir :
   <p-scrollPanel [style]="{ width: '100%', height: heightScrollPanel() }">
     @for (reservation of reservationsInComing(); track reservation.id) {
-      <app-lesson-card
+      <app-next-lesson-card
         [reservation]="reservation"
-        [personRole]="profile()?.role == 'eleve' ? 'Moniteur : ' : 'Eleve : ' "
-        [personName]="profile()?.role == 'eleve' ? `${reservation.moniteur_prenom} ${reservation.moniteur_nom}` : `${reservation.eleve_prenom} ${reservation.eleve_nom}`"
+        personRole="Moniteur : "
+        [personName]="`${reservation.moniteur_prenom} ${reservation.moniteur_nom}`"
         [loadingCancel]="idBeingCancelled() == reservation.id"
         (cancelTrigger)="cancelReservation(reservation.id)"
       />

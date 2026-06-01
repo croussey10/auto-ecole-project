@@ -1,26 +1,19 @@
-import { Component, computed, inject, input, output, signal } from '@angular/core'
-import { Card } from 'primeng/card'
-import { Button } from 'primeng/button'
-import { Database } from '../../../types/database.types'
-import { ProfileService } from '../../../core/services/auth/profile-service'
+import {Component, computed, input, output} from '@angular/core'
+import {Card} from 'primeng/card'
+import {Button} from 'primeng/button';
+import {Database} from '../../../types/database.types';
 
 @Component({
-  selector: 'app-lesson-card',
+  selector: 'app-next-lesson-card',
   imports: [Card, Button],
-  templateUrl: './lesson-card.html',
-  styleUrl: './lesson-card.scss',
+  templateUrl: './next-lesson-card.html',
+  styleUrl: './next-lesson-card.scss',
 })
-export class LessonCard {
-  profileService = inject(ProfileService)
-  profile = this.profileService.currentProfile()
-  test = computed(() => {
-    if (!this.profile) return
-    return this.profile.role
-  })
+export class NextLessonCard {
 
   cancelTrigger = output()
-  reservation = input.required<Database['public']['Views']['view_reservations']['Row']>()
-  loadingCancel = input.required<boolean>()
+  loadingCancel = input.required<boolean>();
+  reservation = input.required<Database["public"]["Views"]["view_reservations"]["Row"]>()
   personRole = input.required<string>()
   personName = input.required<string>()
 
@@ -53,7 +46,4 @@ export class LessonCard {
     return `Dans ${days} jours, ${hours} heures et ${minutes} minutes`
   })
 
-  cancelReservation() {
-    this.cancelTrigger.emit()
-  }
 }

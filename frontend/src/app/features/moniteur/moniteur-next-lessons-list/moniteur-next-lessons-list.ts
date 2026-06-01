@@ -1,5 +1,5 @@
 import {Component, computed, inject, resource, signal} from '@angular/core'
-import {LessonCard} from '../lesson-card/lesson-card'
+import {NextLessonCard} from '../../../shared/components/next-lesson-card/next-lesson-card'
 import {ProfileService} from '../../../core/services/auth/profile-service'
 import {ReservationService} from '../../../core/services/database/reservation-service'
 import {Card} from 'primeng/card'
@@ -10,12 +10,12 @@ import {AuthError} from '@supabase/supabase-js';
 import {MessageService} from 'primeng/api';
 
 @Component({
-  selector: 'app-next-lessons-list',
-  imports: [LessonCard, Card, ScrollPanel],
-  templateUrl: './next-lessons-list.html',
-  styleUrl: './next-lessons-list.scss',
+  selector: 'app-moniteur-next-lessons-list',
+  imports: [NextLessonCard, Card, ScrollPanel],
+  templateUrl: './moniteur-next-lessons-list.html',
+  styleUrl: './moniteur-next-lessons-list.scss',
 })
-export class NextLessonsList {
+export class MoniteurNextLessonsList {
   messageService = inject(MessageService)
   breakPointObserver = inject(BreakpointObserver)
   reservationService = inject(ReservationService)
@@ -30,11 +30,7 @@ export class NextLessonsList {
     params: () => this.profile(),
     loader: async ({params}) => {
       if (!params) return null
-      if (params.role == 'eleve') {
-        return await this.reservationService.getReservations(params.id, 'eleve')
-      } else {
-        return await this.reservationService.getReservations(params.id, 'moniteur')
-      }
+      return await this.reservationService.getReservations(params.id, 'moniteur')
     },
   })
   reservations = this.resourceReservations.value
