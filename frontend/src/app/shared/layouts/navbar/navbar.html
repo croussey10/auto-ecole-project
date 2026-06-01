@@ -9,7 +9,7 @@
         <div class="flex align-items-center gap-2">
           <p-button label="Logout" severity="secondary" (onClick)="logout()"/>
           @for (onglet of onglets; track onglet.label) {
-            <p-button label="{{ onglet.label }}" icon="{{ onglet.icon }}" styleClass="w-full"/>
+            <p-button label="{{ onglet.label }}" icon="{{ onglet.icon }}" styleClass="w-full" (onClick)="router.navigate([onglet.link])"/>
           }
         </div>
       } @else {

@@ -30,7 +30,7 @@ export class Navbar {
 
   onglets = [
     { label: 'Calendrier', icon: 'pi pi-calendar' },
-    { label: 'Mes heures', icon: 'pi pi-clock' },
+    { label: 'Mes heures', icon: 'pi pi-clock', link: 'mes-reservations' },
     { label: "Livret d'apprentissage", icon: 'pi pi-book' },
     { label: 'Mon compte', icon: 'pi pi-user' },
     { label: 'Achats', icon: 'pi pi-wallet' },
