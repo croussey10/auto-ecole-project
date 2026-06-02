@@ -34,7 +34,7 @@ export class Navbar {
     return [
       { label: 'Calendrier', icon: 'pi pi-calendar', link: `${profileRole}/calendrier` },
       { label: 'Mes heures', icon: 'pi pi-clock', link: `${profileRole}/reservations` },
-      { label: "Livret d'apprentissage", icon: 'pi pi-book', link: `${profileRole}/livret` },
+      { label: "Livret d'apprentissage", icon: 'pi pi-book', link: `${profileRole}/livret-apprentissage` },
       { label: 'Mon compte', icon: 'pi pi-user', link: `${profileRole}/compte` },
       { label: 'Achats', icon: 'pi pi-wallet', link: `${profileRole}/achats` },
     ]

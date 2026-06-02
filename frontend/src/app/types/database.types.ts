@@ -14,6 +14,58 @@ export type Database = {
   }
   public: {
     Tables: {
+      achat_historique: {
+        Row: {
+          auto_ecole_id: string
+          date_achat: string
+          eleve_id: string
+          forfait_id: string | null
+          id: string
+          prix_paye: number
+          statut_paiement: string
+        }
+        Insert: {
+          auto_ecole_id: string
+          date_achat?: string
+          eleve_id: string
+          forfait_id?: string | null
+          id?: string
+          prix_paye: number
+          statut_paiement?: string
+        }
+        Update: {
+          auto_ecole_id?: string
+          date_achat?: string
+          eleve_id?: string
+          forfait_id?: string | null
+          id?: string
+          prix_paye?: number
+          statut_paiement?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "achat_historique_auto_ecole_id_fkey"
+            columns: ["auto_ecole_id"]
+            isOneToOne: false
+            referencedRelation: "auto_ecole"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "achat_historique_eleve_id_fkey"
+            columns: ["eleve_id"]
+            isOneToOne: false
+            referencedRelation: "profile"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "achat_historique_forfait_id_fkey"
+            columns: ["forfait_id"]
+            isOneToOne: false
+            referencedRelation: "forfait"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       auto_ecole: {
         Row: {
           created_at: string
@@ -66,42 +118,23 @@ export type Database = {
           prix_paye?: number
           statut_paiement?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "chat_historique_auto_ecole_id_fkey"
-            columns: ["auto_ecole_id"]
-            isOneToOne: false
-            referencedRelation: "auto_ecole"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "chat_historique_eleve_id_fkey"
-            columns: ["eleve_id"]
-            isOneToOne: false
-            referencedRelation: "profile"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "chat_historique_forfait_id_fkey"
-            columns: ["forfait_id"]
-            isOneToOne: false
-            referencedRelation: "forfait"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       competence: {
         Row: {
+          category: Database["public"]["Enums"]["categorie_maitrise"] | null
           created_at: string
           id: string
           nom: string
         }
         Insert: {
+          category?: Database["public"]["Enums"]["categorie_maitrise"] | null
           created_at?: string
           id?: string
           nom: string
         }
         Update: {
+          category?: Database["public"]["Enums"]["categorie_maitrise"] | null
           created_at?: string
           id?: string
           nom?: string
@@ -114,30 +147,30 @@ export type Database = {
           date_upload: string
           fichier_url: string
           id: string
+          profile_id: string
           statut: Database["public"]["Enums"]["statut_document"]
           type_doc: Database["public"]["Enums"]["type_document"]
           updated_at: string
-          user_id: string
         }
         Insert: {
           auto_ecole_id: string
           date_upload?: string
           fichier_url: string
           id?: string
+          profile_id: string
           statut?: Database["public"]["Enums"]["statut_document"]
           type_doc: Database["public"]["Enums"]["type_document"]
           updated_at?: string
-          user_id: string
         }
         Update: {
           auto_ecole_id?: string
           date_upload?: string
           fichier_url?: string
           id?: string
+          profile_id?: string
           statut?: Database["public"]["Enums"]["statut_document"]
           type_doc?: Database["public"]["Enums"]["type_document"]
           updated_at?: string
-          user_id?: string
         }
         Relationships: [
           {
@@ -148,8 +181,8 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "document_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "document_profile_id_fkey"
+            columns: ["profile_id"]
             isOneToOne: false
             referencedRelation: "profile"
             referencedColumns: ["id"]
@@ -199,6 +232,7 @@ export type Database = {
       }
       livret_apprentissage: {
         Row: {
+          auto_ecole_id: string
           competence_id: string
           created_at: string
           eleve_id: string
@@ -207,6 +241,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          auto_ecole_id: string
           competence_id: string
           created_at?: string
           eleve_id: string
@@ -215,6 +250,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          auto_ecole_id?: string
           competence_id?: string
           created_at?: string
           eleve_id?: string
@@ -223,6 +259,13 @@ export type Database = {
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "livret_apprentissage_auto_ecole_id_fkey"
+            columns: ["auto_ecole_id"]
+            isOneToOne: false
+            referencedRelation: "auto_ecole"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "livret_apprentissage_competence_id_fkey"
             columns: ["competence_id"]
@@ -246,7 +289,7 @@ export type Database = {
           created_at: string
           details: string
           id: string
-          user_id: string | null
+          profile_id: string | null
         }
         Insert: {
           action: Database["public"]["Enums"]["action_type"]
@@ -254,7 +297,7 @@ export type Database = {
           created_at?: string
           details: string
           id?: string
-          user_id?: string | null
+          profile_id?: string | null
         }
         Update: {
           action?: Database["public"]["Enums"]["action_type"]
@@ -262,7 +305,7 @@ export type Database = {
           created_at?: string
           details?: string
           id?: string
-          user_id?: string | null
+          profile_id?: string | null
         }
         Relationships: [
           {
@@ -273,8 +316,8 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "log_action_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "log_action_profile_id_fkey"
+            columns: ["profile_id"]
             isOneToOne: false
             referencedRelation: "profile"
             referencedColumns: ["id"]
@@ -410,6 +453,40 @@ export type Database = {
       }
     }
     Views: {
+      view_livret_competence: {
+        Row: {
+          auto_ecole_id: string | null
+          categorie: Database["public"]["Enums"]["categorie_maitrise"] | null
+          competence_id: string | null
+          competence_nom: string | null
+          eleve_id: string | null
+          id: string | null
+          maitrise: Database["public"]["Enums"]["niveau_maitrise"] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "livret_apprentissage_auto_ecole_id_fkey"
+            columns: ["auto_ecole_id"]
+            isOneToOne: false
+            referencedRelation: "auto_ecole"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "livret_apprentissage_competence_id_fkey"
+            columns: ["competence_id"]
+            isOneToOne: false
+            referencedRelation: "competence"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "livret_apprentissage_eleve_id_fkey"
+            columns: ["eleve_id"]
+            isOneToOne: false
+            referencedRelation: "profile"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       view_reservations: {
         Row: {
           auto_ecole_id: string | null
@@ -464,7 +541,8 @@ export type Database = {
         | "DOCUMENT_UPLOAD"
         | "DOCUMENT_VALIDATE"
         | "ROLE_UPDATE"
-      niveau_maitrise: "A revoir" | "Moyen" | "Acquis"
+      categorie_maitrise: "Maîtriser" | "Appréhender" | "Pratiquer" | "Circuler"
+      niveau_maitrise: "A revoir" | "Moyen" | "Acquis" | "Neutre"
       statut_document: "En_attente" | "Valide" | "Refuse"
       type_document: "CNI" | "ANTS" | "Permis" | "Justificatif_Domicile"
       user_role: "eleve" | "moniteur" | "admin"
@@ -604,7 +682,8 @@ export const Constants = {
         "DOCUMENT_VALIDATE",
         "ROLE_UPDATE",
       ],
-      niveau_maitrise: ["A revoir", "Moyen", "Acquis"],
+      categorie_maitrise: ["Maîtriser", "Appréhender", "Pratiquer", "Circuler"],
+      niveau_maitrise: ["A revoir", "Moyen", "Acquis", "Neutre"],
       statut_document: ["En_attente", "Valide", "Refuse"],
       type_document: ["CNI", "ANTS", "Permis", "Justificatif_Domicile"],
       user_role: ["eleve", "moniteur", "admin"],
