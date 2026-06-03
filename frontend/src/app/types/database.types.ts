@@ -90,36 +90,6 @@ export type Database = {
         }
         Relationships: []
       }
-      chat_historique: {
-        Row: {
-          auto_ecole_id: string
-          date_achat: string
-          eleve_id: string
-          forfait_id: string | null
-          id: string
-          prix_paye: number
-          statut_paiement: string
-        }
-        Insert: {
-          auto_ecole_id: string
-          date_achat?: string
-          eleve_id: string
-          forfait_id?: string | null
-          id?: string
-          prix_paye: number
-          statut_paiement?: string
-        }
-        Update: {
-          auto_ecole_id?: string
-          date_achat?: string
-          eleve_id?: string
-          forfait_id?: string | null
-          id?: string
-          prix_paye?: number
-          statut_paiement?: string
-        }
-        Relationships: []
-      }
       competence: {
         Row: {
           category: Database["public"]["Enums"]["categorie_maitrise"] | null
