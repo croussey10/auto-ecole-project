@@ -4,7 +4,7 @@
       @if (!isMobile()) {
         <a class="flex gap-2 align-items-center">
           <img ngSrc="logo-voiture-placeholder.png" alt="logo" width="36" height="36"/>
-          {{ slug() }}
+          <p>{{ slug() }}</p>
         </a>
         <div class="flex align-items-center gap-2">
           <p-button label="Logout" severity="secondary" (onClick)="logout()"/>
