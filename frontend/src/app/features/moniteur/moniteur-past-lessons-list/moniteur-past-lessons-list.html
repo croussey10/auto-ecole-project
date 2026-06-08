@@ -1,12 +1,18 @@
 <p-card>
   Mes réservations passées :
-  <p-scrollPanel [style]="{ width: '100%', height: heightScrollPanel() }">
-    @for (reservation of reservationsPast(); track reservation.id) {
-      <app-moniteur-past-lesson-card
-        [reservation]="reservation"
-        personRole="Eleve : "
-        [personName]="`${reservation.eleve_prenom} ${reservation.eleve_nom}`"
-      />
-    }
-  </p-scrollPanel>
+  @if (resourceReservations.isLoading()) {
+    <div class="flex justify-content-center py-6">
+      <p-progress-spinner/>
+    </div>
+  } @else {
+    <p-scrollPanel [style]="{ width: '100%', height: heightScrollPanel() }">
+      @for (reservation of reservationsPast(); track reservation.id) {
+        <app-moniteur-past-lesson-card
+          [reservation]="reservation"
+          personRole="Eleve : "
+          [personName]="`${reservation.eleve_prenom} ${reservation.eleve_nom}`"
+        />
+      }
+    </p-scrollPanel>
+  }
 </p-card>

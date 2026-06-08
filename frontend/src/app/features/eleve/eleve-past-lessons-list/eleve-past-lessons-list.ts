@@ -6,10 +6,11 @@ import {ScrollPanel} from 'primeng/scrollpanel'
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout'
 import {toSignal} from '@angular/core/rxjs-interop'
 import {ElevePastLessonCard} from '../eleve-past-lesson-card/eleve-past-lesson-card';
+import { ProgressSpinner } from 'primeng/progressspinner'
 
 @Component({
   selector: 'app-eleve-past-lessons-list',
-  imports: [Card, ScrollPanel, ElevePastLessonCard],
+  imports: [Card, ScrollPanel, ElevePastLessonCard, ProgressSpinner],
   templateUrl: './eleve-past-lessons-list.html',
   styleUrl: './eleve-past-lessons-list.scss',
 })
@@ -25,7 +26,7 @@ export class ElevePastLessonsList {
 
   resourceReservations = resource({
     params: () => this.profile(),
-    loader: async ({params}) => {
+    loader: async ({ params }) => {
       if (!params) return null
       return await this.reservationService.getReservations(params.id, 'eleve')
     },
@@ -61,5 +62,4 @@ export class ElevePastLessonsList {
     }
     return `${Math.min(numberReservations * 7, 21)}rem `
   })
-
 }

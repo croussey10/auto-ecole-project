@@ -1,14 +1,20 @@
 <p-card>
   Mes réservations à venir :
-  <p-scrollPanel [style]="{ width: '100%', height: heightScrollPanel() }">
-    @for (reservation of reservationsInComing(); track reservation.id) {
-      <app-next-lesson-card
-        [reservation]="reservation"
-        personRole="Moniteur : "
-        [personName]="`${reservation.moniteur_prenom} ${reservation.moniteur_nom}`"
-        [loadingCancel]="idBeingCancelled() == reservation.id"
-        (cancelTrigger)="cancelReservation(reservation.id)"
-      />
-    }
-  </p-scrollPanel>
+  @if (resourceReservations.isLoading()) {
+    <div class="flex justify-content-center py-6">
+      <p-progress-spinner/>
+    </div>
+  } @else {
+    <p-scrollPanel [style]="{ width: '100%', height: heightScrollPanel() }">
+      @for (reservation of reservationsInComing(); track reservation.id) {
+        <app-next-lesson-card
+          [reservation]="reservation"
+          personRole="Moniteur : "
+          [personName]="`${reservation.moniteur_prenom} ${reservation.moniteur_nom}`"
+          [loadingCancel]="idBeingCancelled() == reservation.id"
+          (cancelTrigger)="cancelReservation(reservation.id)"
+        />
+      }
+    </p-scrollPanel>
+  }
 </p-card>

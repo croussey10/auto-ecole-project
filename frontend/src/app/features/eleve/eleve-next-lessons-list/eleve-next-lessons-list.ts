@@ -8,10 +8,11 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { AuthError } from '@supabase/supabase-js'
 import { MessageService } from 'primeng/api'
+import { ProgressSpinner } from 'primeng/progressspinner'
 
 @Component({
   selector: 'app-eleve-next-lessons-list',
-  imports: [NextLessonCard, Card, ScrollPanel],
+  imports: [NextLessonCard, Card, ScrollPanel, ProgressSpinner],
   templateUrl: './eleve-next-lessons-list.html',
   styleUrl: './eleve-next-lessons-list.scss',
 })

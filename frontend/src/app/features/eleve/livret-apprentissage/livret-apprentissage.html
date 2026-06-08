@@ -13,8 +13,17 @@
     [(ngModel)]="search"
   >
 </div>
-@for (competence of filter(); track competence.id) {
-  <app-competence-card
-    [competence]="competence"
-  />
+
+@if (resourceCompetences.isLoading()) {
+  <div class="flex justify-content-center py-6">
+    <p-progress-spinner/>
+  </div>
+} @else {
+  @for (competence of filter(); track competence.id) {
+    <app-competence-card
+      [competence]="competence"
+      [canEditMaitrise]="canEditMaitrise()"
+      (maitriseChanged)="onMaitriseChange($event.competenceId, $event.newMaitrise)"
+    />
+  }
 }

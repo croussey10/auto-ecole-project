@@ -48,18 +48,22 @@ export class ProfileService {
     type: 'user' | 'profile',
     autoEcoleId: string,
   ): Promise<Database['public']['Tables']['profile']['Row']> {
-    let query = this.authService.supabase
+    const { data, error } = await this.authService.supabase
       .from('profile')
       .select('*')
       .eq('auto_ecole_id', autoEcoleId)
+      .eq(type == 'user' ? 'user_id' : 'id', id)
+      .single()
+    if (error) throw error
+    return data
+  }
 
-    if (type == 'user') {
-      query = query.eq('user_id', id)
-    } else {
-      query = query.eq('id', id)
-    }
-
-    const { data, error } = await query.single()
+  async getEleves(autoEcoleId: string): Promise<Database['public']['Tables']['profile']['Row'][]> {
+    const { data, error } = await this.authService.supabase
+      .from('profile')
+      .select('*')
+      .eq('role', 'eleve')
+      .eq('auto_ecole_id', autoEcoleId)
     if (error) throw error
     return data
   }

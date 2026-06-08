@@ -1,16 +1,31 @@
-import { Component, computed, input } from '@angular/core'
+import { Component, computed, input, output } from '@angular/core'
 import { Database } from '../../../types/database.types'
 import { Card } from 'primeng/card'
 import { Tag } from 'primeng/tag'
+import { Select } from 'primeng/select'
+import { FormsModule } from '@angular/forms'
 
 @Component({
   selector: 'app-competence-card',
-  imports: [Card, Tag],
+  imports: [Card, Tag, Select, FormsModule],
   templateUrl: './competence-card.html',
   styleUrl: './competence-card.scss',
 })
 export class CompetenceCard {
+
   competence = input.required<Database['public']['Views']['view_livret_competence']['Row']>()
+
+  canEditMaitrise = input.required<boolean>()
+
+  maitriseChanged = output<{ competenceId: string; newMaitrise: string }>()
+  maitriseOptions = ['Neutre', 'A revoir', 'Moyen', 'Acquis']
+
+  onChange(event: any) {
+    this.maitriseChanged.emit({
+      competenceId: this.competence().competence_id!,
+      newMaitrise: event.value,
+    })
+  }
 
   severity = computed(() => {
     const maitrise = this.competence().maitrise

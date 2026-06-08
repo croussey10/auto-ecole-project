@@ -1,0 +1,23 @@
+@if (resourceEleves.isLoading()) {
+  <div class="flex justify-content-center py-6">
+    <p-progress-spinner/>
+  </div>
+} @else {
+  @for (eleve of eleves(); track eleve.id) {
+    <app-eleve-card
+      [eleve]="eleve"
+      (eleveToOpenLivret)="openLivret($event)"
+    />
+  }
+}
+
+<p-dialog header="{{eleveToOpenLivret()?.prenom}} {{eleveToOpenLivret()?.nom}}" [modal]="true" [(visible)]="visibleDialog">
+  <span class="p-text-secondary block mb-8"></span>
+  @if (eleveToOpenLivret()) {
+    <app-livret-apprentissage
+      [eleveTargetId]="eleveToOpenLivret()!.id"
+      [canEditMaitrise]="true"
+    />
+  }
+</p-dialog>
+

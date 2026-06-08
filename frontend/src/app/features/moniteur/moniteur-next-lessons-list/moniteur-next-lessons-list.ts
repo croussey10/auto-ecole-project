@@ -8,10 +8,11 @@ import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout'
 import {toSignal} from '@angular/core/rxjs-interop'
 import {AuthError} from '@supabase/supabase-js';
 import {MessageService} from 'primeng/api';
+import { ProgressSpinner } from 'primeng/progressspinner'
 
 @Component({
   selector: 'app-moniteur-next-lessons-list',
-  imports: [NextLessonCard, Card, ScrollPanel],
+  imports: [NextLessonCard, Card, ScrollPanel, ProgressSpinner],
   templateUrl: './moniteur-next-lessons-list.html',
   styleUrl: './moniteur-next-lessons-list.scss',
 })
@@ -28,7 +29,7 @@ export class MoniteurNextLessonsList {
 
   resourceReservations = resource({
     params: () => this.profile(),
-    loader: async ({params}) => {
+    loader: async ({ params }) => {
       if (!params) return null
       return await this.reservationService.getReservations(params.id, 'moniteur')
     },

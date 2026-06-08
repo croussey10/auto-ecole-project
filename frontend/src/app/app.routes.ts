@@ -9,6 +9,7 @@ import {schoolGuard} from './core/guards/school-guard'
 import {EleveReservations} from './features/eleve/eleve-reservations/eleve-reservations';
 import {MoniteurReservations} from "./features/moniteur/moniteur-reservations/moniteur-reservations";
 import {LivretApprentissage} from "./features/eleve/livret-apprentissage/livret-apprentissage";
+import { ElevesList } from './features/moniteur/eleves-list/eleves-list'
 
 export const routes: Routes = [
   { path: '', redirectTo: 'ecole-introuvable', pathMatch: 'full' },
@@ -47,5 +48,12 @@ export const routes: Routes = [
     component: LivretApprentissage,
     canActivate: [roleGuard],
     data: { roles: ['eleve'] },
+  },
+
+  {
+    path: 'moniteur/eleves',
+    component: ElevesList,
+    canActivate: [roleGuard],
+    data: { roles: ['moniteur'] },
   },
 ]

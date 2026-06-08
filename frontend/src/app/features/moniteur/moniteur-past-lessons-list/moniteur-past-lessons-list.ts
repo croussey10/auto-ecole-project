@@ -6,10 +6,11 @@ import {ScrollPanel} from 'primeng/scrollpanel'
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout'
 import {toSignal} from '@angular/core/rxjs-interop'
 import {MoniteurPastLessonCard} from '../moniteur-past-lesson-card/moniteur-past-lesson-card';
+import { ProgressSpinner } from 'primeng/progressspinner'
 
 @Component({
   selector: 'app-moniteur-past-lessons-list',
-  imports: [Card, ScrollPanel, MoniteurPastLessonCard],
+  imports: [Card, ScrollPanel, MoniteurPastLessonCard, ProgressSpinner],
   templateUrl: './moniteur-past-lessons-list.html',
   styleUrl: './moniteur-past-lessons-list.scss',
 })
@@ -25,7 +26,7 @@ export class MoniteurPastLessonsList {
 
   resourceReservations = resource({
     params: () => this.profile(),
-    loader: async ({params}) => {
+    loader: async ({ params }) => {
       if (!params) return null
       return await this.reservationService.getReservations(params.id, 'moniteur')
     },

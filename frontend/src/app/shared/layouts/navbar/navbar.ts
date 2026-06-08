@@ -31,13 +31,26 @@ export class Navbar {
   onglets = computed(() => {
     const profileRole = this.profile()?.role
     if (!profileRole) return []
-    return [
+    const menu = [
       { label: 'Calendrier', icon: 'pi pi-calendar', link: `${profileRole}/calendrier` },
       { label: 'Mes heures', icon: 'pi pi-clock', link: `${profileRole}/reservations` },
-      { label: "Livret d'apprentissage", icon: 'pi pi-book', link: `${profileRole}/livret-apprentissage` },
       { label: 'Mon compte', icon: 'pi pi-user', link: `${profileRole}/compte` },
-      { label: 'Achats', icon: 'pi pi-wallet', link: `${profileRole}/achats` },
     ]
+
+    if (profileRole == 'eleve') {
+      menu.push(
+        {
+          label: "Livret d'apprentissage",
+          icon: 'pi pi-book',
+          link: `${profileRole}/livret-apprentissage`,
+        },
+        { label: 'Achats', icon: 'pi pi-wallet', link: `${profileRole}/achats` },
+      )
+    } else if (profileRole == 'moniteur') {
+      menu.push({ label: 'Eleves', icon: 'pi pi-users', link: `${profileRole}/eleves` })
+    }
+
+    return menu
   })
 
   async logout() {
