@@ -3,14 +3,14 @@ import { LivretApprentissageService } from '../../../core/services/database/livr
 import { ProfileService } from '../../../core/services/auth/profile-service'
 import { CompetenceCard } from '../competence-card/competence-card'
 import { FormsModule } from '@angular/forms'
-import { SelectButton } from 'primeng/selectbutton'
 import { InputText } from 'primeng/inputtext'
 import { ProgressSpinner } from 'primeng/progressspinner'
 import { FeedbackMessageService } from '../../../core/services/utility/feedback-message-service'
+import { MultiSelect } from 'primeng/multiselect'
 
 @Component({
   selector: 'app-livret-apprentissage',
-  imports: [CompetenceCard, FormsModule, SelectButton, InputText, ProgressSpinner],
+  imports: [CompetenceCard, FormsModule, InputText, ProgressSpinner, MultiSelect],
   templateUrl: './livret-apprentissage.html',
   styleUrl: './livret-apprentissage.scss',
 })
@@ -71,11 +71,15 @@ export class LivretApprentissage {
     if (!targetId) return
     try {
       await this.livretApprentissageService.updateCompetence(targetId, competenceId, newMaitrise)
-      this.feedbackMessage.successFeedbackMessage('Succes', "La maitrise de l'élève à été modifier avec succès !")
+      this.feedbackMessage.successFeedbackMessage(
+        'Succes',
+        "La maitrise de l'élève à été modifier avec succès !",
+      )
       this.resourceCompetences.reload()
     } catch (error: any) {
       const errorCode = error?.code || 'Erreur inconnue'
-      const errorDetail = error?.message || "Une erreur inattendue s'est produite lors de la modification."
+      const errorDetail =
+        error?.message || "Une erreur inattendue s'est produite lors de la modification."
       this.feedbackMessage.errorFeedbackMessage(errorCode, errorDetail)
     }
   }

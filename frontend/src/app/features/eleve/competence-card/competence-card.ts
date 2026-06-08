@@ -12,7 +12,6 @@ import { FormsModule } from '@angular/forms'
   styleUrl: './competence-card.scss',
 })
 export class CompetenceCard {
-
   competence = input.required<Database['public']['Views']['view_livret_competence']['Row']>()
 
   canEditMaitrise = input.required<boolean>()
@@ -26,6 +25,22 @@ export class CompetenceCard {
       newMaitrise: event.value,
     })
   }
+
+  color = computed(() => {
+    const maitrise = this.competence().maitrise
+    switch (maitrise) {
+      case 'Neutre':
+        return 'var(--p-slate-400)'
+      case 'A revoir':
+        return 'var(--p-red-500)'
+      case 'Moyen':
+        return 'var(--p-amber-500)'
+      case 'Acquis':
+        return 'var(--p-emerald-500)'
+      default:
+        return 'var(--p-emerald-500)'
+    }
+  })
 
   severity = computed(() => {
     const maitrise = this.competence().maitrise

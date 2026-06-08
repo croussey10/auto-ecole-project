@@ -1,10 +1,11 @@
 <p-card class="mb-2">
   <div class="flex align-items-center justify-content-between">
-    <div>{{competence().competence_nom}}</div>
+    <div>{{ competence().competence_nom }}</div>
     @if (!canEditMaitrise()) {
-      <p-tag [severity]="severity()">{{competence().maitrise}}</p-tag>
+      <p-tag [severity]="severity()">{{ competence().maitrise }}</p-tag>
     } @else {
       <p-select
+        [style]="{'--p-select-border-color': color(), '--p-select-focus-border-color': color()}"
         [options]="maitriseOptions"
         [(ngModel)]="competence().maitrise"
         (onChange)="onChange($event)"

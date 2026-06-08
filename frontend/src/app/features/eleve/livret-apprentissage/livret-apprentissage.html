@@ -1,17 +1,29 @@
-<div class="card flex justify-center">
-  <p-select-button [options]="maitrises" [(ngModel)]="selectedMaitrises" multiple="true"/>
-</div>
-<div class="card flex justify-center">
-  <p-select-button [options]="categories" [(ngModel)]="selectedCategories" multiple="true"/>
-</div>
-<div class="card flex flex-column justify-center">
-  <label for="search">Recherche</label>
-  <input
-    type="text"
-    id="search"
-    pInputText
-    [(ngModel)]="search"
-  >
+<div class="flex align-items-center justify-content-center gap-2 mb-2">
+  <div>
+    <input
+      type="text"
+      id="search"
+      pInputText
+      placeholder="rechercher..."
+      [(ngModel)]="search"
+    >
+  </div>
+  <div>
+    <p-multi-select
+      [options]="maitrises"
+      [(ngModel)]="selectedMaitrises"
+      placeholder="Select maitrises"
+      display="chip"
+    />
+  </div>
+  <div>
+    <p-multi-select
+      [options]="categories"
+      [(ngModel)]="selectedCategories"
+      placeholder="Select compétences"
+      display="chip"
+    />
+  </div>
 </div>
 
 @if (resourceCompetences.isLoading()) {
