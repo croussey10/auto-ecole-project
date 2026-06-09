@@ -10,6 +10,7 @@ import {EleveReservations} from './features/eleve/eleve-reservations/eleve-reser
 import {MoniteurReservations} from "./features/moniteur/moniteur-reservations/moniteur-reservations";
 import {LivretApprentissage} from "./features/eleve/livret-apprentissage/livret-apprentissage";
 import { ElevesList } from './features/moniteur/eleves-list/eleves-list'
+import { ForfaitsList } from './features/eleve/forfaits-list/forfaits-list'
 
 export const routes: Routes = [
   { path: '', redirectTo: 'ecole-introuvable', pathMatch: 'full' },
@@ -55,5 +56,12 @@ export const routes: Routes = [
     component: ElevesList,
     canActivate: [roleGuard],
     data: { roles: ['moniteur'] },
+  },
+
+  {
+    path: 'eleve/forfaits',
+    component: ForfaitsList,
+    canActivate: [roleGuard],
+    data: { roles: ['eleve'] },
   },
 ]

@@ -44,6 +44,7 @@ export class Navbar {
           icon: 'pi pi-book',
           link: `${profileRole}/livret-apprentissage`,
         },
+        { label: 'Forfaits', icon: 'pi pi-wallet', link: `${profileRole}/forfaits` },
         { label: 'Achats', icon: 'pi pi-wallet', link: `${profileRole}/achats` },
       )
     } else if (profileRole == 'moniteur') {
