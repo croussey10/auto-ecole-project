@@ -2,10 +2,11 @@ import { Component, inject, resource } from '@angular/core'
 import { ProfileService } from '../../../core/services/auth/profile-service'
 import { ForfaitService } from '../../../core/services/database/forfait-service'
 import { ForfaitCard } from '../forfait-card/forfait-card'
+import { ProgressSpinner } from 'primeng/progressspinner'
 
 @Component({
   selector: 'app-forfaits-list',
-  imports: [ForfaitCard],
+  imports: [ForfaitCard, ProgressSpinner],
   templateUrl: './forfaits-list.html',
   styleUrl: './forfaits-list.scss',
 })

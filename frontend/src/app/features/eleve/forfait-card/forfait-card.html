@@ -1,19 +1,28 @@
-<p-card>
-  <div>
-    <div>
-      {{ forfait().nom }}
-    </div>
-    <div>
-      {{ forfait().prix }}€
-    </div>
-    <div>
-      {{ forfait().description }}
-    </div>
-    <div>
-      {{ forfait().nombre_heures }}h
-    </div>
-    <p-button
-      label="Acheter"
-    />
+<p-card class="mb-2 w-20rem">
+  <ng-template #title>
+    <div class="text-xl font-bold text-uppercase">{{ forfait().nom }}</div>
+  </ng-template>
+
+  <ng-template #subtitle>
+    <div class="text-3xl text-primary font-bold mt-2">{{ forfait().prix }} €</div>
+  </ng-template>
+
+  <div class="flex align-items-center gap-2 mb-3 font-semibold text-color-secondary">
+    <i class="pi pi-clock"></i>
+    <span>{{ forfait().nombre_heures }} heures de conduite</span>
   </div>
+
+  <p class="m-0 line-height-3">
+    {{ forfait().description }}
+  </p>
+
+  <ng-template #footer>
+    <div class="mt-4">
+      <p-button
+        label="Acheter"
+        icon="pi pi-shopping-cart"
+        styleClass="w-full"
+      />
+    </div>
+  </ng-template>
 </p-card>
