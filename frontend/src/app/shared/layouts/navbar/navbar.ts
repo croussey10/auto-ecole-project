@@ -35,15 +35,12 @@ export class Navbar {
       { label: 'Calendrier', icon: 'pi pi-calendar', link: `${profileRole}/calendrier` },
       { label: 'Mes heures', icon: 'pi pi-clock', link: `${profileRole}/reservations` },
       { label: 'Mon compte', icon: 'pi pi-user', link: `${profileRole}/compte` },
+      { label: 'Dashboard', icon: 'pi pi-globe', link: `${profileRole}/dashboard` },
     ]
 
     if (profileRole == 'eleve') {
       menu.push(
-        {
-          label: "Livret d'apprentissage",
-          icon: 'pi pi-book',
-          link: `${profileRole}/livret-apprentissage`,
-        },
+        { label: "Livret d'apprentissage", icon: 'pi pi-book', link: `${profileRole}/livret-apprentissage` },
         { label: 'Forfaits', icon: 'pi pi-wallet', link: `${profileRole}/forfaits` },
         { label: 'Achats', icon: 'pi pi-wallet', link: `${profileRole}/achats` },
       )

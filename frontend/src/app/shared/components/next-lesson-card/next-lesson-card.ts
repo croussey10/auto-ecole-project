@@ -13,7 +13,7 @@ export class NextLessonCard {
 
   cancelTrigger = output()
   loadingCancel = input.required<boolean>();
-  reservation = input.required<Database["public"]["Views"]["view_reservations"]["Row"]>()
+  reservation = input.required<Database["public"]["Views"]["view_reservation"]["Row"]>()
   personRole = input.required<string>()
   personName = input.required<string>()
 

@@ -11,9 +11,9 @@ export class ReservationService {
   async getReservations(
     profileId: string,
     role: 'eleve' | 'moniteur',
-  ): Promise<Database['public']['Views']['view_reservations']['Row'][]> {
+  ): Promise<Database['public']['Views']['view_reservation']['Row'][]> {
     const { data, error } = await this.authService.supabase
-      .from('view_reservations')
+      .from('view_reservation')
       .select('*')
       .order('date_creneau', { ascending: true })
       .order('heure_debut', { ascending: true })

@@ -1,0 +1,13 @@
+@if (resourceAchats.isLoading()) {
+  <div class="flex justify-content-center py-6">
+    <p-progress-spinner/>
+  </div>
+} @else {
+  <p-card>
+    @for (achat of achats(); track achat.id) {
+      <app-achat-historique-card
+        [achat]="achat"
+      />
+    }
+  </p-card>
+}

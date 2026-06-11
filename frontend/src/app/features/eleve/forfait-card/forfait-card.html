@@ -22,6 +22,8 @@
         label="Acheter"
         icon="pi pi-shopping-cart"
         styleClass="w-full"
+        (onClick)="buyForfait()"
+        [loading]="loadingAchat()"
       />
     </div>
   </ng-template>

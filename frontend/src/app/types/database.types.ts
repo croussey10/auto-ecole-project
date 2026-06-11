@@ -19,7 +19,9 @@ export type Database = {
           auto_ecole_id: string
           date_achat: string
           eleve_id: string
+          forfait_heures: number
           forfait_id: string | null
+          forfait_nom: string
           id: string
           prix_paye: number
           statut_paiement: string
@@ -28,7 +30,9 @@ export type Database = {
           auto_ecole_id: string
           date_achat?: string
           eleve_id: string
+          forfait_heures?: number
           forfait_id?: string | null
+          forfait_nom?: string
           id?: string
           prix_paye: number
           statut_paiement?: string
@@ -37,7 +41,9 @@ export type Database = {
           auto_ecole_id?: string
           date_achat?: string
           eleve_id?: string
+          forfait_heures?: number
           forfait_id?: string | null
+          forfait_nom?: string
           id?: string
           prix_paye?: number
           statut_paiement?: string
@@ -165,6 +171,7 @@ export type Database = {
           created_at: string
           description: string | null
           id: string
+          is_forfait: boolean | null
           nom: string
           nombre_heures: number
           prix: number
@@ -175,6 +182,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          is_forfait?: boolean | null
           nom: string
           nombre_heures: number
           prix: number
@@ -185,6 +193,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          is_forfait?: boolean | null
           nom?: string
           nombre_heures?: number
           prix?: number
@@ -301,7 +310,7 @@ export type Database = {
           date_naissance: string | null
           forfait_id: string | null
           heures_effectuees: number | null
-          heures_restantes: number | null
+          heures_restantes: number
           id: string
           nom: string
           prenom: string
@@ -315,7 +324,7 @@ export type Database = {
           date_naissance?: string | null
           forfait_id?: string | null
           heures_effectuees?: number | null
-          heures_restantes?: number | null
+          heures_restantes?: number
           id?: string
           nom: string
           prenom: string
@@ -329,7 +338,7 @@ export type Database = {
           date_naissance?: string | null
           forfait_id?: string | null
           heures_effectuees?: number | null
-          heures_restantes?: number | null
+          heures_restantes?: number
           id?: string
           nom?: string
           prenom?: string
@@ -457,7 +466,7 @@ export type Database = {
           },
         ]
       }
-      view_reservations: {
+      view_reservation: {
         Row: {
           auto_ecole_id: string | null
           commentaire_moniteur: string | null
@@ -500,7 +509,10 @@ export type Database = {
       }
     }
     Functions: {
-      [_ in never]: never
+      valider_achat_forfait: {
+        Args: { p_eleve_id: string; p_forfait_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
       action_type:

@@ -15,7 +15,7 @@ import { MultiSelect } from 'primeng/multiselect'
   styleUrl: './livret-apprentissage.scss',
 })
 export class LivretApprentissage {
-  feedbackMessage = inject(FeedbackMessageService)
+  feedbackMessageService = inject(FeedbackMessageService)
   livretApprentissageService = inject(LivretApprentissageService)
   profileService = inject(ProfileService)
 
@@ -71,7 +71,7 @@ export class LivretApprentissage {
     if (!targetId) return
     try {
       await this.livretApprentissageService.updateCompetence(targetId, competenceId, newMaitrise)
-      this.feedbackMessage.successFeedbackMessage(
+      this.feedbackMessageService.successFeedbackMessage(
         'Succes',
         "La maitrise de l'élève à été modifier avec succès !",
       )
@@ -80,7 +80,7 @@ export class LivretApprentissage {
       const errorCode = error?.code || 'Erreur inconnue'
       const errorDetail =
         error?.message || "Une erreur inattendue s'est produite lors de la modification."
-      this.feedbackMessage.errorFeedbackMessage(errorCode, errorDetail)
+      this.feedbackMessageService.errorFeedbackMessage(errorCode, errorDetail)
     }
   }
 }

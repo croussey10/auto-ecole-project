@@ -16,4 +16,12 @@ export class ForfaitService {
     if (error) throw error
     return data
   }
+
+  async buyForfait(eleveId: string, forfaitId: string) {
+    const { error } =  await this.authService.supabase.rpc('valider_achat_forfait', {
+      p_eleve_id: eleveId,
+      p_forfait_id: forfaitId,
+    })
+    if (error) throw error
+  }
 }
