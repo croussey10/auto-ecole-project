@@ -38,4 +38,29 @@ export class ReservationService {
       .eq('id', reservation_id)
     if (error) throw error
   }
+
+  async createReservation(
+    auto_ecole_id: string,
+    moniteur_id: string,
+    date_creneau: string,
+    heure_debut: string,
+    vehicule: string,
+    is_manuelle: boolean,
+  ) {
+    const { data, error } = await this.authService.supabase
+      .from('reservation')
+      .insert([
+        {
+          auto_ecole_id: auto_ecole_id,
+          moniteur_id: moniteur_id,
+          date_creneau: date_creneau,
+          heure_debut: heure_debut,
+          vehicule: vehicule,
+          is_manuelle: is_manuelle,
+        },
+      ])
+      .select()
+    if (error) throw error
+    return data
+  }
 }

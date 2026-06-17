@@ -1,6 +1,7 @@
 import {
   ApplicationConfig,
   inject,
+  LOCALE_ID,
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core'
@@ -15,6 +16,7 @@ import { AuthService } from './core/services/auth/auth-service'
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    { provide: LOCALE_ID, useValue: 'fr-FR' },
     provideAppInitializer(initializeAuthAndProfile),
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes, withComponentInputBinding()),

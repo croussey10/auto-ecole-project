@@ -1,0 +1,53 @@
+<app-calendar-grid
+  [reservations]="reservations()"
+  (dayClicked)="onClickedDay($event)"
+/>
+
+<p-dialog
+  [visible]="modaleVisible()"
+  (visibleChange)="closeModal()" [modal]="true"
+  header="Proposer un créneau de conduite"
+  [style]="{ width: '25rem' }">
+
+  <div class="flex flex-column gap-3">
+    <p class="m-0 font-semibold text-color-secondary">
+      Date sélectionnée : {{ selectedDate() | date:'dd MMMM yyyy' }}
+    </p>
+  </div>
+
+  <div class="p-3 surface-100 border-round-md text-center text-sm font-semibold">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="field">
+        <label for="title">Vehicule</label>
+        <input formControlName="vehicule" id="vehicule" type="text" pInputText class="w-full">
+        <small class="invalid-feedback">Le nom du vehicule est requis (min 3 carac.)</small>
+      </div>
+      <div class="field">
+        <label for="heure">Heure de réservation</label>
+        <p-select
+          id="heure"
+          [options]="availableHours"
+          formControlName="hour"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Sélectionnez une heure"
+        />
+        <small class="invalid-feedback">Veuillez sélectionner une heure !</small>
+      </div>
+      <div class="field-checkbox">
+        <label for="boiteManuelle">Boîte manuelle</label>
+        <p-checkbox
+          formControlName="isManual"
+          [binary]="true"
+          inputId="boiteManuelle">
+        </p-checkbox>
+      </div>
+      <p-button
+        label="Valider"
+        type="submit"
+        [loading]="loadingSubmit()"
+      />
+    </form>
+  </div>
+
+</p-dialog>

@@ -1,0 +1,34 @@
+.monthly-grid-container {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+.case-jour {
+  min-height: 110px;
+  background-color: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 10px 0 rgba(var(--primary-color-rgb), 0.2);
+    transform: translateY(-2px);
+  }
+}
+
+.jour-hors-mois {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.jour-passe {
+  opacity: 0.25;
+  background-color: var(--surface-ground);
+
+  &:hover {
+    border-color: var(--surface-border) !important;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+}

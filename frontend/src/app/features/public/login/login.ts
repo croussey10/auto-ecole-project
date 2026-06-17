@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, signal } from '@angular/core'
+import { Component, inject, input, signal } from '@angular/core'
 import { AuthCard } from '../../../shared/components/auth-card/auth-card'
 import { InputText } from 'primeng/inputtext'
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
@@ -11,7 +11,6 @@ import { ProfileRoutingService } from '../../../core/services/auth/profile-routi
 import { AuthService } from '../../../core/services/auth/auth-service'
 import { AuthError } from '@supabase/supabase-js'
 import { FeedbackMessageService } from '../../../core/services/utility/feedback-message-service'
-import { Database } from '../../../types/database.types'
 
 @Component({
   selector: 'app-login',

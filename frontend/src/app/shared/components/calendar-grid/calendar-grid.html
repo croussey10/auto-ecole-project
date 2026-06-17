@@ -1,0 +1,42 @@
+<div class="scroller-calendrier" style="overflow-y: auto; height: 80vh;" (scroll)="onScroll($event)">
+  @for (month of monthsList(); track month.monthName) {
+    <div class="bloc-mois mb-6">
+
+      <h2 class="text-3xl font-bold text-uppercase mb-4 text-primary">{{ month.monthName }}</h2>
+
+      <div class="monthly-grid-container mb-2 text-color-secondary font-bold text-sm">
+        <div class="text-center">LUN</div>
+        <div class="text-center">MAR</div>
+        <div class="text-center">MER</div>
+        <div class="text-center">JEU</div>
+        <div class="text-center">VEN</div>
+        <div class="text-center">SAM</div>
+        <div class="text-center">DIM</div>
+      </div>
+
+      <div class="monthly-grid-container">
+        @for (cell of month.days; track cell.date) {
+          <div
+            class="case-jour p-2 border-round-md flex flex-column gap-1"
+            [class.jour-hors-mois]="!cell.isCurrentMonth"
+            [class.jour-passe]="cell.isPast"
+            [class.cursor-pointer]="!cell.isPast"
+            (click)="!cell.isPast && openModal(cell.date)">
+            <span class="align-self-end font-bold text-lg mb-2">{{ cell.dayNumber }}</span>
+            <div class="flex flex-column gap-1 w-full overflow-y-auto">
+              @for (reservation of cell.reservations; track reservation.id) {
+                <div
+                  class="text-xs p-1 border-round text-white font-semibold text-center shadow-1"
+                  [class.bg-blue-500]="!reservation.eleve_id"
+                  [class.bg-green-500]="reservation.eleve_id"
+                  (click)="$event.stopPropagation()">
+                  {{ reservation.heure_debut?.substring(0, 5) }} - {{ reservation.vehicule }}
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>
