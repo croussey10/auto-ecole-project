@@ -1,0 +1,87 @@
+<div class="p-4 flex flex-column gap-4">
+
+  <div class="flex flex-wrap gap-3 align-items-center surface-card p-3 border-round shadow-1">
+
+    <div class="flex flex-column gap-1">
+      <span class="text-xs font-semibold text-color-secondary">Boîte de vitesses</span>
+      <p-select
+        [options]="transmissionOptions"
+        [ngModel]="selectedTransmission()"
+        (ngModelChange)="selectedTransmission.set($event)"
+        optionLabel="label"
+        optionValue="value"
+        styleClass="w-15rem"/>
+    </div>
+
+    <div class="flex flex-column gap-1">
+      <span class="text-xs font-semibold text-color-secondary">Moniteurs</span>
+      <p-multiSelect
+        [options]="instructorOptions()"
+        [ngModel]="selectedInstructors()"
+        (ngModelChange)="selectedInstructors.set($event)"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Tous les moniteurs"
+        display="chip"
+        styleClass="w-20rem"/>
+    </div>
+
+    @if (calendarResource.isLoading()) {
+      <div class="ml-auto text-sm text-color-secondary font-semibold">
+        Mise à jour du calendrier...
+      </div>
+    }
+  </div>
+
+  <app-calendar-grid
+    role="eleve"
+    [reservations]="filteredReservations()"
+    (reservationClicked)="handleBookingClick($event)"
+  />
+</div>
+
+<p-dialog
+  [visible]="isModalVisible()"
+  (visibleChange)="isModalVisible.set(false)"
+  [modal]="true"
+  header="Détails du créneau"
+  [style]="{ width: '25rem' }">
+
+  @if (selectedBooking()) {
+    <div class="flex flex-column gap-3 mt-2">
+      <div class="surface-100 p-3 border-round">
+        <p class="m-0 mb-2"><strong>Moniteur
+          :</strong> {{ selectedBooking().moniteur_prenom }} {{ selectedBooking().moniteur_nom }}</p>
+        <p class="m-0 mb-2"><strong>Véhicule :</strong> {{ selectedBooking().vehicule }}
+          ({{ selectedBooking().is_manuelle ? 'Manuelle' : 'Auto' }})</p>
+        <p class="m-0 font-semibold text-primary"><strong>Date
+          :</strong> {{ selectedBooking().date_creneau | date:'dd MMMM yyyy' }}
+          à {{ selectedBooking().heure_debut.substring(0, 5) }}</p>
+      </div>
+
+      <div class="flex justify-content-end gap-2 mt-3">
+        <p-button label="Retour" severity="secondary" (click)="isModalVisible.set(false)"/>
+
+        @if (isMyBooking()) {
+          <p-button
+            label="Annuler mon heure"
+            severity="danger"
+            [disabled]="!canCancel()"
+            (click)="cancelHour()"/>
+        } @else {
+          <p-button
+            label="Réserver cette heure"
+            severity="success"
+            (click)="reserverHeure()"/>
+        }
+      </div>
+
+      @if (isMyBooking() && !canCancel()) {
+        <small class="text-red-500 font-semibold mt-2 block text-center">
+          <i class="pi pi-exclamation-triangle mr-1"></i>
+          Annulation impossible à moins de 48h. Veuillez contacter l'auto-école.
+        </small>
+      }
+    </div>
+  }
+</p-dialog>

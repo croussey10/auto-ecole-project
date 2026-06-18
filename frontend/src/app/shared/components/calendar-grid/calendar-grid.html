@@ -20,16 +20,16 @@
             class="case-jour p-2 border-round-md flex flex-column gap-1"
             [class.jour-hors-mois]="!cell.isCurrentMonth"
             [class.jour-passe]="cell.isPast"
-            [class.cursor-pointer]="!cell.isPast"
-            (click)="!cell.isPast && openModal(cell.date)">
+            [class.cursor-pointer]="!cell.isPast && role() === 'moniteur'"
+            (click)="!cell.isPast && role() === 'moniteur' && openModal(cell.date)">
             <span class="align-self-end font-bold text-lg mb-2">{{ cell.dayNumber }}</span>
             <div class="flex flex-column gap-1 w-full overflow-y-auto">
               @for (reservation of cell.reservations; track reservation.id) {
                 <div
-                  class="text-xs p-1 border-round text-white font-semibold text-center shadow-1"
+                  class="text-xs p-1 border-round text-white font-semibold text-center shadow-1 hover:shadow-3 transition-all cursor-pointer"
                   [class.bg-blue-500]="!reservation.eleve_id"
                   [class.bg-green-500]="reservation.eleve_id"
-                  (click)="$event.stopPropagation()">
+                  (click)="$event.stopPropagation(); clickReservation(reservation)">
                   {{ reservation.heure_debut?.substring(0, 5) }} - {{ reservation.vehicule }}
                 </div>
               }

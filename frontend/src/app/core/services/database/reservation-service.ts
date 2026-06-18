@@ -22,6 +22,30 @@ export class ReservationService {
     return data
   }
 
+  async getAvailableReservations(): Promise<
+    Database['public']['Views']['view_reservation']['Row'][]
+  > {
+    const { data, error } = await this.authService.supabase
+      .from('view_reservation')
+      .select('*')
+      .order('date_creneau', { ascending: true })
+      .order('heure_debut', { ascending: true })
+      .is('eleve_id', null)
+    if (error) throw error
+    return data
+  }
+
+  async getStudentCalendarData(
+    studentId: string,
+  ): Promise<Database['public']['Views']['view_reservation']['Row'][]> {
+    const [myReservations, availableBookings] = await Promise.all([
+      this.getReservations(studentId, 'eleve'),
+      this.getAvailableReservations(),
+    ])
+
+    return [...myReservations, ...availableBookings]
+  }
+
   async cancelReservation(reservation_id: string) {
     const { data, error } = await this.authService.supabase
       .from('reservation')
@@ -62,5 +86,13 @@ export class ReservationService {
       .select()
     if (error) throw error
     return data
+  }
+
+  async claimReservation(reservationId: string, eleveId: string) {
+    const { error } = await this.authService.supabase
+      .from('reservation')
+      .update({ eleve_id: eleveId })
+      .eq('id', reservationId)
+    if (error) throw error
   }
 }

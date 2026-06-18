@@ -12,7 +12,8 @@ import {LivretApprentissage} from "./features/eleve/livret-apprentissage/livret-
 import { ElevesList } from './features/moniteur/eleves-list/eleves-list'
 import { ForfaitsList } from './features/eleve/forfaits-list/forfaits-list'
 import { AchatsHistoriqueList } from './features/eleve/achats-historique-list/achats-historique-list'
-import { MoniteurCalendar } from './features/moniteur/calendar/moniteur-calendar'
+import { MoniteurCalendar } from './features/moniteur/moniteur-calendar/moniteur-calendar'
+import {EleveCalendar} from './features/eleve/eleve-calendar/eleve-calendar';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'ecole-introuvable', pathMatch: 'full' },
@@ -79,5 +80,11 @@ export const routes: Routes = [
     component: MoniteurCalendar,
     canActivate: [roleGuard],
     data: { roles: ['moniteur'] },
+  },
+  {
+    path: 'eleve/calendar',
+    component: EleveCalendar,
+    canActivate: [roleGuard],
+    data: { roles: ['eleve'] },
   },
 ]

@@ -33,6 +33,13 @@ export class CalendarGrid implements OnInit {
   reservations = input<Database['public']['Views']['view_reservation']['Row'][]>([])
   dayClicked = output<Date>()
 
+  clickReservation(reservation: Database['public']['Views']['view_reservation']['Row']) {
+    this.reservationClicked.emit(reservation)
+  }
+
+  role = input<'moniteur' | 'eleve'>('moniteur')
+  reservationClicked = output<Database['public']['Views']['view_reservation']['Row']>()
+
   oldestMonthDate: Date = new Date()
   newestMonthDate: Date = new Date()
 
