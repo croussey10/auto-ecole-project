@@ -1,59 +1,35 @@
-# Frontend
+# 🚗 DriveConnect (SaaS Auto-École)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.12.
+DriveConnect est une plateforme SaaS (Software as a Service) multi-écoles conçue pour digitaliser et simplifier la relation entre les élèves et leurs moniteurs d'auto-école.
 
-## Development server
+## 🚀 1. Le Produit
 
-To start a local development server, run:
+Aujourd'hui, de nombreuses auto-écoles fonctionnent encore avec des processus papier, générant frustration pour les élèves et perte de temps pour les moniteurs. DriveConnect résout ce problème en proposant une plateforme centralisée et intuitive.
 
+### Cibles et Proposition de valeur
+* **Pour les Élèves :** Réservation d'heures de conduite en autonomie, suivi en temps réel du forfait (heures effectuées/restantes), et accès à un livret d'apprentissage 100% numérique.
+* **Pour les Moniteurs :** Gestion simplifiée du planning, création de créneaux de disponibilité, évaluation dynamique des compétences des élèves embarqués, et ajout de feedbacks pédagogiques post-leçon.
+
+## 🏗️ 2. Architecture Technique
+
+Le projet repose sur une architecture moderne séparant clairement le client et la base de données.
+
+* **Front-End : Angular 18**
+  * Utilisation du nouveau moteur de réactivité (`Signals`, `computed`).
+  * Utilisation de la nouvelle API `resource()` pour une gestion asynchrone native et optimisée des appels réseau et des états de chargement.
+  * Composants UI implémentés via **PrimeNG** pour garantir un rendu professionnel et accessible.
+* **Back-End (BaaS) & Base de Données : Supabase (PostgreSQL)**
+  * Base de données relationnelle (PostgreSQL).
+  * Authentification multi-tenant gérée nativement.
+* **Sécurité & Résilience :**
+  * Sécurité stricte appliquée directement au niveau de la base de données via **Row Level Security (RLS)** pour interdire tout accès ou modification non autorisés entre les rôles.
+
+## ⚙️ 3. Prérequis & Installation Locale
+
+Pour faire tourner le projet sur votre machine locale, vous aurez besoin de **Node.js** (v18+) et de **npm**.
+
+1. **Cloner le dépôt :**
 ```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+   git clone https://github.com/votre-nom/drive-connect.git
+   cd drive-connect
+   npm install

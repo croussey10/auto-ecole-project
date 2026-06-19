@@ -20,7 +20,7 @@ export class NextLessonCard {
   canCancelReservation = computed(() => {
     const currentDate = Date.now()
     const reservationDate = new Date(
-      `${this.reservation().date_creneau} ${this.reservation().heure_debut}`,
+      `${this.reservation().date_creneau}T${this.reservation().heure_debut}`,
     ).getTime()
 
     return reservationDate - currentDate > 172800000
@@ -29,7 +29,7 @@ export class NextLessonCard {
   timerNextLesson = computed(() => {
     const currentDate = Date.now()
     const reservationDate = new Date(
-      `${this.reservation().date_creneau} ${this.reservation().heure_debut}`,
+      `${this.reservation().date_creneau}T${this.reservation().heure_debut}`,
     ).getTime()
 
     const diff = reservationDate - currentDate
@@ -41,9 +41,9 @@ export class NextLessonCard {
     const hours = Math.floor(resteMs / (1000 * 60 * 60))
     const minutes = Math.floor(resteMs / (1000 * 60)) % 60
 
-    if (hours <= 0) return `Dans ${minutes} minutes`
-    if (days <= 0) return `Dans ${hours} heures et ${minutes} minutes`
-    return `Dans ${days} jours, ${hours} heures et ${minutes} minutes`
+    if (days > 0) return `Dans ${days} jours, ${hours} heures et ${minutes} minutes`
+    if (hours > 0) return `Dans ${hours} heures et ${minutes} minutes`
+    return `Dans ${minutes} minutes`
   })
 
 }

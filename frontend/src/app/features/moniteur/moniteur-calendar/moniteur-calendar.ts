@@ -11,7 +11,7 @@ import { ProfileService } from '../../../core/services/auth/profile-service'
 import { format } from 'date-fns'
 import { FeedbackMessageService } from '../../../core/services/utility/feedback-message-service'
 import { Database } from '../../../types/database.types'
-import {InputText} from "primeng/inputtext";
+import { InputText } from 'primeng/inputtext'
 import { Tag } from 'primeng/tag'
 
 @Component({
@@ -35,13 +35,13 @@ export class MoniteurCalendar {
   reservationService = inject(ReservationService)
   profileService = inject(ProfileService)
 
-  modaleVisible = signal<boolean>(false)
+  modaleCreateReservationVisible = signal<boolean>(false)
   loadingSubmit = signal<boolean>(false)
   selectedDate = signal<Date>(new Date())
 
   reservations = computed(() => this.resourceReservations.value() || [])
 
-  isBookingModalVisible = signal<boolean>(false)
+  modaleDetailsReservationVisible = signal<boolean>(false)
   selectedReservation = signal<Database['public']['Views']['view_reservation']['Row'] | null>(null)
   loadingCancel = signal<boolean>(false)
 
@@ -85,11 +85,11 @@ export class MoniteurCalendar {
 
   onClickedDay(date: Date) {
     this.selectedDate.set(date)
-    this.modaleVisible.set(true)
+    this.modaleCreateReservationVisible.set(true)
   }
 
   closeModal() {
-    this.modaleVisible.set(false)
+    this.modaleCreateReservationVisible.set(false)
   }
 
   async submit() {
@@ -136,35 +136,46 @@ export class MoniteurCalendar {
 
   onReservationClicked(reservation: Database['public']['Views']['view_reservation']['Row']) {
     this.selectedReservation.set(reservation)
-    this.isBookingModalVisible.set(true)
+    this.modaleDetailsReservationVisible.set(true)
   }
 
-  closeBookingModal() {
-    this.isBookingModalVisible.set(false)
+  closeReservationDetailsModal() {
+    this.modaleDetailsReservationVisible.set(false)
     this.selectedReservation.set(null)
   }
 
-  isPastBooking(): boolean {
-    const booking = this.selectedReservation()
-    if (!booking) return false
-    const reservationDate = new Date(`${booking.date_creneau}T${booking.heure_debut}`).getTime()
+  isPastReservation(): boolean {
+    const reservation = this.selectedReservation()
+    if (!reservation) return false
+    const reservationDate = new Date(
+      `${reservation.date_creneau}T${reservation.heure_debut}`,
+    ).getTime()
     return reservationDate <= Date.now()
   }
 
-  async cancelBooking() {
-    const booking = this.selectedReservation()
-    if (!booking || !booking.id) return
+  async cancelReservation() {
+    const reservation = this.selectedReservation()
+    if (!reservation?.id) return
 
     this.loadingCancel.set(true)
     try {
-      await this.reservationService.cancelReservation(booking.id)
+      await this.reservationService.deleteReservation(reservation.id)
       this.feedbackMessageService.successFeedbackMessage('Succès', 'Le créneau a été annulé.')
-      this.closeBookingModal()
+      this.closeReservationDetailsModal()
       this.resourceReservations.reload()
     } catch (error: any) {
       this.feedbackMessageService.errorFeedbackMessage('Erreur', "Impossible d'annuler ce créneau.")
     } finally {
       this.loadingCancel.set(false)
     }
+  }
+
+  canCancel(): boolean {
+    const reservation = this.selectedReservation()
+    if (!reservation) return false
+    const reservationDate = new Date(
+      `${reservation.date_creneau}T${reservation.heure_debut}`,
+    ).getTime()
+    return reservationDate - Date.now() > 172800000 // 172800000 ms = 48h
   }
 }

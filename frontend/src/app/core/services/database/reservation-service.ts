@@ -42,7 +42,6 @@ export class ReservationService {
       this.getReservations(studentId, 'eleve'),
       this.getAvailableReservations(),
     ])
-
     return [...myReservations, ...availableBookings]
   }
 
@@ -53,6 +52,14 @@ export class ReservationService {
       .eq('id', reservation_id)
     if (error) throw error
     return data
+  }
+
+  async deleteReservation(reservation_id: string) {
+    const { error } = await this.authService.supabase
+      .from('reservation')
+      .delete()
+      .eq('id', reservation_id)
+    if (error) throw error
   }
 
   async updateCommentaireMoniteur(reservation_id: string, commentaire: string) {

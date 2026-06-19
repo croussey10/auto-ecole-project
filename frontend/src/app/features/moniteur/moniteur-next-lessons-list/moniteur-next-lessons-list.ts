@@ -63,7 +63,7 @@ export class MoniteurNextLessonsList {
     if (!reservationId) return
     try {
       this.idBeingCancelled.set(reservationId)
-      await this.reservationService.cancelReservation(reservationId)
+      await this.reservationService.deleteReservation(reservationId)
       this.resourceReservations.reload()
     } catch (error) {
       const authError = error as AuthError

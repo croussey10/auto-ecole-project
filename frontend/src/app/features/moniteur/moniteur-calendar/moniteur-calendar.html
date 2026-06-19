@@ -5,7 +5,7 @@
 />
 
 <p-dialog
-  [visible]="modaleVisible()"
+  [visible]="modaleCreateReservationVisible()"
   (visibleChange)="closeModal()" [modal]="true"
   header="Proposer un créneau de conduite"
   [style]="{ width: '25rem' }">
@@ -53,8 +53,8 @@
 </p-dialog>
 
 <p-dialog
-  [visible]="isBookingModalVisible()"
-  (visibleChange)="closeBookingModal()"
+  [visible]="modaleDetailsReservationVisible()"
+  (visibleChange)="closeReservationDetailsModal()"
   [modal]="true"
   header="Détails du créneau"
   [style]="{ width: '25rem' }">
@@ -85,7 +85,7 @@
           à {{ selectedReservation()?.heure_debut?.substring(0, 5) }}
         </p>
 
-        @if (isPastBooking()) {
+        @if (isPastReservation()) {
           <div class="mt-3 p-2 surface-200 border-round">
             <p class="m-0 text-sm font-bold text-color-secondary mb-1">Votre commentaire :</p>
             <p class="m-0 text-sm italic">
@@ -96,16 +96,24 @@
       </div>
 
       <div class="flex justify-content-end gap-2 mt-3">
-        <p-button label="Fermer" severity="secondary" (click)="closeBookingModal()"/>
+        <p-button label="Fermer" severity="secondary" (click)="closeReservationDetailsModal()"/>
 
-        @if (!isPastBooking()) {
+        @if (!isPastReservation()) {
           <p-button
             label="Supprimer le créneau"
             severity="danger"
-            (click)="cancelBooking()"
+            [disabled]="!canCancel()"
+            (click)="cancelReservation()"
             [loading]="loadingCancel()"/>
         }
       </div>
+
+      @if (!isPastReservation() && !canCancel()) {
+        <small class="text-red-500 font-semibold mt-2 block text-center">
+          <i class="pi pi-exclamation-triangle mr-1"></i>
+          Annulation impossible à moins de 48h.
+        </small>
+      }
     </div>
   }
 </p-dialog>
