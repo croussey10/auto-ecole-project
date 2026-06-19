@@ -2,7 +2,7 @@
   <div>
     <div>Nom : {{achat().forfait_nom}}</div>
     <div>Nb d'heures : {{achat().forfait_heures}}</div>
-    <div>Prix : {{achat().prix_paye}}€</div>
-    <div>Date : {{achat().date_achat}}</div>
+    <div>Prix : {{ achat().prix_paye | currency:'EUR':'symbol':'1.2-2':'fr-FR' }}</div>
+    <div>Date : {{ achat().date_achat | date:'dd/MM/yyyy à HH:mm' }}</div>
   </div>
 </p-card>

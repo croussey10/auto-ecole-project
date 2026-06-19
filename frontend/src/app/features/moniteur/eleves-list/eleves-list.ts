@@ -23,9 +23,7 @@ export class ElevesList {
     params: () => this.profile(),
     loader: async ({ params }) => {
       if (!params) return
-      const autoEcoleId = localStorage.getItem('activeAutoEcoleId')
-      if (!autoEcoleId) return
-      return await this.profileService.getEleves(autoEcoleId)
+      return await this.profileService.getEleves(params.auto_ecole_id)
     },
   })
   eleves = this.resourceEleves.value

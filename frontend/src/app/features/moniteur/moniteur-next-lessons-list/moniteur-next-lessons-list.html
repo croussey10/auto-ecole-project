@@ -5,16 +5,16 @@
       <p-progress-spinner/>
     </div>
   } @else {
-    <p-scrollPanel [style]="{ width: '100%', height: heightScrollPanel() }">
+    <div class="lessons-scroll-container">
       @for (reservation of reservationsInComing(); track reservation.id) {
         <app-next-lesson-card
           [reservation]="reservation"
-          personRole="Eleve : "
-          [personName]="`${reservation.eleve_prenom} ${reservation.eleve_nom}`"
+          [personRole]="reservation.eleve_id ? 'Eleve : ' : 'Statut : '"
+          [personName]="reservation.eleve_id ? (reservation.eleve_prenom + ' ' + reservation.eleve_nom) : 'Créneau Libre'"
           [loadingCancel]="idBeingCancelled() == reservation.id"
           (cancelTrigger)="cancelReservation(reservation.id)"
         />
       }
-    </p-scrollPanel>
+    </div>
   }
 </p-card>

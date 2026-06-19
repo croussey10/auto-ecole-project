@@ -7,7 +7,7 @@
       <p-select
         [style]="{'--p-select-border-color': color(), '--p-select-focus-border-color': color()}"
         [options]="maitriseOptions"
-        [(ngModel)]="competence().maitrise"
+        [ngModel]="competence().maitrise"
         (onChange)="onChange($event)"
         appendTo="body">
       </p-select>

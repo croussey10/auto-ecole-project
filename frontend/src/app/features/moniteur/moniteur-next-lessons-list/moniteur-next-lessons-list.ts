@@ -12,7 +12,7 @@ import { ProgressSpinner } from 'primeng/progressspinner'
 
 @Component({
   selector: 'app-moniteur-next-lessons-list',
-  imports: [NextLessonCard, Card, ScrollPanel, ProgressSpinner],
+  imports: [NextLessonCard, Card, ProgressSpinner],
   templateUrl: './moniteur-next-lessons-list.html',
   styleUrl: './moniteur-next-lessons-list.scss',
 })
@@ -44,7 +44,7 @@ export class MoniteurNextLessonsList {
 
     return reservations.filter((reservation) => {
       const reservationDate = new Date(
-        `${reservation.date_creneau} ${reservation.heure_debut}`,
+        `${reservation.date_creneau}T${reservation.heure_debut}`,
       ).getTime()
 
       if (type === 'in_coming') return reservationDate > currentDate
@@ -56,15 +56,6 @@ export class MoniteurNextLessonsList {
   reservationsInComing = computed(() => this.filterReservations('in_coming'))
   reservationsPast = computed(() => this.filterReservations('past'))
   allReservations = computed(() => this.filterReservations('all'))
-
-  heightScrollPanel = computed(() => {
-    const numberReservations = this.reservationsInComing().length
-    if (!numberReservations) return '4rem'
-    if (!this.isMobile()) {
-      return `${Math.min(numberReservations * 7, 28)}rem `
-    }
-    return `${Math.min(numberReservations * 7, 21)}rem `
-  })
 
   idBeingCancelled = signal<string | null>(null)
 

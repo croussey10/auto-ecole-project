@@ -54,14 +54,13 @@ export class LivretApprentissage {
     const listeCompetences = this.competences() || []
     const selectionMaitrise = this.selectedMaitrises()
     const selectionCategory = this.selectedCategories()
-    const search = this.search()
 
     return listeCompetences.filter((competence) => {
       const maitrisesFiltered =
         selectionMaitrise.length === 0 || selectionMaitrise.includes(competence.maitrise!)
       const categoriesFiltered =
         selectionCategory.length === 0 || selectionCategory.includes(competence.categorie!)
-      const searchFiltered = competence.competence_nom!.toLowerCase().includes(search)
+      const searchFiltered = competence.competence_nom!.toLowerCase().includes(this.search().toLowerCase())
       return maitrisesFiltered && categoriesFiltered && searchFiltered
     })
   })

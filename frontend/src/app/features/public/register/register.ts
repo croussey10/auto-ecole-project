@@ -97,21 +97,27 @@ export class Register {
     const { firstName, lastName } = this.form.getRawValue()
     const slug = this.schoolSlug()
     if (!slug) return
+
     const autoEcole = await this.autoEcoleService.getAutoEcoleInfos(slug, 'slug')
     if (!autoEcole) return
+
     this.profileService.activeAutoEcoleId.set(autoEcole.id)
     this.profileService.activeAutoEcoleSlug.set(autoEcole.slug)
     localStorage.setItem('activeAutoEcoleId', autoEcole.id)
     localStorage.setItem('activeAutoEcoleSlug', autoEcole.slug)
-    const { user } = await this.authService.register(email, password)
+
+    const metadata = {
+      prenom: firstName,
+      nom: lastName,
+      auto_ecole_id: autoEcole.id
+    }
+
+    const { user } = await this.authService.register(email, password, metadata)
     if (!user) return
-    const profile = await this.profileService.registerProfile(
-      user.id,
-      autoEcole.id,
-      firstName,
-      lastName,
-    )
+
+    const profile = await this.profileService.getProfileInfos(user.id, 'user', autoEcole.id)
     if (!profile) return
+
     this.profileService.currentProfile.set(profile)
     this.profileRoutingService.redirectUrlByRole(profile.role)
   }

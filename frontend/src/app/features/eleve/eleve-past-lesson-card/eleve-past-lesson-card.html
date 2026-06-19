@@ -1,8 +1,8 @@
 <p-card class="mb-3">
   <div class="flex justify-content-between align-items-center">
     <div>
-      <div>heure de départ : {{ reservation().heure_debut }}</div>
-      <div>date : {{ reservation().date_creneau }}</div>
+      <div>heure de départ : {{ reservation().heure_debut?.substring(0, 5) }}</div>
+      <div>date : {{ reservation().date_creneau | date:'dd/MM/yyyy' }}</div>
       <div>{{ personRole() }} {{ personName() }}</div>
     </div>
 

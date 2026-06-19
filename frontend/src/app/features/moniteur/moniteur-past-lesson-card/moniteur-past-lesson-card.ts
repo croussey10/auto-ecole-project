@@ -6,10 +6,11 @@ import {Button} from 'primeng/button';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ReservationService} from '../../../core/services/database/reservation-service';
 import {FeedbackMessageService} from '../../../core/services/utility/feedback-message-service';
+import { DatePipe } from '@angular/common'
 
 @Component({
   selector: 'app-moniteur-past-lesson-card',
-  imports: [Card, Textarea, Button, FormsModule, ReactiveFormsModule],
+  imports: [Card, Textarea, Button, FormsModule, ReactiveFormsModule, DatePipe],
   templateUrl: './moniteur-past-lesson-card.html',
   styleUrl: './moniteur-past-lesson-card.scss',
 })
@@ -17,8 +18,8 @@ export class MoniteurPastLessonCard {
   feedbackMessageService = inject(FeedbackMessageService)
   reservationService = inject(ReservationService)
 
-  loadingSubmit = signal<boolean>(false);
-  reservation = input.required<Database["public"]["Views"]["view_reservation"]["Row"]>()
+  loadingSubmit = signal<boolean>(false)
+  reservation = input.required<Database['public']['Views']['view_reservation']['Row']>()
   personRole = input.required<string>()
   personName = input.required<string>()
 
@@ -27,7 +28,7 @@ export class MoniteurPastLessonCard {
   form = new FormGroup({
     commentaire: new FormControl('', {
       validators: [Validators.maxLength(150)],
-    })
+    }),
   })
 
   constructor() {
@@ -35,16 +36,16 @@ export class MoniteurPastLessonCard {
       const reservation = this.reservation
       this.oldCommentaire.set(reservation().commentaire_moniteur)
       this.form.patchValue({
-        commentaire: reservation().commentaire_moniteur
+        commentaire: reservation().commentaire_moniteur,
       })
-    });
+    })
   }
 
   async submit() {
     this.form.markAllAsTouched()
     if (this.form.invalid) return
 
-    const {commentaire} = this.form.getRawValue()
+    const { commentaire } = this.form.getRawValue()
 
     if (this.oldCommentaire() == commentaire) return
 
@@ -53,12 +54,14 @@ export class MoniteurPastLessonCard {
     try {
       await this.reservationService.updateCommentaireMoniteur(this.reservation().id!, commentaire!)
       this.oldCommentaire.set(commentaire)
-      this.feedbackMessageService.successFeedbackMessage('Succes', "commentaire modifier !")
+      this.feedbackMessageService.successFeedbackMessage('Succes', 'commentaire modifier !')
     } catch (error: any) {
-      this.feedbackMessageService.errorFeedbackMessage(error.status, "Erreur lors de la modification du commentaire !")
+      this.feedbackMessageService.errorFeedbackMessage(
+        error.status,
+        'Erreur lors de la modification du commentaire !',
+      )
     } finally {
       this.loadingSubmit.set(false)
     }
   }
-
 }

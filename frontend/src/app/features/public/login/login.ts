@@ -83,15 +83,36 @@ export class Login {
     if (!slug) return
     const autoEcole = await this.autoEcoleService.getAutoEcoleInfos(slug, 'slug')
     if (!autoEcole) return
-    this.profileService.activeAutoEcoleId.set(autoEcole.id)
-    this.profileService.activeAutoEcoleSlug.set(autoEcole.slug)
-    localStorage.setItem('activeAutoEcoleId', autoEcole.id)
-    localStorage.setItem('activeAutoEcoleSlug', autoEcole.slug)
+
     const { user } = await this.authService.login(email, password)
     if (!user) return
-    const profile = await this.profileService.getProfileInfos(user.id, 'user', autoEcole.id)
-    if (!profile) return
-    this.profileService.currentProfile.set(profile)
-    this.profileRoutingService.redirectUrlByRole(profile.role)
+
+    try {
+      const profile = await this.profileService.getProfileInfos(user.id, 'user', autoEcole.id)
+
+      this.profileService.currentProfile.set(profile)
+      this.profileRoutingService.redirectUrlByRole(profile.role)
+    } catch (error: any) {
+      if (error.code === 'PGRST116') {
+        const firstProfile = await this.profileService.getFirstProfile(user.id)
+
+        if (firstProfile) {
+          const newProfile = await this.profileService.registerProfile(
+            user.id,
+            autoEcole.id,
+            firstProfile.prenom,
+            firstProfile.nom,
+          )
+          this.profileService.currentProfile.set(newProfile)
+          this.profileRoutingService.redirectUrlByRole(newProfile.role)
+          this.feedbackMessageService.successFeedbackMessage(
+            'Bienvenue',
+            `Vous avez rejoint ${autoEcole.nom} !`,
+          )
+        }
+      } else {
+        throw error
+      }
+    }
   }
 }

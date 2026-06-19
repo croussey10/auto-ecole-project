@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core'
+import { Component, computed, inject, resource, signal } from '@angular/core'
 import { CalendarGrid } from '../../../shared/components/calendar-grid/calendar-grid'
 import { Dialog } from 'primeng/dialog'
 import { DatePipe } from '@angular/common'
@@ -12,6 +12,7 @@ import { format } from 'date-fns'
 import { FeedbackMessageService } from '../../../core/services/utility/feedback-message-service'
 import { Database } from '../../../types/database.types'
 import {InputText} from "primeng/inputtext";
+import { Tag } from 'primeng/tag'
 
 @Component({
   selector: 'app-moniteur-calendar',
@@ -24,6 +25,7 @@ import {InputText} from "primeng/inputtext";
     Checkbox,
     Select,
     InputText,
+    Tag,
   ],
   templateUrl: './moniteur-calendar.html',
   styleUrl: './moniteur-calendar.scss',
@@ -33,11 +35,15 @@ export class MoniteurCalendar {
   reservationService = inject(ReservationService)
   profileService = inject(ProfileService)
 
-  loadingSubmit = signal<boolean>(false)
   modaleVisible = signal<boolean>(false)
+  loadingSubmit = signal<boolean>(false)
   selectedDate = signal<Date>(new Date())
 
-  reservations = signal<Database['public']['Views']['view_reservation']['Row'][]>([])
+  reservations = computed(() => this.resourceReservations.value() || [])
+
+  isBookingModalVisible = signal<boolean>(false)
+  selectedReservation = signal<Database['public']['Views']['view_reservation']['Row'] | null>(null)
+  loadingCancel = signal<boolean>(false)
 
   availableHours = [
     { label: '08:00', value: '08:00' },
@@ -69,21 +75,13 @@ export class MoniteurCalendar {
     }),
   })
 
-  ngOnInit() {
-    this.loadReservations()
-  }
-
-  async loadReservations() {
-    const profile = this.profileService.currentProfile()
-    if (!profile) return
-
-    try {
-      const data = await this.reservationService.getReservations(profile.id, 'moniteur')
-      this.reservations.set(data)
-    } catch (error) {
-      console.error('Erreur lors du chargement des réservations', error)
-    }
-  }
+  resourceReservations = resource({
+    params: () => this.profileService.currentProfile(),
+    loader: async ({ params }) => {
+      if (!params) return []
+      return await this.reservationService.getReservations(params.id, 'moniteur')
+    },
+  })
 
   onClickedDay(date: Date) {
     this.selectedDate.set(date)
@@ -118,7 +116,7 @@ export class MoniteurCalendar {
       )
       this.feedbackMessageService.successFeedbackMessage('Succes', 'Heure ajoutée avec succes !')
       this.closeModal()
-      await this.loadReservations()
+      this.resourceReservations.reload()
     } catch (error: any) {
       const errorCode = error?.code || 'Erreur inconnue'
       if (errorCode == 23505) {
@@ -133,6 +131,40 @@ export class MoniteurCalendar {
       }
     } finally {
       this.loadingSubmit.set(false)
+    }
+  }
+
+  onReservationClicked(reservation: Database['public']['Views']['view_reservation']['Row']) {
+    this.selectedReservation.set(reservation)
+    this.isBookingModalVisible.set(true)
+  }
+
+  closeBookingModal() {
+    this.isBookingModalVisible.set(false)
+    this.selectedReservation.set(null)
+  }
+
+  isPastBooking(): boolean {
+    const booking = this.selectedReservation()
+    if (!booking) return false
+    const reservationDate = new Date(`${booking.date_creneau}T${booking.heure_debut}`).getTime()
+    return reservationDate <= Date.now()
+  }
+
+  async cancelBooking() {
+    const booking = this.selectedReservation()
+    if (!booking || !booking.id) return
+
+    this.loadingCancel.set(true)
+    try {
+      await this.reservationService.cancelReservation(booking.id)
+      this.feedbackMessageService.successFeedbackMessage('Succès', 'Le créneau a été annulé.')
+      this.closeBookingModal()
+      this.resourceReservations.reload()
+    } catch (error: any) {
+      this.feedbackMessageService.errorFeedbackMessage('Erreur', "Impossible d'annuler ce créneau.")
+    } finally {
+      this.loadingCancel.set(false)
     }
   }
 }

@@ -36,7 +36,20 @@ async function initializeAuthAndProfile() {
   const user = await authService.loadCurrentUser()
 
   if (user) {
-    const autoEcoleId = localStorage.getItem('activeAutoEcoleId')
+    let autoEcoleId = localStorage.getItem('activeAutoEcoleId')
+
+    if (!autoEcoleId) {
+      try {
+        const backupProfile = await profileService.getFirstProfile(user.id)
+        if (backupProfile) {
+          autoEcoleId = backupProfile.auto_ecole_id
+          localStorage.setItem('activeAutoEcoleId', autoEcoleId)
+        }
+      } catch (e) {
+        console.error('Impossible de récupérer le profil de secours', e)
+      }
+    }
+
     if (autoEcoleId) {
       try {
         const profile = await profileService.getProfileInfos(user.id, 'user', autoEcoleId)

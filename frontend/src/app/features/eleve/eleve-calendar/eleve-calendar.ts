@@ -35,7 +35,7 @@ export class EleveCalendar {
   selectedBooking = signal<any | null>(null)
 
   selectedTransmission = signal<'all' | 'manual' | 'automatic'>('all')
-  selectedInstructors = signal<string[]>([]) // Contiendra les IDs des moniteurs cochés
+  selectedInstructors = signal<string[]>([])
 
   transmissionOptions = [
     { label: 'Toutes les boîtes', value: 'all' },
@@ -91,7 +91,7 @@ export class EleveCalendar {
     const booking = this.selectedBooking()
     if (!booking) return false
 
-    const reservationDate = new Date(`${booking.date_creneau} ${booking.heure_debut}`)
+    const reservationDate = new Date(`${booking.date_creneau}T${booking.heure_debut}`)
     const hoursDifference = differenceInHours(reservationDate, new Date())
 
     return hoursDifference >= 48

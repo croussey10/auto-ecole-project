@@ -1,24 +1,52 @@
-import {CanActivateFn, Router} from '@angular/router'
-import {inject} from '@angular/core';
-import {ProfileService} from '../services/auth/profile-service';
+import { CanActivateFn, Router } from '@angular/router'
+import { inject } from '@angular/core'
+import { ProfileService } from '../services/auth/profile-service'
+import { AuthService } from '../services/auth/auth-service'
 
-export const roleGuard: CanActivateFn = (route, state) => {
+export const roleGuard: CanActivateFn = async (route, state) => {
   const profileService = inject(ProfileService)
+  const authService = inject(AuthService)
   const router = inject(Router)
-  const profile = profileService.currentProfile()
 
-  const allowedRoles = route.data['roles'];
+  let profile = profileService.currentProfile()
 
-  if(!profile) {
+  if (!profile) {
+    const user = await authService.loadCurrentUser()
+
+    if (user) {
+      let autoEcoleId = localStorage.getItem('activeAutoEcoleId')
+
+      if (!autoEcoleId) {
+        try {
+          const backupProfile = await profileService.getFirstProfile(user.id)
+          if (backupProfile) {
+            autoEcoleId = backupProfile.auto_ecole_id
+            localStorage.setItem('activeAutoEcoleId', autoEcoleId)
+          }
+        } catch (error) {}
+      }
+
+      if (autoEcoleId) {
+        try {
+          profile = await profileService.getProfileInfos(user.id, 'user', autoEcoleId)
+          profileService.currentProfile.set(profile)
+        } catch (error) {
+          console.error('Erreur de récupération BDD:', error)
+        }
+      }
+    }
+  }
+
+  if (!profile) {
     const slug = localStorage.getItem('activeAutoEcoleSlug')
     if (slug) return router.parseUrl(`/auth/login/${slug}`)
     return router.parseUrl('/ecole-introuvable')
   }
 
+  const allowedRoles = route.data['roles']
   if (allowedRoles?.includes(profile.role)) {
-    console.log("TON ROLE : ", allowedRoles)
-    return true;
+    return true
   }
 
-  return router.parseUrl(`/${profile.role}/dashboard`);
+  return router.parseUrl(`/${profile.role}/dashboard`)
 }

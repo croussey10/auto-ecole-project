@@ -5,7 +5,7 @@
       <p-progress-spinner/>
     </div>
   } @else {
-    <p-scrollPanel [style]="{ width: '100%', height: heightScrollPanel() }">
+    <div class="lessons-scroll-container">
       @for (reservation of reservationsPast(); track reservation.id) {
         <app-eleve-past-lesson-card
           [reservation]="reservation"
@@ -13,6 +13,6 @@
           [personName]="`${reservation.moniteur_prenom} ${reservation.moniteur_nom}`"
         />
       }
-    </p-scrollPanel>
+    </div>
   }
 </p-card>

@@ -58,6 +58,18 @@ export class ProfileService {
     return data
   }
 
+  async getFirstProfile(userId: string): Promise<Database['public']['Tables']['profile']['Row']> {
+    const { data, error } = await this.authService.supabase
+      .from('profile')
+      .select('*')
+      .eq('user_id', userId)
+      .limit(1)
+      .single()
+
+    if (error) throw error
+    return data
+  }
+
   async getEleves(autoEcoleId: string): Promise<Database['public']['Tables']['profile']['Row'][]> {
     const { data, error } = await this.authService.supabase
       .from('profile')

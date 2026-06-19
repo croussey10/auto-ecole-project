@@ -3,7 +3,6 @@ import { NextLessonCard } from '../../../shared/components/next-lesson-card/next
 import { ProfileService } from '../../../core/services/auth/profile-service'
 import { ReservationService } from '../../../core/services/database/reservation-service'
 import { Card } from 'primeng/card'
-import { ScrollPanel } from 'primeng/scrollpanel'
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { AuthError } from '@supabase/supabase-js'
@@ -12,7 +11,7 @@ import { ProgressSpinner } from 'primeng/progressspinner'
 
 @Component({
   selector: 'app-eleve-next-lessons-list',
-  imports: [NextLessonCard, Card, ScrollPanel, ProgressSpinner],
+  imports: [NextLessonCard, Card, ProgressSpinner],
   templateUrl: './eleve-next-lessons-list.html',
   styleUrl: './eleve-next-lessons-list.scss',
 })
@@ -44,7 +43,7 @@ export class EleveNextLessonsList {
 
     return reservations.filter((reservation) => {
       const reservationDate = new Date(
-        `${reservation.date_creneau} ${reservation.heure_debut}`,
+        `${reservation.date_creneau}T${reservation.heure_debut}`,
       ).getTime()
 
       if (type === 'in_coming') return reservationDate > currentDate
@@ -56,15 +55,6 @@ export class EleveNextLessonsList {
   reservationsInComing = computed(() => this.filterReservations('in_coming'))
   reservationsPast = computed(() => this.filterReservations('past'))
   allReservations = computed(() => this.filterReservations('all'))
-
-  heightScrollPanel = computed(() => {
-    const numberReservations = this.reservationsInComing().length
-    if (!numberReservations) return '4rem'
-    if (!this.isMobile()) {
-      return `${Math.min(numberReservations * 7, 28)}rem `
-    }
-    return `${Math.min(numberReservations * 7, 21)}rem `
-  })
 
   idBeingCancelled = signal<string | null>(null)
 

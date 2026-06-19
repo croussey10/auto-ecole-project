@@ -1,5 +1,6 @@
+<div class="mb-4 text-xl">
+  Bonjour <strong>{{ profile()?.prenom }}</strong>, voici votre planning et vos prochaines leçons à venir :
+</div>
 <div>
-  Bonjour {{ profile()?.prenom }}, vous avez fais {{ profile()?.heures_effectuees }} heures au total, il vous en
-  reste {{ profile()?.heures_restantes }}
   <app-moniteur-next-lessons-list/>
 </div>

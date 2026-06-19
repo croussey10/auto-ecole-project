@@ -10,7 +10,7 @@ import { ProgressSpinner } from 'primeng/progressspinner'
 
 @Component({
   selector: 'app-moniteur-past-lessons-list',
-  imports: [Card, ScrollPanel, MoniteurPastLessonCard, ProgressSpinner],
+  imports: [Card, MoniteurPastLessonCard, ProgressSpinner],
   templateUrl: './moniteur-past-lessons-list.html',
   styleUrl: './moniteur-past-lessons-list.scss',
 })
@@ -41,7 +41,7 @@ export class MoniteurPastLessonsList {
 
     return reservations.filter((reservation) => {
       const reservationDate = new Date(
-        `${reservation.date_creneau} ${reservation.heure_debut}`,
+        `${reservation.date_creneau}T${reservation.heure_debut}`,
       ).getTime()
 
       if (type === 'in_coming') return reservationDate > currentDate
@@ -53,13 +53,4 @@ export class MoniteurPastLessonsList {
   reservationsInComing = computed(() => this.filterReservations('in_coming'))
   reservationsPast = computed(() => this.filterReservations('past'))
   allReservations = computed(() => this.filterReservations('all'))
-
-  heightScrollPanel = computed(() => {
-    const numberReservations = this.reservationsPast().length
-    if (!numberReservations) return '4rem'
-    if (!this.isMobile()) {
-      return `${Math.min(numberReservations * 7, 28)}rem `
-    }
-    return `${Math.min(numberReservations * 7, 21)}rem `
-  })
 }

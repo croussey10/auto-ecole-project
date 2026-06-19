@@ -5,7 +5,7 @@
       <p-progress-spinner/>
     </div>
   } @else {
-    <p-scrollPanel [style]="{ width: '100%', height: heightScrollPanel() }">
+    <div class="lessons-scroll-container">
       @for (reservation of reservationsInComing(); track reservation.id) {
         <app-next-lesson-card
           [reservation]="reservation"
@@ -15,6 +15,6 @@
           (cancelTrigger)="cancelReservation(reservation.id)"
         />
       }
-    </p-scrollPanel>
+    </div>
   }
 </p-card>
