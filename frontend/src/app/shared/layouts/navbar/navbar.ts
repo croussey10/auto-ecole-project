@@ -52,7 +52,13 @@ export class Navbar {
   })
 
   async logout() {
-    await this.authService.logout()
-    void this.router.navigate([`auth/login/${this.slug()}`])
+    const currentSlug = this.slug() || localStorage.getItem('activeAutoEcoleSlug');
+    await this.authService.logout();
+
+    if (currentSlug) {
+      void this.router.navigate([`auth/login/${currentSlug}`]);
+    } else {
+      void this.router.navigate(['/ecole-introuvable']);
+    }
   }
 }

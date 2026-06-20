@@ -16,7 +16,13 @@ import { MoniteurCalendar } from './features/moniteur/moniteur-calendar/moniteur
 import {EleveCalendar} from './features/eleve/eleve-calendar/eleve-calendar';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'ecole-introuvable', pathMatch: 'full' },
+  {
+    path: '',
+    component: EcoleIntrouvable,
+    canActivate: [roleGuard],
+    pathMatch: 'full',
+  },
+
   { path: 'auth/login/:schoolSlug', component: Login, canActivate: [schoolGuard] },
   { path: 'auth/register/:schoolSlug', component: Register, canActivate: [schoolGuard] },
   { path: 'ecole-introuvable', component: EcoleIntrouvable },

@@ -16,6 +16,7 @@ export const schoolGuard: CanActivateFn = async (route, state) => {
     if (!autoEcole) {
       return router.parseUrl('/ecole-introuvable')
     }
+    localStorage.setItem('activeAutoEcoleSlug', slug)
     return true
   } catch (error) {
     console.error(error)
