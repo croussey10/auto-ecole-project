@@ -8,7 +8,9 @@ import { Database } from '../../../types/database.types'
 export class AchatHistoriqueService {
   authService = inject(AuthService)
 
-  async getAchats(eleveId: string): Promise<Database["public"]["Tables"]["achat_historique"]["Row"][]> {
+  async getAchats(
+    eleveId: string,
+  ): Promise<Database['public']['Tables']['achat_historique']['Row'][]> {
     const { data, error } = await this.authService.supabase
       .from('achat_historique')
       .select('*')

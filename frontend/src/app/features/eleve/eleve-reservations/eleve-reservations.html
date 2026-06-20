@@ -1,35 +1,43 @@
-<div class="flex justify-content-center gap-4 mb-4">
-  <p-button
-    label="Passées"
-    [severity]="pageActive == 0 ? 'primary' : 'secondary'"
-    [text]="pageActive != 0"
-    (onClick)="changerPage(0)"
-  />
-  <p-button
-    label="A venir"
-    [severity]="pageActive == 1 ? 'primary' : 'secondary'"
-    [text]="pageActive != 1"
-    (onClick)="changerPage(1)"
-  />
+<div class="container">
+  <div class="flex justify-content-center mb-5">
+    <div class="surface-ground p-1 border-round-xl border-1 surface-border flex gap-1">
+      <p-button
+        label="Passées"
+        icon="pi pi-history"
+        [severity]="pageActive == 0 ? 'primary' : 'secondary'"
+        [text]="pageActive != 0"
+        styleClass="w-full md:w-10rem"
+        (onClick)="changerPage(0)"
+      />
+      <p-button
+        label="A venir"
+        icon="pi pi-calendar"
+        [severity]="pageActive == 1 ? 'primary' : 'secondary'"
+        [text]="pageActive != 1"
+        styleClass="w-full md:w-10rem"
+        (onClick)="changerPage(1)"
+      />
+    </div>
+  </div>
+
+  <p-carousel
+    [value]="listePages"
+    [page]="pageActive"
+    (onPage)="pageActive = $event.page!"
+    [numVisible]="1"
+    [numScroll]="1"
+    [circular]="false"
+    [showIndicators]="false"
+    [showNavigators]="false"
+  >
+    <ng-template let-page #item>
+      <div class="min-h-20rem">
+        @if (page == 'past') {
+          <app-eleve-past-lessons-list />
+        } @else {
+          <app-eleve-next-lessons-list />
+        }
+      </div>
+    </ng-template>
+  </p-carousel>
 </div>
-
-<p-carousel
-  [value]="listePages"
-  [page]="pageActive"
-  (onPage)="pageActive = $event.page!"
-  [numVisible]="1"
-  [numScroll]="1"
-  [circular]="false"
-  [showIndicators]="false"
-  [showNavigators]="true"
->
-  <ng-template let-page #item>
-
-    @if (page == 'past') {
-      <app-eleve-past-lessons-list/>
-    } @else {
-      <app-eleve-next-lessons-list/>
-    }
-
-  </ng-template>
-</p-carousel>

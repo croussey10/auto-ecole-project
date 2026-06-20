@@ -2,15 +2,16 @@ import { Component, computed, inject, signal } from '@angular/core'
 import { Router } from '@angular/router'
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
 import { toSignal } from '@angular/core/rxjs-interop'
-import { NgOptimizedImage } from '@angular/common'
+import { NgOptimizedImage, TitleCasePipe } from '@angular/common'
 import { ProfileService } from '../../../core/services/auth/profile-service'
 import { Button } from 'primeng/button'
 import { Drawer } from 'primeng/drawer'
 import { AuthService } from '../../../core/services/auth/auth-service'
+import { Divider } from 'primeng/divider'
 
 @Component({
   selector: 'app-navbar',
-  imports: [NgOptimizedImage, Button, Drawer],
+  imports: [NgOptimizedImage, Button, Drawer, Divider, TitleCasePipe],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
 })
@@ -40,7 +41,11 @@ export class Navbar {
 
     if (profileRole == 'eleve') {
       menu.push(
-        { label: "Livret d'apprentissage", icon: 'pi pi-book', link: `${profileRole}/livret-apprentissage` },
+        {
+          label: "Livret d'apprentissage",
+          icon: 'pi pi-book',
+          link: `${profileRole}/livret-apprentissage`,
+        },
         { label: 'Forfaits', icon: 'pi pi-wallet', link: `${profileRole}/forfaits` },
         { label: 'Achats', icon: 'pi pi-wallet', link: `${profileRole}/achats` },
       )
@@ -52,13 +57,13 @@ export class Navbar {
   })
 
   async logout() {
-    const currentSlug = this.slug() || localStorage.getItem('activeAutoEcoleSlug');
-    await this.authService.logout();
+    const currentSlug = this.slug() || localStorage.getItem('activeAutoEcoleSlug')
+    await this.authService.logout()
 
     if (currentSlug) {
-      void this.router.navigate([`auth/login/${currentSlug}`]);
+      void this.router.navigate([`auth/login/${currentSlug}`])
     } else {
-      void this.router.navigate(['/ecole-introuvable']);
+      void this.router.navigate(['/ecole-introuvable'])
     }
   }
 }

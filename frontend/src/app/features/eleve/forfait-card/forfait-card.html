@@ -1,30 +1,36 @@
-<p-card class="mb-2 w-20rem">
-  <ng-template #title>
-    <div class="text-xl font-bold text-uppercase">{{ forfait().nom }}</div>
-  </ng-template>
+<article
+  class="surface-card p-4 border-round-3xl border-1 surface-border shadow-2 flex flex-column h-full hover:border-primary transition-colors"
+>
+  <header class="mb-3">
+    <span class="text-sm font-bold text-primary uppercase tracking-widest">Forfait</span>
+    <h3 class="text-2xl font-bold text-color mt-1 mb-0">{{ forfait().nom }}</h3>
+  </header>
 
-  <ng-template #subtitle>
-    <div class="text-3xl text-primary font-bold mt-2">{{ forfait().prix }} €</div>
-  </ng-template>
-
-  <div class="flex align-items-center gap-2 mb-3 font-semibold text-color-secondary">
-    <i class="pi pi-clock"></i>
-    <span>{{ forfait().nombre_heures }} heures de conduite</span>
+  <div class="mb-4">
+    <span class="text-5xl font-extrabold text-color">{{ forfait().prix }}</span>
+    <span class="text-xl text-color-secondary ml-1">€</span>
   </div>
 
-  <p class="m-0 line-height-3">
-    {{ forfait().description }}
-  </p>
-
-  <ng-template #footer>
-    <div class="mt-4">
-      <p-button
-        label="Acheter"
-        icon="pi pi-shopping-cart"
-        styleClass="w-full"
-        (onClick)="buyForfait()"
-        [loading]="loadingAchat()"
-      />
+  <div class="flex-grow-1">
+    <div
+      class="flex align-items-center gap-2 mb-4 p-3 surface-ground border-round-lg text-color font-semibold"
+    >
+      <i class="pi pi-clock text-primary"></i>
+      <span>{{ forfait().nombre_heures }} heures de conduite</span>
     </div>
-  </ng-template>
-</p-card>
+
+    <p class="m-0 text-color-secondary line-height-3 mb-4">
+      {{ forfait().description }}
+    </p>
+  </div>
+
+  <footer class="mt-auto">
+    <p-button
+      label="Choisir ce forfait"
+      icon="pi pi-check"
+      styleClass="w-full py-3 text-lg"
+      (onClick)="buyForfait()"
+      [loading]="loadingAchat()"
+    />
+  </footer>
+</article>

@@ -8,7 +8,9 @@ import { Database } from '../../../types/database.types'
 export class LivretApprentissageService {
   authService = inject(AuthService)
 
-  async getCompetencesOfLivret(eleveId: string): Promise<Database['public']['Views']['view_livret_competence']['Row'][]> {
+  async getCompetencesOfLivret(
+    eleveId: string,
+  ): Promise<Database['public']['Views']['view_livret_competence']['Row'][]> {
     const { data, error } = await this.authService.supabase
       .from('view_livret_competence')
       .select('*')

@@ -1,20 +1,44 @@
-<p-card class="mb-3">
-  <div class="flex">
-    <div>
-      <div>heure de départ : {{ reservation().heure_debut }}</div>
-      <div>date : {{ reservation().date_creneau }}</div>
-      <div>{{ personRole() }} {{ personName() }}</div>
+<article
+  class="surface-card border-round-xl border-1 surface-border p-4 mb-3 hover:shadow-2 transition-duration-200"
+>
+  <div class="flex flex-column md:flex-row justify-content-between md:align-items-center gap-4">
+    <div class="flex flex-column gap-3">
+      <div class="flex align-items-center gap-2 text-color-secondary font-medium">
+        <i class="pi pi-calendar border-circle surface-ground p-2"></i>
+        <span class="text-lg text-color font-bold capitalize">{{
+          reservation().date_creneau | date: 'dd MMMM yyyy'
+        }}</span>
+        <span class="text-lg text-primary font-bold"
+          >à {{ reservation().heure_debut?.substring(0, 5) }}</span
+        >
+      </div>
+      <div class="flex align-items-center gap-2 text-color">
+        <i class="pi pi-user border-circle surface-ground p-2"></i>
+        <span>
+          <span class="text-color-secondary">{{ personRole() }}</span>
+          <span class="font-bold">{{ personName() }}</span>
+        </span>
+      </div>
     </div>
 
-    <div class="flex flex-column flex-auto align-items-end gap-2">
-      <div class="text-sm font-bold text-primary">{{ timerNextLesson() }}</div>
+    <div class="flex flex-column md:align-items-end gap-3 mt-2 md:mt-0">
+      <div
+        class="flex align-items-center gap-2 bg-primary-reverse text-primary px-3 py-2 border-round-lg font-bold text-sm shadow-1"
+      >
+        <i class="pi pi-stopwatch text-lg"></i>
+        <span>{{ timerNextLesson() }}</span>
+      </div>
+
       <p-button
-        label="Annuler"
+        label="Annuler l'heure"
+        icon="pi pi-times"
         [loading]="loadingCancel()"
         [disabled]="!canCancelReservation()"
         [severity]="canCancelReservation() ? 'danger' : 'secondary'"
+        [outlined]="true"
+        styleClass="w-full md:w-auto"
         (onClick)="cancelTrigger.emit()"
       />
     </div>
   </div>
-</p-card>
+</article>

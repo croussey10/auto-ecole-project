@@ -2,7 +2,7 @@
   <div class="flex justify-content-between align-items-center">
     <div>
       <div>heure de départ : {{ reservation().heure_debut?.substring(0, 5) }}</div>
-      <div>date : {{ reservation().date_creneau | date:'dd/MM/yyyy' }}</div>
+      <div>date : {{ reservation().date_creneau | date: 'dd/MM/yyyy' }}</div>
       <div>{{ personRole() }} {{ personName() }}</div>
     </div>
 
@@ -10,17 +10,23 @@
       <div class="flex flex-column">
         <div class="text-sm font-bold text-primary w-full">
           <label for="commentaire">Commentaire</label>
-          <textarea formControlName="commentaire" id="commentaire" type="text" pTextarea class="w-full " rows="5"></textarea>
+          <textarea
+            formControlName="commentaire"
+            id="commentaire"
+            type="text"
+            pTextarea
+            class="w-full"
+            rows="5"
+          ></textarea>
         </div>
         <p-button
           class="flex justify-content-end pt-2"
           [label]="oldCommentaire() ? 'modifier' : 'ajouter'"
           type="submit"
           [loading]="loadingSubmit()"
-          [disabled]="form.invalid || (oldCommentaire() == form.value.commentaire) ? true : false"
+          [disabled]="form.invalid || oldCommentaire() == form.value.commentaire ? true : false"
         />
       </div>
     </form>
-
   </div>
 </p-card>

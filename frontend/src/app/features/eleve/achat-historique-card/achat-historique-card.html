@@ -1,8 +1,43 @@
-<p-card class="mb-2">
-  <div>
-    <div>Nom : {{achat().forfait_nom}}</div>
-    <div>Nb d'heures : {{achat().forfait_heures}}</div>
-    <div>Prix : {{ achat().prix_paye | currency:'EUR':'symbol':'1.2-2':'fr-FR' }}</div>
-    <div>Date : {{ achat().date_achat | date:'dd/MM/yyyy à HH:mm' }}</div>
+<article
+  class="surface-card border-round-xl border-1 surface-border p-4 mb-3 hover:shadow-2 transition-duration-200"
+>
+  <div class="flex flex-column md:flex-row justify-content-between md:align-items-center gap-4">
+    <div class="flex align-items-center gap-3">
+      <div
+        class="bg-primary-reverse border-circle w-3rem h-3rem flex align-items-center justify-content-center flex-shrink-0"
+      >
+        <i class="pi pi-receipt text-xl text-primary"></i>
+      </div>
+      <div class="flex flex-column gap-1">
+        <span class="text-lg font-bold text-color">{{ achat().forfait_nom }}</span>
+        <span class="text-sm font-medium text-color-secondary">
+          <i class="pi pi-calendar mr-1 text-xs"></i>
+          Acheté le {{ achat().date_achat | date: 'dd MMMM yyyy à HH:mm' }}
+        </span>
+      </div>
+    </div>
+
+    <div class="flex align-items-center gap-4 md:justify-content-end">
+      <div class="flex flex-column md:align-items-end gap-1">
+        <span class="text-xs font-semibold text-color-secondary uppercase tracking-wide"
+          >Volume</span
+        >
+        <p-tag severity="info" [rounded]="true">
+          <div class="flex align-items-center gap-1">
+            <i class="pi pi-clock text-xs"></i>
+            <span>{{ achat().forfait_heures }} h</span>
+          </div>
+        </p-tag>
+      </div>
+
+      <div class="flex flex-column md:align-items-end gap-1 border-left-1 surface-border pl-4">
+        <span class="text-xs font-semibold text-color-secondary uppercase tracking-wide"
+          >Montant</span
+        >
+        <span class="text-2xl font-bold text-green-400">
+          {{ achat().prix_paye | currency: 'EUR' : 'symbol' : '1.2-2' : 'fr-FR' }}
+        </span>
+      </div>
+    </div>
   </div>
-</p-card>
+</article>

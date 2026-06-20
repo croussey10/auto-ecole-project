@@ -1,11 +1,10 @@
-import {Component, input} from '@angular/core'
-import {Card} from 'primeng/card'
-import {Database} from '../../../types/database.types';
+import { Component, input } from '@angular/core'
+import { Database } from '../../../types/database.types'
 import { DatePipe } from '@angular/common'
 
 @Component({
   selector: 'app-eleve-past-lesson-card',
-  imports: [Card, DatePipe],
+  imports: [DatePipe],
   templateUrl: './eleve-past-lesson-card.html',
   styleUrl: './eleve-past-lesson-card.scss',
 })

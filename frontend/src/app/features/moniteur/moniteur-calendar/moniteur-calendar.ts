@@ -79,7 +79,7 @@ export class MoniteurCalendar {
     params: () => this.profileService.currentProfile(),
     loader: async ({ params }) => {
       if (!params) return []
-      return await this.reservationService.getReservations(params.id, 'moniteur')
+      return await this.reservationService.getReservations(params.id, params.auto_ecole_id, 'moniteur')
     },
   })
 
@@ -176,6 +176,6 @@ export class MoniteurCalendar {
     const reservationDate = new Date(
       `${reservation.date_creneau}T${reservation.heure_debut}`,
     ).getTime()
-    return reservationDate - Date.now() > 172800000 // 172800000 ms = 48h
+    return reservationDate - Date.now() > 172800000
   }
 }

@@ -1,13 +1,12 @@
 import { Component, computed, input, output } from '@angular/core'
 import { Database } from '../../../types/database.types'
-import { Card } from 'primeng/card'
 import { Tag } from 'primeng/tag'
 import { Select } from 'primeng/select'
 import { FormsModule } from '@angular/forms'
 
 @Component({
   selector: 'app-competence-card',
-  imports: [Card, Tag, Select, FormsModule],
+  imports: [Tag, Select, FormsModule],
   templateUrl: './competence-card.html',
   styleUrl: './competence-card.scss',
 })

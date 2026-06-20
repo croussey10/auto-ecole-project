@@ -1,3 +1,10 @@
 .navbar-shadow {
   box-shadow: 0 4px 6px -2px var(--p-primary-500);
 }
+
+.navbar-aura-dark {
+  background-color: rgba(24, 24, 27, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+}

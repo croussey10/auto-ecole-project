@@ -1,17 +1,26 @@
-<div class="mb-4 text-center">
-  <h2>Nos Forfaits et Heures</h2>
-</div>
+<section class="container py-5" aria-label="Nos forfaits de conduite">
+  <header class="mb-6 text-center">
+    <h2 class="text-4xl font-bold text-color mb-3">Nos forfaits</h2>
+    <p class="text-lg text-color-secondary">
+      Choisissez la formule qui correspond le mieux à votre apprentissage.
+    </p>
+  </header>
 
-@if (resourceForfaits.isLoading()) {
-  <div class="flex justify-content-center py-6">
-    <p-progress-spinner/>
-  </div>
-} @else {
-  <div class="flex  gap-4 justify-content-center p-4">
-    @for (forfait of forfaits(); track forfait.id) {
-      <app-forfait-card
-        [forfait]="forfait"
-      />
-    }
-  </div>
-}
+  @if (resourceForfaits.isLoading()) {
+    <div class="flex justify-content-center py-6">
+      <p-progress-spinner strokeWidth="4" />
+    </div>
+  } @else {
+    <div class="grid justify-content-center gap-4">
+      @for (forfait of forfaits(); track forfait.id) {
+        <div class="col-12 md:col-6 lg:col-4 xl:col-3">
+          <app-forfait-card [forfait]="forfait" />
+        </div>
+      } @empty {
+        <div class="col-12 text-center p-6 surface-card border-round-xl border-1 surface-border">
+          <p class="text-color-secondary">Aucun forfait disponible pour le moment.</p>
+        </div>
+      }
+    </div>
+  }
+</section>

@@ -1,11 +1,11 @@
 import { Component, input } from '@angular/core'
 import { Database } from '../../../types/database.types'
-import { Card } from 'primeng/card'
 import { CurrencyPipe, DatePipe } from '@angular/common'
+import { Tag } from 'primeng/tag'
 
 @Component({
   selector: 'app-achat-historique-card',
-  imports: [Card, CurrencyPipe, DatePipe],
+  imports: [CurrencyPipe, DatePipe, Tag],
   templateUrl: './achat-historique-card.html',
   styleUrl: './achat-historique-card.scss',
 })

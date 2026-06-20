@@ -1,13 +1,12 @@
 import { Component, inject, resource } from '@angular/core'
 import { AchatHistoriqueService } from '../../../core/services/database/achat-historique-service'
 import { ProfileService } from '../../../core/services/auth/profile-service'
-import { Card } from 'primeng/card'
 import { AchatHistoriqueCard } from '../achat-historique-card/achat-historique-card'
 import { ProgressSpinner } from 'primeng/progressspinner'
 
 @Component({
   selector: 'app-achats-historique-list',
-  imports: [Card, AchatHistoriqueCard, ProgressSpinner],
+  imports: [AchatHistoriqueCard, ProgressSpinner],
   templateUrl: './achats-historique-list.html',
   styleUrl: './achats-historique-list.scss',
 })

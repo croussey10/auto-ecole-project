@@ -2,9 +2,24 @@
   width: 100%;
   max-height: 28rem;
   overflow-y: auto;
-  padding-right: 0.5rem;
+  padding-right: 0.5rem; /* Laisse un peu d'espace pour que la scrollbar ne colle pas au contenu */
 
   @media screen and (max-width: 768px) {
     max-height: 21rem;
+  }
+
+  /* 💅 Scrollbar stylisée pour le Dark Mode Aura */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--surface-border);
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: var(--text-color-secondary);
   }
 }

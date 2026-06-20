@@ -109,7 +109,7 @@ export class Register {
     const metadata = {
       prenom: firstName,
       nom: lastName,
-      auto_ecole_id: autoEcole.id
+      auto_ecole_id: autoEcole.id,
     }
 
     const { user } = await this.authService.register(email, password, metadata)

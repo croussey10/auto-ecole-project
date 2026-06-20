@@ -1,13 +1,27 @@
-@if (resourceAchats.isLoading()) {
-  <div class="flex justify-content-center py-6">
-    <p-progress-spinner/>
-  </div>
-} @else {
-  <p-card>
-    @for (achat of achats(); track achat.id) {
-      <app-achat-historique-card
-        [achat]="achat"
-      />
-    }
-  </p-card>
-}
+<div class="container">
+  @if (resourceAchats.isLoading()) {
+    <div class="flex justify-content-center align-items-center py-8">
+      <p-progress-spinner strokeWidth="4" aria-label="Chargement de l'historique d'achats" />
+    </div>
+  } @else {
+    <section class="flex flex-column gap-2" aria-label="Liste de vos achats passés">
+      @for (achat of achats(); track achat.id) {
+        <app-achat-historique-card [achat]="achat" />
+      } @empty {
+        <div
+          class="surface-card border-round-xl border-1 surface-border p-6 text-center shadow-1 max-w-30rem mx-auto mt-4"
+        >
+          <div
+            class="bg-primary-reverse border-circle w-4rem h-4rem flex align-items-center justify-content-center mx-auto mb-4"
+          >
+            <i class="pi pi-folder-open text-2xl text-primary"></i>
+          </div>
+          <h2 class="text-xl font-bold text-color mb-2">Aucun achat enregistré</h2>
+          <p class="text-color-secondary m-0 line-height-3">
+            Vous n'avez pas encore acheté de forfait d'heures de conduite pour le moment.
+          </p>
+        </div>
+      }
+    </section>
+  }
+</div>

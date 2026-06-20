@@ -2,7 +2,7 @@
   Mes réservations à venir :
   @if (resourceReservations.isLoading()) {
     <div class="flex justify-content-center py-6">
-      <p-progress-spinner/>
+      <p-progress-spinner />
     </div>
   } @else {
     <div class="lessons-scroll-container">
@@ -10,7 +10,11 @@
         <app-next-lesson-card
           [reservation]="reservation"
           [personRole]="reservation.eleve_id ? 'Eleve : ' : 'Statut : '"
-          [personName]="reservation.eleve_id ? (reservation.eleve_prenom + ' ' + reservation.eleve_nom) : 'Créneau Libre'"
+          [personName]="
+            reservation.eleve_id
+              ? reservation.eleve_prenom + ' ' + reservation.eleve_nom
+              : 'Créneau Libre'
+          "
           [loadingCancel]="idBeingCancelled() == reservation.id"
           (cancelTrigger)="cancelReservation(reservation.id)"
         />

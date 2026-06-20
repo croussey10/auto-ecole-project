@@ -1,20 +1,26 @@
-<div class="p-4 flex flex-column gap-4">
-
-  <div class="flex flex-wrap gap-3 align-items-center surface-card p-3 border-round shadow-1">
-
-    <div class="flex flex-column gap-1">
-      <span class="text-xs font-semibold text-color-secondary">Boîte de vitesses</span>
+<div class="container flex flex-column gap-4">
+  <header
+    class="flex flex-column md:flex-row flex-wrap gap-4 align-items-stretch md:align-items-center surface-card p-4 border-round-xl border-1 surface-border shadow-1"
+  >
+    <div class="flex flex-column gap-2 flex-1">
+      <label class="text-xs font-bold text-color-secondary uppercase tracking-wide"
+        >Boîte de vitesses</label
+      >
       <p-select
         [options]="transmissionOptions"
         [ngModel]="selectedTransmission()"
         (ngModelChange)="selectedTransmission.set($event)"
         optionLabel="label"
         optionValue="value"
-        styleClass="w-15rem"/>
+        styleClass="w-full"
+        ariaLabel="Filtre boîte de vitesses"
+      />
     </div>
 
-    <div class="flex flex-column gap-1">
-      <span class="text-xs font-semibold text-color-secondary">Moniteurs</span>
+    <div class="flex flex-column gap-2 flex-1">
+      <label class="text-xs font-bold text-color-secondary uppercase tracking-wide"
+        >Moniteurs</label
+      >
       <p-multiSelect
         [options]="instructorOptions()"
         [ngModel]="selectedInstructors()"
@@ -23,21 +29,31 @@
         optionValue="value"
         placeholder="Tous les moniteurs"
         display="chip"
-        styleClass="w-20rem"/>
+        styleClass="w-full"
+        ariaLabel="Filtre moniteurs"
+      />
     </div>
 
     @if (calendarResource.isLoading()) {
-      <div class="ml-auto text-sm text-color-secondary font-semibold">
-        Mise à jour du calendrier...
+      <div
+        class="flex align-items-center justify-content-center gap-2 text-sm text-color-secondary font-semibold md:ml-auto mt-2 md:mt-0 p-2 surface-ground border-round"
+      >
+        <i class="pi pi-spin pi-spinner text-primary"></i>
+        <span>Mise à jour...</span>
       </div>
     }
-  </div>
+  </header>
 
-  <app-calendar-grid
-    role="eleve"
-    [reservations]="filteredReservations()"
-    (reservationClicked)="handleBookingClick($event)"
-  />
+  <section
+    class="surface-card p-3 md:p-4 border-round-xl border-1 surface-border shadow-1"
+    aria-label="Calendrier des réservations"
+  >
+    <app-calendar-grid
+      role="eleve"
+      [reservations]="filteredReservations()"
+      (reservationClicked)="handleBookingClick($event)"
+    />
+  </section>
 </div>
 
 <p-dialog
@@ -45,42 +61,92 @@
   (visibleChange)="isModalVisible.set(false)"
   [modal]="true"
   header="Détails du créneau"
-  [style]="{ width: '25rem' }">
-
+  [draggable]="false"
+  [style]="{ width: '90vw', maxWidth: '400px' }"
+  styleClass="surface-card"
+>
   @if (selectedBooking()) {
-    <div class="flex flex-column gap-3 mt-2">
-      <div class="surface-100 p-3 border-round">
-        <p class="m-0 mb-2"><strong>Moniteur
-          :</strong> {{ selectedBooking().moniteur_prenom }} {{ selectedBooking().moniteur_nom }}</p>
-        <p class="m-0 mb-2"><strong>Véhicule :</strong> {{ selectedBooking().vehicule }}
-          ({{ selectedBooking().is_manuelle ? 'Manuelle' : 'Auto' }})</p>
-        <p class="m-0 font-semibold text-primary"><strong>Date
-          :</strong> {{ selectedBooking().date_creneau | date:'dd MMMM yyyy' }}
-          à {{ selectedBooking().heure_debut.substring(0, 5) }}</p>
+    <div class="flex flex-column gap-4 mt-2">
+      <div
+        class="surface-ground p-4 border-round-lg border-1 surface-border flex flex-column gap-3"
+      >
+        <div class="flex align-items-center gap-3 text-color">
+          <i class="pi pi-user text-2xl text-primary"></i>
+          <div>
+            <span class="block text-xs text-color-secondary font-bold uppercase tracking-wide"
+              >Moniteur</span
+            >
+            <span class="font-bold text-lg"
+              >{{ selectedBooking().moniteur_prenom }} {{ selectedBooking().moniteur_nom }}</span
+            >
+          </div>
+        </div>
+
+        <div class="flex align-items-center gap-3 text-color">
+          <i class="pi pi-car text-2xl text-primary"></i>
+          <div>
+            <span class="block text-xs text-color-secondary font-bold uppercase tracking-wide"
+              >Véhicule</span
+            >
+            <span class="font-bold text-lg"
+              >{{ selectedBooking().vehicule }}
+              <span class="text-color-secondary text-sm font-medium"
+                >({{ selectedBooking().is_manuelle ? 'Manuelle' : 'Auto' }})</span
+              ></span
+            >
+          </div>
+        </div>
+
+        <div class="flex align-items-center gap-3 text-color mt-2 pt-3 border-top-1 border-surface">
+          <i class="pi pi-calendar-clock text-2xl text-primary"></i>
+          <div>
+            <span class="block text-xs text-color-secondary font-bold uppercase tracking-wide"
+              >Date & Heure</span
+            >
+            <span class="font-bold text-lg text-primary"
+              >{{ selectedBooking().date_creneau | date: 'dd MMMM yyyy' }} à
+              {{ selectedBooking().heure_debut.substring(0, 5) }}</span
+            >
+          </div>
+        </div>
       </div>
 
-      <div class="flex justify-content-end gap-2 mt-3">
-        <p-button label="Retour" severity="secondary" (click)="isModalVisible.set(false)"/>
-
+      <div class="flex flex-column gap-2 mt-2">
         @if (isMyBooking()) {
           <p-button
             label="Annuler mon heure"
+            icon="pi pi-times"
             severity="danger"
+            styleClass="w-full"
             [disabled]="!canCancel()"
-            (click)="cancelHour()"/>
+            (click)="cancelHour()"
+          />
         } @else {
           <p-button
             label="Réserver cette heure"
+            icon="pi pi-check"
             severity="success"
-            (click)="reserverHeure()"/>
+            styleClass="w-full"
+            (click)="reserverHeure()"
+          />
         }
+        <p-button
+          label="Fermer"
+          icon="pi pi-arrow-left"
+          severity="secondary"
+          [text]="true"
+          styleClass="w-full"
+          (click)="isModalVisible.set(false)"
+        />
       </div>
 
       @if (isMyBooking() && !canCancel()) {
-        <small class="text-red-500 font-semibold mt-2 block text-center">
-          <i class="pi pi-exclamation-triangle mr-1"></i>
-          Annulation impossible à moins de 48h. Veuillez contacter l'auto-école.
-        </small>
+        <div class="bg-red-500-10 border-left-3 border-red-500 p-3 border-round-right">
+          <small class="text-red-400 font-medium block line-height-3">
+            <i class="pi pi-exclamation-triangle mr-1"></i>
+            Annulation impossible à moins de 48h. Veuillez contacter l'auto-école.
+          </small>
+        </div>
       }
     </div>
   }

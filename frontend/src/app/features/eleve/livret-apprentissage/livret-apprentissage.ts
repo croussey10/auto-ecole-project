@@ -60,7 +60,9 @@ export class LivretApprentissage {
         selectionMaitrise.length === 0 || selectionMaitrise.includes(competence.maitrise!)
       const categoriesFiltered =
         selectionCategory.length === 0 || selectionCategory.includes(competence.categorie!)
-      const searchFiltered = competence.competence_nom!.toLowerCase().includes(this.search().toLowerCase())
+      const searchFiltered = competence
+        .competence_nom!.toLowerCase()
+        .includes(this.search().toLowerCase())
       return maitrisesFiltered && categoriesFiltered && searchFiltered
     })
   })

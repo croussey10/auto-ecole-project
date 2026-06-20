@@ -10,14 +10,16 @@ export class ReservationService {
 
   async getReservations(
     profileId: string,
+    autoEcoleId: string,
     role: 'eleve' | 'moniteur',
   ): Promise<Database['public']['Views']['view_reservation']['Row'][]> {
     const { data, error } = await this.authService.supabase
       .from('view_reservation')
       .select('*')
+      .eq(role == 'eleve' ? 'eleve_id' : 'moniteur_id', profileId)
+      .eq('auto_ecole_id', autoEcoleId)
       .order('date_creneau', { ascending: true })
       .order('heure_debut', { ascending: true })
-      .eq(role == 'eleve' ? 'eleve_id' : 'moniteur_id', profileId)
     if (error) throw error
     return data
   }
@@ -37,9 +39,10 @@ export class ReservationService {
 
   async getStudentCalendarData(
     studentId: string,
+    autoEcoleId: string,
   ): Promise<Database['public']['Views']['view_reservation']['Row'][]> {
     const [myReservations, availableBookings] = await Promise.all([
-      this.getReservations(studentId, 'eleve'),
+      this.getReservations(studentId, autoEcoleId, 'eleve'),
       this.getAvailableReservations(),
     ])
     return [...myReservations, ...availableBookings]

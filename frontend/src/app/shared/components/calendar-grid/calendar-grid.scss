@@ -1,20 +1,26 @@
 .monthly-grid-container {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
+  gap: 0.75rem;
+}
+
+/* 📱 L'astuce magique : On empêche le calendrier de s'écraser sur les petits écrans */
+.min-w-max-calendar {
+  min-width: 700px; /* Force un scroll horizontal propre sur smartphone sans déformer les colonnes */
 }
 
 .case-jour {
-  min-height: 110px;
+  min-height: 120px;
   background-color: var(--surface-card);
   border: 1px solid var(--surface-border);
   transition: all 0.2s ease-in-out;
+}
 
-  &:hover {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 10px 0 rgba(var(--primary-color-rgb), 0.2);
-    transform: translateY(-2px);
-  }
+/* On isole l'effet de hover uniquement pour les éléments interactifs */
+.hover-effect:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 15px rgba(var(--primary-color-rgb), 0.15);
+  transform: translateY(-2px);
 }
 
 .jour-hors-mois {
@@ -23,12 +29,23 @@
 }
 
 .jour-passe {
-  opacity: 0.25;
+  opacity: 0.35; /* Légèrement plus élevé en Dark Mode pour la lisibilité */
   background-color: var(--surface-ground);
+  pointer-events: none; /* Empêche les clics fantômes sur les jours passés */
+}
 
-  &:hover {
-    border-color: var(--surface-border) !important;
-    box-shadow: none !important;
-    transform: none !important;
-  }
+/* 💅 Stylisation de la barre de scroll latérale pour qu'elle s'intègre au Dark Mode */
+.scroller-calendrier::-webkit-scrollbar {
+  width: 8px;
+}
+.scroller-calendrier::-webkit-scrollbar-track {
+  background: var(--surface-ground);
+  border-radius: 4px;
+}
+.scroller-calendrier::-webkit-scrollbar-thumb {
+  background-color: var(--surface-border);
+  border-radius: 4px;
+}
+.scroller-calendrier::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-color-secondary);
 }

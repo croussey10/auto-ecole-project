@@ -1,15 +1,14 @@
-import {Component, computed, inject, resource} from '@angular/core'
-import {ProfileService} from '../../../core/services/auth/profile-service'
-import {ReservationService} from '../../../core/services/database/reservation-service'
-import {Card} from 'primeng/card'
-import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout'
-import {toSignal} from '@angular/core/rxjs-interop'
-import {ElevePastLessonCard} from '../eleve-past-lesson-card/eleve-past-lesson-card';
+import { Component, computed, inject, resource } from '@angular/core'
+import { ProfileService } from '../../../core/services/auth/profile-service'
+import { ReservationService } from '../../../core/services/database/reservation-service'
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
+import { toSignal } from '@angular/core/rxjs-interop'
+import { ElevePastLessonCard } from '../eleve-past-lesson-card/eleve-past-lesson-card'
 import { ProgressSpinner } from 'primeng/progressspinner'
 
 @Component({
   selector: 'app-eleve-past-lessons-list',
-  imports: [Card, ElevePastLessonCard, ProgressSpinner],
+  imports: [ElevePastLessonCard, ProgressSpinner],
   templateUrl: './eleve-past-lessons-list.html',
   styleUrl: './eleve-past-lessons-list.scss',
 })
@@ -27,7 +26,7 @@ export class ElevePastLessonsList {
     params: () => this.profile(),
     loader: async ({ params }) => {
       if (!params) return null
-      return await this.reservationService.getReservations(params.id, 'eleve')
+      return await this.reservationService.getReservations(params.id, params.auto_ecole_id, 'eleve')
     },
   })
   reservations = this.resourceReservations.value

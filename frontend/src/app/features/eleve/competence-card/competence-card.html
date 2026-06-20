@@ -1,16 +1,25 @@
-<p-card class="mb-2">
-  <div class="flex align-items-center justify-content-between">
-    <div>{{ competence().competence_nom }}</div>
-    @if (!canEditMaitrise()) {
-      <p-tag [severity]="severity()">{{ competence().maitrise }}</p-tag>
-    } @else {
-      <p-select
-        [style]="{'--p-select-border-color': color(), '--p-select-focus-border-color': color()}"
-        [options]="maitriseOptions"
-        [ngModel]="competence().maitrise"
-        (onChange)="onChange($event)"
-        appendTo="body">
-      </p-select>
-    }
+<article
+  class="surface-card border-round-lg border-1 surface-border p-3 hover:surface-hover transition-colors"
+>
+  <div class="flex flex-column md:flex-row md:align-items-center justify-content-between gap-3">
+    <div class="font-medium text-color text-lg">{{ competence().competence_nom }}</div>
+
+    <div class="flex justify-content-end">
+      @if (!canEditMaitrise()) {
+        <p-tag [severity]="severity()" [rounded]="true" styleClass="px-3 text-sm font-bold">{{
+          competence().maitrise
+        }}</p-tag>
+      } @else {
+        <p-select
+          [style]="{ '--p-select-border-color': color(), '--p-select-focus-border-color': color() }"
+          [options]="maitriseOptions"
+          [ngModel]="competence().maitrise"
+          (onChange)="onChange($event)"
+          appendTo="body"
+          styleClass="w-full md:w-auto"
+        >
+        </p-select>
+      }
+    </div>
   </div>
-</p-card>
+</article>

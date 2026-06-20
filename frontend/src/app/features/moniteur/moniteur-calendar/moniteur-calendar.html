@@ -6,13 +6,14 @@
 
 <p-dialog
   [visible]="modaleCreateReservationVisible()"
-  (visibleChange)="closeModal()" [modal]="true"
+  (visibleChange)="closeModal()"
+  [modal]="true"
   header="Proposer un créneau de conduite"
-  [style]="{ width: '25rem' }">
-
+  [style]="{ width: '25rem' }"
+>
   <div class="flex flex-column gap-3">
     <p class="m-0 font-semibold text-color-secondary">
-      Date sélectionnée : {{ selectedDate() | date:'dd MMMM yyyy' }}
+      Date sélectionnée : {{ selectedDate() | date: 'dd MMMM yyyy' }}
     </p>
   </div>
 
@@ -20,7 +21,7 @@
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="field">
         <label for="title">Vehicule</label>
-        <input formControlName="vehicule" id="vehicule" type="text" pInputText class="w-full">
+        <input formControlName="vehicule" id="vehicule" type="text" pInputText class="w-full" />
         <small class="invalid-feedback">Le nom du vehicule est requis (min 3 carac.)</small>
       </div>
       <div class="field">
@@ -37,17 +38,10 @@
       </div>
       <div class="field-checkbox">
         <label for="boiteManuelle">Boîte manuelle</label>
-        <p-checkbox
-          formControlName="isManual"
-          [binary]="true"
-          inputId="boiteManuelle">
+        <p-checkbox formControlName="isManual" [binary]="true" inputId="boiteManuelle">
         </p-checkbox>
       </div>
-      <p-button
-        label="Valider"
-        type="submit"
-        [loading]="loadingSubmit()"
-      />
+      <p-button label="Valider" type="submit" [loading]="loadingSubmit()" />
     </form>
   </div>
 </p-dialog>
@@ -57,12 +51,11 @@
   (visibleChange)="closeReservationDetailsModal()"
   [modal]="true"
   header="Détails du créneau"
-  [style]="{ width: '25rem' }">
-
+  [style]="{ width: '25rem' }"
+>
   @if (selectedReservation()) {
     <div class="flex flex-column gap-3 mt-2">
       <div class="surface-100 p-3 border-round">
-
         <p class="m-0 mb-2">
           <strong>Statut :</strong>
           <p-tag [severity]="selectedReservation()?.eleve_id ? 'success' : 'info'">
@@ -72,17 +65,19 @@
 
         @if (selectedReservation()?.eleve_id) {
           <p class="m-0 mb-2">
-            <strong>Élève :</strong> {{ selectedReservation()?.eleve_prenom }} {{ selectedReservation()?.eleve_nom }}
+            <strong>Élève :</strong> {{ selectedReservation()?.eleve_prenom }}
+            {{ selectedReservation()?.eleve_nom }}
           </p>
         }
 
         <p class="m-0 mb-2">
-          <strong>Véhicule :</strong> {{ selectedReservation()?.vehicule }}
-          ({{ selectedReservation()?.is_manuelle ? 'Manuelle' : 'Auto' }})
+          <strong>Véhicule :</strong> {{ selectedReservation()?.vehicule }} ({{
+            selectedReservation()?.is_manuelle ? 'Manuelle' : 'Auto'
+          }})
         </p>
         <p class="m-0 font-semibold text-primary">
-          <strong>Date :</strong> {{ selectedReservation()?.date_creneau | date:'dd MMMM yyyy' }}
-          à {{ selectedReservation()?.heure_debut?.substring(0, 5) }}
+          <strong>Date :</strong> {{ selectedReservation()?.date_creneau | date: 'dd MMMM yyyy' }} à
+          {{ selectedReservation()?.heure_debut?.substring(0, 5) }}
         </p>
 
         @if (isPastReservation()) {
@@ -96,7 +91,7 @@
       </div>
 
       <div class="flex justify-content-end gap-2 mt-3">
-        <p-button label="Fermer" severity="secondary" (click)="closeReservationDetailsModal()"/>
+        <p-button label="Fermer" severity="secondary" (click)="closeReservationDetailsModal()" />
 
         @if (!isPastReservation()) {
           <p-button
@@ -104,7 +99,8 @@
             severity="danger"
             [disabled]="!canCancel()"
             (click)="cancelReservation()"
-            [loading]="loadingCancel()"/>
+            [loading]="loadingCancel()"
+          />
         }
       </div>
 

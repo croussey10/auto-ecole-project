@@ -1,11 +1,17 @@
-import {Component, effect, inject, input, signal} from '@angular/core'
-import {Card} from 'primeng/card'
-import {Database} from '../../../types/database.types';
-import {Textarea} from 'primeng/textarea';
-import {Button} from 'primeng/button';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {ReservationService} from '../../../core/services/database/reservation-service';
-import {FeedbackMessageService} from '../../../core/services/utility/feedback-message-service';
+import { Component, effect, inject, input, signal } from '@angular/core'
+import { Card } from 'primeng/card'
+import { Database } from '../../../types/database.types'
+import { Textarea } from 'primeng/textarea'
+import { Button } from 'primeng/button'
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms'
+import { ReservationService } from '../../../core/services/database/reservation-service'
+import { FeedbackMessageService } from '../../../core/services/utility/feedback-message-service'
 import { DatePipe } from '@angular/common'
 
 @Component({

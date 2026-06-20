@@ -23,14 +23,11 @@
   [showIndicators]="false"
   [showNavigators]="true"
 >
-
   <ng-template let-page #item>
-
     @if (page == 'past') {
-      <app-moniteur-past-lessons-list/>
+      <app-moniteur-past-lessons-list />
     } @else {
-      <app-moniteur-next-lessons-list/>
+      <app-moniteur-next-lessons-list />
     }
-
   </ng-template>
 </p-carousel>

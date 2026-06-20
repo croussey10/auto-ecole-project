@@ -1,41 +1,79 @@
 @if (profile()) {
-  <header class="navbar-shadow p-3 mb-4">
-    <div class="flex justify-content-between align-items-center">
+  <header class="navbar-aura-dark px-4 py-3 mb-4 sticky top-0 z-5 border-bottom-1 surface-border">
+    <div class="flex justify-content-between align-items-center max-w-screen-xl mx-auto">
       @if (!isMobile()) {
-        <a class="flex gap-2 align-items-center">
-          <img ngSrc="logo-voiture-placeholder.png" alt="logo" width="36" height="36"/>
-          <p>{{ slug() }}</p>
+        <a class="flex gap-3 align-items-center cursor-pointer no-underline" routerLink="/">
+          <img ngSrc="logo-voiture-placeholder.png" alt="logo" width="36" height="36" />
+          <span class="text-xl font-semibold text-color">{{ slug() | titlecase }}</span>
         </a>
+
         <div class="flex align-items-center gap-2">
-          <p-button label="Logout" severity="secondary" (onClick)="logout()"/>
           @for (onglet of onglets(); track onglet.label) {
             <p-button
-              label="{{ onglet.label }}"
-              icon="{{ onglet.icon }}"
-              styleClass="w-full"
+              [label]="onglet.label"
+              [icon]="onglet.icon"
+              [text]="true"
+              severity="secondary"
+              styleClass="text-color-secondary hover:text-color"
               (onClick)="router.navigate([onglet.link])"
             />
           }
+
+          <div class="border-left-1 surface-border h-2rem mx-3 hidden md:block"></div>
+
+          <p-button
+            icon="pi pi-sign-out"
+            label="Déconnexion"
+            severity="danger"
+            [outlined]="true"
+            (onClick)="logout()"
+          />
         </div>
       } @else {
-        <a class="flex gap-2 align-items-center">
-          <img ngSrc="logo-voiture-placeholder.png" alt="logo" width="36" height="36"/>
+        <a class="flex gap-3 align-items-center no-underline">
+          <img ngSrc="logo-voiture-placeholder.png" alt="logo" width="36" height="36" />
+          <span class="font-semibold text-color">{{ slug() | titlecase }}</span>
         </a>
-        <div class="card flex justify-center">
-          <p-button label="Logout" severity="secondary" (onClick)="logout()"/>
-          <p-drawer [(visible)]="visibleDrawer" position="right" [style]="{ width: '60%' }">
-            <div class="flex flex-column gap-4">
+
+        <div class="flex justify-content-center align-items-center gap-2">
+          <p-button
+            (onClick)="visibleDrawer.set(true)"
+            icon="pi pi-bars"
+            [text]="true"
+            severity="secondary"
+            styleClass="text-color"
+            size="large"
+          />
+
+          <p-drawer
+            [(visible)]="visibleDrawer"
+            position="right"
+            [style]="{ width: '75%' }"
+            styleClass="surface-ground"
+            appendTo="body"
+          >
+            <div class="flex flex-column gap-2 mt-4">
               @for (onglet of onglets(); track onglet.label) {
                 <p-button
-                  label="{{ onglet.label }}"
-                  icon="{{ onglet.icon }}"
-                  styleClass="w-full justify-content-start gap-5"
+                  [label]="onglet.label"
+                  [icon]="onglet.icon"
+                  styleClass="w-full justify-content-start text-color"
+                  [text]="true"
+                  severity="secondary"
                   (onClick)="visibleDrawer.set(false); router.navigate([onglet.link])"
                 />
               }
+              <p-divider styleClass="border-surface" />
+              <p-button
+                label="Déconnexion"
+                icon="pi pi-sign-out"
+                severity="danger"
+                styleClass="w-full justify-content-start mt-2"
+                [outlined]="true"
+                (onClick)="visibleDrawer.set(false); logout()"
+              />
             </div>
           </p-drawer>
-          <p-button (onClick)="visibleDrawer.set(true)" icon="pi pi-bars" text/>
         </div>
       }
     </div>

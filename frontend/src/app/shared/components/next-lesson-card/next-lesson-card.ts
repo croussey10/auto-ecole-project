@@ -1,19 +1,19 @@
-import {Component, computed, input, output} from '@angular/core'
-import {Card} from 'primeng/card'
-import {Button} from 'primeng/button';
-import {Database} from '../../../types/database.types';
+import { Component, computed, input, output } from '@angular/core'
+import { Card } from 'primeng/card'
+import { Button } from 'primeng/button'
+import { Database } from '../../../types/database.types'
+import { DatePipe } from '@angular/common'
 
 @Component({
   selector: 'app-next-lesson-card',
-  imports: [Card, Button],
+  imports: [Card, Button, DatePipe],
   templateUrl: './next-lesson-card.html',
   styleUrl: './next-lesson-card.scss',
 })
 export class NextLessonCard {
-
   cancelTrigger = output()
-  loadingCancel = input.required<boolean>();
-  reservation = input.required<Database["public"]["Views"]["view_reservation"]["Row"]>()
+  loadingCancel = input.required<boolean>()
+  reservation = input.required<Database['public']['Views']['view_reservation']['Row']>()
   personRole = input.required<string>()
   personName = input.required<string>()
 
@@ -45,5 +45,4 @@ export class NextLessonCard {
     if (hours > 0) return `Dans ${hours} heures et ${minutes} minutes`
     return `Dans ${minutes} minutes`
   })
-
 }

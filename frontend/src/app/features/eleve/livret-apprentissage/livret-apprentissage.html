@@ -1,41 +1,61 @@
-<div class="flex align-items-center justify-content-center gap-2 mb-2">
-  <div>
-    <input
-      type="text"
-      id="search"
-      pInputText
-      placeholder="rechercher..."
-      [(ngModel)]="search"
-    >
-  </div>
-  <div>
-    <p-multi-select
+<div class="container">
+  <div
+    class="flex flex-column md:flex-row align-items-stretch md:align-items-center gap-3 mb-4 surface-card p-3 border-round-xl border-1 surface-border shadow-1"
+  >
+    <div class="p-input-icon-left flex-1">
+      <i class="pi pi-search"></i>
+      <input
+        type="text"
+        pInputText
+        placeholder="Rechercher une compétence..."
+        [(ngModel)]="search"
+        class="w-full"
+        aria-label="Rechercher une compétence"
+      />
+    </div>
+
+    <p-multiSelect
       [options]="maitrises"
       [(ngModel)]="selectedMaitrises"
-      placeholder="Select maitrises"
+      placeholder="Filtrer par maîtrise"
       display="chip"
+      styleClass="w-full md:w-15rem"
+      ariaLabel="Filtre maîtrise"
     />
-  </div>
-  <div>
-    <p-multi-select
+
+    <p-multiSelect
       [options]="categories"
       [(ngModel)]="selectedCategories"
-      placeholder="Select compétences"
+      placeholder="Catégories"
       display="chip"
+      styleClass="w-full md:w-15rem"
+      ariaLabel="Filtre catégorie"
     />
   </div>
-</div>
 
-@if (resourceCompetences.isLoading()) {
-  <div class="flex justify-content-center py-6">
-    <p-progress-spinner/>
-  </div>
-} @else {
-  @for (competence of filter(); track competence.id) {
-    <app-competence-card
-      [competence]="competence"
-      [canEditMaitrise]="canEditMaitrise()"
-      (maitriseChanged)="onMaitriseChange($event.competenceId, $event.newMaitrise)"
-    />
+  @if (resourceCompetences.isLoading()) {
+    <div class="flex justify-content-center py-6">
+      <p-progress-spinner strokeWidth="4" aria-label="Chargement des compétences" />
+    </div>
+  } @else {
+    <section class="flex flex-column gap-2" aria-label="Liste des compétences">
+      @for (competence of filter(); track competence.id) {
+        <app-competence-card
+          [competence]="competence"
+          [canEditMaitrise]="canEditMaitrise()"
+          (maitriseChanged)="onMaitriseChange($event.competenceId, $event.newMaitrise)"
+        />
+      } @empty {
+        <div
+          class="surface-card border-round-xl border-1 surface-border p-5 text-center shadow-1 mt-4 max-w-30rem mx-auto"
+        >
+          <i class="pi pi-search text-4xl text-color-secondary mb-3"></i>
+          <h3 class="m-0 text-color font-bold">Aucune compétence trouvée</h3>
+          <p class="text-color-secondary mt-2 line-height-3">
+            Essayez de modifier vos filtres de recherche ou l'orthographe.
+          </p>
+        </div>
+      }
+    </section>
   }
-}
+</div>

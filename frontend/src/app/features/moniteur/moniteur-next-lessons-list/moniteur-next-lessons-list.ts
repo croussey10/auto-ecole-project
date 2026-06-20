@@ -1,13 +1,13 @@
-import {Component, computed, inject, resource, signal} from '@angular/core'
-import {NextLessonCard} from '../../../shared/components/next-lesson-card/next-lesson-card'
-import {ProfileService} from '../../../core/services/auth/profile-service'
-import {ReservationService} from '../../../core/services/database/reservation-service'
-import {Card} from 'primeng/card'
-import {ScrollPanel} from 'primeng/scrollpanel'
-import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout'
-import {toSignal} from '@angular/core/rxjs-interop'
-import {AuthError} from '@supabase/supabase-js';
-import {MessageService} from 'primeng/api';
+import { Component, computed, inject, resource, signal } from '@angular/core'
+import { NextLessonCard } from '../../../shared/components/next-lesson-card/next-lesson-card'
+import { ProfileService } from '../../../core/services/auth/profile-service'
+import { ReservationService } from '../../../core/services/database/reservation-service'
+import { Card } from 'primeng/card'
+import { ScrollPanel } from 'primeng/scrollpanel'
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
+import { toSignal } from '@angular/core/rxjs-interop'
+import { AuthError } from '@supabase/supabase-js'
+import { MessageService } from 'primeng/api'
 import { ProgressSpinner } from 'primeng/progressspinner'
 
 @Component({
@@ -31,7 +31,7 @@ export class MoniteurNextLessonsList {
     params: () => this.profile(),
     loader: async ({ params }) => {
       if (!params) return null
-      return await this.reservationService.getReservations(params.id, 'moniteur')
+      return await this.reservationService.getReservations(params.id, params.auto_ecole_id, 'moniteur')
     },
   })
   reservations = this.resourceReservations.value

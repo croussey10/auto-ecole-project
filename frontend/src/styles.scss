@@ -1,26 +1,60 @@
 @import 'primeflex/primeflex.css';
 @import 'primeicons/primeicons.css';
 
+/* Configuration globale de l'application (Style Aura Dark & Épuré) */
 body {
   padding: 0;
   margin: 0;
   font-family: 'Space Grotesk', sans-serif;
+
+  /* 🎨 On force l'application à utiliser les variables de fond sombres natives d'Aura */
+  background-color: #121212; /* Un noir pur/anthracite épuré ou var(--surface-ground) */
+  color: #eeeeee; /* Un blanc cassé doux pour les yeux ou var(--text-color) */
+  min-height: 100vh;
 }
 
+/* Conteneur principal pour tes pages (Suivi du planning, listes, etc.) */
 .container {
-  max-width: 40rem;
+  max-width: 80rem; /* Élargi à 80rem (1280px) car 40rem c'est trop étroit pour un calendrier ou un tableau */
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
+/* 🚨 Gestion des retours d'erreurs de formulaires */
 .invalid-feedback {
   display: none;
-  color: var(--p-red-500);
+  color: var(--p-red-400); /* Un rouge un poil plus vif et lisible sur fond sombre */
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  font-weight: 500;
 }
 
-.ng-invalid.ng-dirty + .invalid-feedback,
-.ng-invalid.ng-touched + .invalid-feedback {
-  display: block;
+/* Rapprochement de l'input et du message d'erreur si Angular détecte l'invalidité */
+.ng-invalid.ng-dirty,
+.ng-invalid.ng-touched {
+  & + .invalid-feedback {
+    display: block;
+    animation: fadeIn 0.2s ease-in-out;
+  }
+}
+
+/* Petite animation subtile pour l'apparition des erreurs (La touche pro) */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 💅 Personnalisation globale des composants PrimeNG pour le thème sombre */
+.p-button-text {
+  transition:
+    background-color 0.2s,
+    color 0.2s !important;
 }

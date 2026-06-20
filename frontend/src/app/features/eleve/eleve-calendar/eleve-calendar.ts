@@ -26,7 +26,7 @@ export class EleveCalendar {
     params: () => this.profile(),
     loader: async ({ params }) => {
       if (!params) return
-      return await this.reservationService.getStudentCalendarData(params.id)
+      return await this.reservationService.getStudentCalendarData(params.id, params.auto_ecole_id)
     },
   })
   calendar = this.calendarResource.value

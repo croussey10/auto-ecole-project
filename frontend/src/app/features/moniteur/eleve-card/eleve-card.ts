@@ -16,5 +16,4 @@ export class EleveCard {
   clicLivret() {
     this.eleveToOpenLivret.emit(this.eleve())
   }
-
 }

@@ -1,19 +1,19 @@
-import {Routes} from '@angular/router'
-import {Login} from './features/public/login/login'
-import {Register} from './features/public/register/register'
-import {roleGuard} from './core/guards/role-guard'
-import {EleveDashboard} from './features/eleve/eleve-dashboard/eleve-dashboard'
-import {MoniteurDashboard} from './features/moniteur/moniteur-dashboard/moniteur-dashboard'
-import {EcoleIntrouvable} from './features/public/ecole-introuvable/ecole-introuvable'
-import {schoolGuard} from './core/guards/school-guard'
-import {EleveReservations} from './features/eleve/eleve-reservations/eleve-reservations';
-import {MoniteurReservations} from "./features/moniteur/moniteur-reservations/moniteur-reservations";
-import {LivretApprentissage} from "./features/eleve/livret-apprentissage/livret-apprentissage";
+import { Routes } from '@angular/router'
+import { Login } from './features/public/login/login'
+import { Register } from './features/public/register/register'
+import { roleGuard } from './core/guards/role-guard'
+import { EleveDashboard } from './features/eleve/eleve-dashboard/eleve-dashboard'
+import { MoniteurDashboard } from './features/moniteur/moniteur-dashboard/moniteur-dashboard'
+import { EcoleIntrouvable } from './features/public/ecole-introuvable/ecole-introuvable'
+import { schoolGuard } from './core/guards/school-guard'
+import { EleveReservations } from './features/eleve/eleve-reservations/eleve-reservations'
+import { MoniteurReservations } from './features/moniteur/moniteur-reservations/moniteur-reservations'
+import { LivretApprentissage } from './features/eleve/livret-apprentissage/livret-apprentissage'
 import { ElevesList } from './features/moniteur/eleves-list/eleves-list'
 import { ForfaitsList } from './features/eleve/forfaits-list/forfaits-list'
 import { AchatsHistoriqueList } from './features/eleve/achats-historique-list/achats-historique-list'
 import { MoniteurCalendar } from './features/moniteur/moniteur-calendar/moniteur-calendar'
-import {EleveCalendar} from './features/eleve/eleve-calendar/eleve-calendar';
+import { EleveCalendar } from './features/eleve/eleve-calendar/eleve-calendar'
 
 export const routes: Routes = [
   {

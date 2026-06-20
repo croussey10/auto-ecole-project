@@ -1,14 +1,41 @@
-<p-card class="mb-3">
-  <div class="flex justify-content-between align-items-center">
-    <div>
-      <div>heure de départ : {{ reservation().heure_debut?.substring(0, 5) }}</div>
-      <div>date : {{ reservation().date_creneau | date:'dd/MM/yyyy' }}</div>
-      <div>{{ personRole() }} {{ personName() }}</div>
+<article
+  class="surface-card border-round-xl border-1 surface-border p-4 mb-3 hover:shadow-2 transition-duration-200"
+>
+  <div class="flex flex-column md:flex-row justify-content-between md:align-items-start gap-4">
+    <div class="flex flex-column gap-3">
+      <div class="flex align-items-center gap-2 text-color-secondary font-medium">
+        <i class="pi pi-calendar border-circle surface-ground p-2"></i>
+        <span class="text-lg text-color font-bold capitalize">{{
+          reservation().date_creneau | date: 'dd MMMM yyyy'
+        }}</span>
+        <span class="text-lg text-color font-bold"
+          >à {{ reservation().heure_debut?.substring(0, 5) }}</span
+        >
+      </div>
+      <div class="flex align-items-center gap-2 text-color">
+        <i class="pi pi-user border-circle surface-ground p-2"></i>
+        <span class="text-color-secondary">{{ personRole() }}</span>
+        <span class="font-bold">{{ personName() }}</span>
+      </div>
     </div>
 
-    <div class="flex flex-auto max-w-18rem">
-      <div class="text-sm font-bold text-primary">Commentaire : {{ reservation().commentaire_moniteur }}</div>
-    </div>
-
+    @if (reservation().commentaire_moniteur) {
+      <div
+        class="surface-ground p-3 border-round-lg flex-1 md:max-w-20rem border-left-3 border-primary w-full"
+      >
+        <span class="block text-xs font-semibold text-color-secondary mb-2 uppercase tracking-wide"
+          >Note du moniteur</span
+        >
+        <p class="m-0 text-sm text-color line-height-3 font-italic">
+          "{{ reservation().commentaire_moniteur }}"
+        </p>
+      </div>
+    } @else {
+      <div
+        class="flex align-items-center justify-content-center p-3 border-round-lg border-1 surface-border border-dashed text-color-secondary font-italic text-sm md:max-w-15rem w-full"
+      >
+        Aucun commentaire
+      </div>
+    }
   </div>
-</p-card>
+</article>

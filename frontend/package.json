@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "supabase:update": "npx supabase gen types typescript --project-id \"wjgxesgkdacuxtelhhyw\" --schema public > src/app/types/database.types.ts"
+    "supabase:update": "npx supabase gen types typescript --project-id \"wjgxesgkdacuxtelhhyw\" --schema public > src/app/types/database.types.ts",
+    "format": "prettier --write \"src/**/*.{ts,html,css,scss,json}\""
   },
   "private": true,
   "packageManager": "npm@10.9.4",
