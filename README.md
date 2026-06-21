@@ -2,6 +2,22 @@
 
 DriveConnect est une plateforme SaaS (Software as a Service) multi-écoles conçue pour digitaliser et simplifier la relation entre les élèves et leurs moniteurs d'auto-école.
 
+## 🌐 🔗 Lien du projet déployé
+Accédez à l'application en production :  
+👉 **[DriveConnect sur Vercel](https://auto-ecole-project-cr10.vercel.app/auth/login/la-chouette)**
+
+### 🔑 Comptes de Test (Auto-école "La Chouette")
+Pour tester l'application directement, vous pouvez utiliser les profils de nos personas :
+
+*   **👨‍🎓 Compte Élève :**
+  *   **Email :** `clement-martin@eleve.com`
+  *   **Mot de passe :** `azeaze`
+*   **👨‍🏫 Compte Moniteur :**
+  *   **Email :** `jean-pavois@moniteur.com`
+  *   **Mot de passe :** `azeaze`
+
+---
+
 ## 🚀 1. Le Produit
 
 Aujourd'hui, de nombreuses auto-écoles fonctionnent encore avec des processus papier, générant frustration pour les élèves et perte de temps pour les moniteurs. DriveConnect résout ce problème en proposant une plateforme centralisée et intuitive.
@@ -30,6 +46,7 @@ Pour faire tourner le projet sur votre machine locale, vous aurez besoin de **No
 
 1. **Cloner le dépôt :**
 ```bash
-   git clone https://github.com/votre-nom/drive-connect.git
-   cd drive-connect
+   git clone https://github.com/croussey10/auto-ecole-project.git
+   cd front-end
    npm install
+   npm run start
