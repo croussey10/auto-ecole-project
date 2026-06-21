@@ -1,15 +1,19 @@
-<p-card>
-  Mes réservations à venir :
+<section
+  class="container py-4 h-full flex flex-column"
+  aria-label="Liste de vos prochaines leçons à donner"
+>
+  <h2 class="text-xl font-bold text-color mb-4">Prochaines leçons à donner</h2>
+
   @if (resourceReservations.isLoading()) {
-    <div class="flex justify-content-center py-6">
-      <p-progress-spinner />
+    <div class="flex justify-content-center align-items-center py-6">
+      <p-progress-spinner strokeWidth="4" aria-label="Chargement de vos leçons" />
     </div>
   } @else {
-    <div class="lessons-scroll-container">
+    <div class="lessons-scroll-container pr-2">
       @for (reservation of reservationsInComing(); track reservation.id) {
         <app-next-lesson-card
           [reservation]="reservation"
-          [personRole]="reservation.eleve_id ? 'Eleve : ' : 'Statut : '"
+          [personRole]="reservation.eleve_id ? 'Élève :' : 'Statut :'"
           [personName]="
             reservation.eleve_id
               ? reservation.eleve_prenom + ' ' + reservation.eleve_nom
@@ -18,7 +22,22 @@
           [loadingCancel]="idBeingCancelled() == reservation.id"
           (cancelTrigger)="cancelReservation(reservation.id)"
         />
+      } @empty {
+        <div
+          class="surface-card border-round-xl border-1 surface-border p-5 text-center shadow-1 mt-2"
+        >
+          <div
+            class="bg-primary-reverse border-circle w-4rem h-4rem flex align-items-center justify-content-center mx-auto mb-3"
+          >
+            <i class="pi pi-check-circle text-2xl text-primary"></i>
+          </div>
+          <h3 class="m-0 text-color font-bold text-lg mb-2">Planning libre</h3>
+          <p class="text-color-secondary m-0 line-height-3">
+            Aucune leçon n'est prévue prochainement. Vous pouvez ajouter des créneaux dans votre
+            calendrier.
+          </p>
+        </div>
       }
     </div>
   }
-</p-card>
+</section>

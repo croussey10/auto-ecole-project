@@ -1,11 +1,10 @@
 import { Component, input, output } from '@angular/core'
 import { Database } from '../../../types/database.types'
-import { Card } from 'primeng/card'
 import { Button } from 'primeng/button'
 
 @Component({
   selector: 'app-eleve-card',
-  imports: [Card, Button],
+  imports: [Button],
   templateUrl: './eleve-card.html',
   styleUrl: './eleve-card.scss',
 })

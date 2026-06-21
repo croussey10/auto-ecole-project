@@ -1,19 +1,35 @@
-@if (resourceEleves.isLoading()) {
-  <div class="flex justify-content-center py-6">
-    <p-progress-spinner />
+<section class="container py-4">
+  <div class="flex justify-content-between align-items-center mb-5">
+    <h1 class="text-3xl font-bold text-color">Mes Élèves</h1>
   </div>
-} @else {
-  @for (eleve of eleves(); track eleve.id) {
-    <app-eleve-card [eleve]="eleve" (eleveToOpenLivret)="openLivret($event)" />
+
+  @if (resourceEleves.isLoading()) {
+    <div class="flex justify-content-center py-6">
+      <p-progress-spinner strokeWidth="4" />
+    </div>
+  } @else {
+    <div class="grid">
+      @for (eleve of eleves(); track eleve.id) {
+        <div class="col-12 md:col-6 lg:col-4">
+          <app-eleve-card [eleve]="eleve" (eleveToOpenLivret)="openLivret($event)" />
+        </div>
+      } @empty {
+        <div class="col-12 text-center p-6 surface-card border-round-xl border-1 surface-border">
+          <i class="pi pi-users text-4xl text-color-secondary mb-3"></i>
+          <p class="text-color-secondary">Aucun élève trouvé dans cette école.</p>
+        </div>
+      }
+    </div>
   }
-}
+</section>
 
 <p-dialog
-  header="{{ eleveToOpenLivret()?.prenom }} {{ eleveToOpenLivret()?.nom }}"
+  header="Suivi de {{ eleveToOpenLivret()?.prenom }} {{ eleveToOpenLivret()?.nom }}"
   [modal]="true"
   [(visible)]="visibleDialog"
+  [style]="{ width: '90vw', maxWidth: '800px' }"
+  styleClass="surface-card"
 >
-  <span class="p-text-secondary block mb-8"></span>
   @if (eleveToOpenLivret()) {
     <app-livret-apprentissage [eleveTargetId]="eleveToOpenLivret()!.id" [canEditMaitrise]="true" />
   }

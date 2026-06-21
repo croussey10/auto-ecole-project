@@ -1,22 +1,37 @@
-<p-card>
-  Mes réservations passées :
+<section class="container py-4 h-full flex flex-column" aria-label="Historique des leçons">
+  <h2 class="text-xl font-bold text-color mb-4">Leçons effectuées</h2>
+
   @if (resourceReservations.isLoading()) {
-    <div class="flex justify-content-center py-6">
-      <p-progress-spinner />
+    <div class="flex justify-content-center align-items-center py-6">
+      <p-progress-spinner strokeWidth="4" aria-label="Chargement de votre historique" />
     </div>
   } @else {
-    <div class="lessons-scroll-container">
+    <div class="lessons-scroll-container pr-2">
       @for (reservation of reservationsPast(); track reservation.id) {
         <app-moniteur-past-lesson-card
           [reservation]="reservation"
-          [personRole]="reservation.eleve_id ? 'Eleve : ' : 'Statut : '"
+          [personRole]="reservation.eleve_id ? 'Élève :' : 'Statut :'"
           [personName]="
             reservation.eleve_id
               ? reservation.eleve_prenom + ' ' + reservation.eleve_nom
               : 'Créneau Libre'
           "
         />
+      } @empty {
+        <div
+          class="surface-card border-round-xl border-1 surface-border p-5 text-center shadow-1 mt-2"
+        >
+          <div
+            class="bg-surface-ground border-circle w-4rem h-4rem flex align-items-center justify-content-center mx-auto mb-3"
+          >
+            <i class="pi pi-history text-2xl text-color-secondary"></i>
+          </div>
+          <h3 class="m-0 text-color font-bold text-lg mb-2">Aucun historique</h3>
+          <p class="text-color-secondary m-0 line-height-3">
+            Il n'y a pas encore de leçon passée enregistrée dans cette école.
+          </p>
+        </div>
       }
     </div>
   }
-</p-card>
+</section>

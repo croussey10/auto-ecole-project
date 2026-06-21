@@ -35,7 +35,7 @@ export class Navbar {
     const menu = [
       { label: 'Calendrier', icon: 'pi pi-calendar', link: `${profileRole}/calendar` },
       { label: 'Mes heures', icon: 'pi pi-clock', link: `${profileRole}/reservations` },
-      { label: 'Mon compte', icon: 'pi pi-user', link: `${profileRole}/compte` },
+      //{ label: 'Mon compte', icon: 'pi pi-user', link: `${profileRole}/compte` },
       { label: 'Dashboard', icon: 'pi pi-globe', link: `${profileRole}/dashboard` },
     ]
 

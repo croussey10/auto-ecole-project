@@ -26,7 +26,12 @@ export class ElevePastLessonsList {
     params: () => this.profile(),
     loader: async ({ params }) => {
       if (!params) return null
-      return await this.reservationService.getReservations(params.id, params.auto_ecole_id, 'eleve')
+      return await this.reservationService.getReservations(
+        params.id,
+        params.auto_ecole_id,
+        'eleve',
+        false,
+      )
     },
   })
   reservations = this.resourceReservations.value

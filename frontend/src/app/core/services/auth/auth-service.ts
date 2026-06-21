@@ -18,7 +18,7 @@ export class AuthService {
       if (event == 'SIGNED_OUT') {
         this.currentUser.set(null)
         localStorage.removeItem('activeAutoEcoleId')
-         localStorage.removeItem('activeAutoEcoleSlug')
+        localStorage.removeItem('activeAutoEcoleSlug')
       }
     })
   }

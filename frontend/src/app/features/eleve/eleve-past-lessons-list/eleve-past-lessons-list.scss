@@ -1,12 +1,8 @@
 .lessons-scroll-container {
   width: 100%;
-  max-height: 28rem;
+  flex: 1; /* Occupe tout l'espace disponible */
   overflow-y: auto;
   padding-right: 0.5rem;
-
-  @media screen and (max-width: 768px) {
-    max-height: 21rem;
-  }
 
   /* 💅 Scrollbar stylisée pour le Dark Mode Aura */
   &::-webkit-scrollbar {

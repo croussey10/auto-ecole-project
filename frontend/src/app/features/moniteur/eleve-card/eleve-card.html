@@ -1,6 +1,25 @@
-<p-card class="mb-2">
-  <div class="flex align-items-center justify-content-between">
-    <div>{{ eleve().prenom }} {{ eleve().nom }}</div>
-    <p-button label="Livret d'apprentissage" (onClick)="clicLivret()" />
+<article
+  class="surface-card border-round-xl border-1 surface-border p-4 hover:shadow-2 transition-duration-200 cursor-pointer"
+  (click)="clicLivret()"
+>
+  <div class="flex align-items-center gap-4">
+    <div
+      class="bg-primary-reverse border-circle w-4rem h-4rem flex align-items-center justify-content-center font-bold text-xl text-primary"
+    >
+      {{ eleve().prenom.charAt(0) }}{{ eleve().nom.charAt(0) }}
+    </div>
+
+    <div class="flex-1">
+      <h3 class="text-lg font-bold text-color m-0">{{ eleve().prenom }} {{ eleve().nom }}</h3>
+    </div>
+
+    <p-button
+      icon="pi pi-book"
+      [rounded]="true"
+      [text]="true"
+      severity="secondary"
+      (onClick)="clicLivret()"
+      ariaLabel="Voir le livret"
+    />
   </div>
-</p-card>
+</article>

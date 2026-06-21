@@ -1,12 +1,11 @@
 import { Component, computed, input, output } from '@angular/core'
-import { Card } from 'primeng/card'
 import { Button } from 'primeng/button'
 import { Database } from '../../../types/database.types'
 import { DatePipe } from '@angular/common'
 
 @Component({
   selector: 'app-next-lesson-card',
-  imports: [Card, Button, DatePipe],
+  imports: [Button, DatePipe],
   templateUrl: './next-lesson-card.html',
   styleUrl: './next-lesson-card.scss',
 })

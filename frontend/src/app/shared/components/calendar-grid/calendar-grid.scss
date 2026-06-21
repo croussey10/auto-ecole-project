@@ -1,46 +1,87 @@
-.monthly-grid-container {
+/* Grille parfaite à 7 colonnes */
+.grid-7-cols {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 0.75rem;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px; /* Très compact sur mobile */
+  width: 100%;
+
+  @media screen and (min-width: 768px) {
+    gap: 8px; /* Plus respirant sur PC */
+  }
 }
 
-/* 📱 L'astuce magique : On empêche le calendrier de s'écraser sur les petits écrans */
-.min-w-max-calendar {
-  min-width: 700px; /* Force un scroll horizontal propre sur smartphone sans déformer les colonnes */
-}
-
+/* Style des cellules */
 .case-jour {
-  min-height: 120px;
+  min-height: 100px; /* Assez haut pour empiler des heures sur mobile */
   background-color: var(--surface-card);
-  border: 1px solid var(--surface-border);
-  transition: all 0.2s ease-in-out;
+  border: 1px solid transparent;
+  overflow: hidden;
+
+  @media screen and (min-width: 768px) {
+    min-height: 140px; /* Plus grand sur PC */
+  }
+
+  /* Jours du mois précédent/suivant */
+  &.jour-hors-mois {
+    opacity: 0.15;
+    pointer-events: none;
+  }
+
+  /* 🦓 Effet Hachuré Gentle Mates pour les jours passés */
+  &.jour-passe {
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--surface-ground),
+      var(--surface-ground) 4px,
+      var(--surface-card) 4px,
+      var(--surface-card) 8px
+    );
+    opacity: 0.6;
+    /* Supprime la ligne pointer-events: none; qui était ici ! */
+  }
+
+  /* ⬛ Le jour d'aujourd'hui */
+  &.jour-aujourdhui {
+    background-color: var(--surface-card);
+    border: 1px solid var(--primary-color);
+  }
+
+  /* Hover interactif (Moniteur) */
+  &:hover:not(.jour-passe):not(.jour-hors-mois) {
+    border-color: var(--primary-color);
+  }
 }
 
-/* On isole l'effet de hover uniquement pour les éléments interactifs */
-.hover-effect:hover {
-  border-color: var(--primary-color);
-  box-shadow: 0 4px 15px rgba(var(--primary-color-rgb), 0.15);
-  transform: translateY(-2px);
+/* Pastilles horaires */
+.pill-creneau {
+  font-size: 0.65rem; /* Petit sur mobile pour rentrer dans la colonne */
+  padding: 4px 0;
+  border-radius: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+
+  @media screen and (min-width: 768px) {
+    font-size: 0.85rem; /* Standard sur PC */
+    padding: 6px 4px;
+  }
 }
 
-.jour-hors-mois {
-  visibility: hidden;
-  pointer-events: none;
+/* 🧹 Cache la scrollbar dans les cellules très remplies */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-.jour-passe {
-  opacity: 0.35; /* Légèrement plus élevé en Dark Mode pour la lisibilité */
-  background-color: var(--surface-ground);
-  pointer-events: none; /* Empêche les clics fantômes sur les jours passés */
-}
-
-/* 💅 Stylisation de la barre de scroll latérale pour qu'elle s'intègre au Dark Mode */
+/* Style Global de la barre de scroll */
 .scroller-calendrier::-webkit-scrollbar {
   width: 8px;
 }
 .scroller-calendrier::-webkit-scrollbar-track {
-  background: var(--surface-ground);
-  border-radius: 4px;
+  background: transparent;
 }
 .scroller-calendrier::-webkit-scrollbar-thumb {
   background-color: var(--surface-border);

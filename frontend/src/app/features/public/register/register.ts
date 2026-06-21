@@ -31,7 +31,7 @@ export class Register {
   profileRoutingService = inject(ProfileRoutingService)
   autoEcoleService = inject(AutoEcoleService)
 
-  schoolSlug = input<string>()
+  schoolSlug = input.required<string>()
   loadingSubmit = signal<boolean>(false)
 
   profileService = inject(ProfileService)

@@ -1,12 +1,8 @@
 .lessons-scroll-container {
   width: 100%;
-  max-height: 28rem;
+  flex: 1; /* Remplace les max-height pour prendre tout l'espace disponible */
   overflow-y: auto;
-  padding-right: 0.5rem; /* Laisse un peu d'espace pour que la scrollbar ne colle pas au contenu */
-
-  @media screen and (max-width: 768px) {
-    max-height: 21rem;
-  }
+  padding-right: 0.5rem;
 
   /* 💅 Scrollbar stylisée pour le Dark Mode Aura */
   &::-webkit-scrollbar {

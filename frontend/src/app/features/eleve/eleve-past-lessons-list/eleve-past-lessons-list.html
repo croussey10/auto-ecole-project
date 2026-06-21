@@ -1,4 +1,9 @@
-<section aria-label="Liste de vos réservations passées">
+<section
+  class="container py-4 h-full flex flex-column"
+  aria-label="Liste de vos réservations passées"
+>
+  <h2 class="text-xl font-bold text-color mb-4">Historique des leçons</h2>
+
   @if (resourceReservations.isLoading()) {
     <div class="flex justify-content-center align-items-center py-6">
       <p-progress-spinner strokeWidth="4" aria-label="Chargement de votre historique" />

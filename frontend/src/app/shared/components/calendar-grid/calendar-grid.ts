@@ -11,6 +11,7 @@ import {
   startOfMonth,
   startOfWeek,
   subMonths,
+  isSameDay,
 } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import { Database } from '../../../types/database.types'
@@ -20,6 +21,7 @@ interface CalendarDayCell {
   dayNumber: string
   isCurrentMonth: boolean
   isPast: boolean
+  isToday: boolean
   reservations: Database['public']['Views']['view_reservation']['Row'][]
 }
 
@@ -113,6 +115,7 @@ export class CalendarGrid implements OnInit {
         dayNumber: format(date, 'd'),
         isCurrentMonth: isSameMonth(date, dateDuMois),
         isPast: isBefore(startOfDay(date), today),
+        isToday: isSameDay(date, today),
         reservations: this.reservationsByDay().get(dateStr) || [],
       }
     })

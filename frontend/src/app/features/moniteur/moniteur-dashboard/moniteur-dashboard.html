@@ -1,7 +1,12 @@
-<div class="mb-4 text-xl">
-  Bonjour <strong>{{ profile()?.prenom }}</strong
-  >, voici votre planning et vos prochaines leçons à venir :
-</div>
-<div>
-  <app-moniteur-next-lessons-list />
+<div class="container flex flex-column gap-4">
+  <header class="surface-card p-5 border-round-2xl border-1 surface-border shadow-1">
+    <h1 class="text-3xl font-bold text-color m-0">Bonjour {{ profile()?.prenom }}</h1>
+    <p class="text-color-secondary mt-2 mb-0">
+      Voici un récapitulatif de votre planning et vos prochaines leçons à donner.
+    </p>
+  </header>
+
+  <section>
+    <app-moniteur-next-lessons-list />
+  </section>
 </div>

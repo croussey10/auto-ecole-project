@@ -1,5 +1,4 @@
 import { Component, effect, inject, input, signal } from '@angular/core'
-import { Card } from 'primeng/card'
 import { Database } from '../../../types/database.types'
 import { Textarea } from 'primeng/textarea'
 import { Button } from 'primeng/button'
@@ -16,7 +15,7 @@ import { DatePipe } from '@angular/common'
 
 @Component({
   selector: 'app-moniteur-past-lesson-card',
-  imports: [Card, Textarea, Button, FormsModule, ReactiveFormsModule, DatePipe],
+  imports: [Textarea, Button, FormsModule, ReactiveFormsModule, DatePipe],
   templateUrl: './moniteur-past-lesson-card.html',
   styleUrl: './moniteur-past-lesson-card.scss',
 })

@@ -33,15 +33,6 @@
         ariaLabel="Filtre moniteurs"
       />
     </div>
-
-    @if (calendarResource.isLoading()) {
-      <div
-        class="flex align-items-center justify-content-center gap-2 text-sm text-color-secondary font-semibold md:ml-auto mt-2 md:mt-0 p-2 surface-ground border-round"
-      >
-        <i class="pi pi-spin pi-spinner text-primary"></i>
-        <span>Mise à jour...</span>
-      </div>
-    }
   </header>
 
   <section
@@ -121,13 +112,14 @@
             [disabled]="!canCancel()"
             (click)="cancelHour()"
           />
-        } @else {
+        } @else if (!isPastBooking()) {
           <p-button
             label="Réserver cette heure"
             icon="pi pi-check"
             severity="success"
             styleClass="w-full"
             (click)="reserverHeure()"
+            [loading]="loadingClaimReservation()"
           />
         }
         <p-button

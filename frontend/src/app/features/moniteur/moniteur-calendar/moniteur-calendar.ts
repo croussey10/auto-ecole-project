@@ -8,7 +8,7 @@ import { Checkbox } from 'primeng/checkbox'
 import { Select } from 'primeng/select'
 import { ReservationService } from '../../../core/services/database/reservation-service'
 import { ProfileService } from '../../../core/services/auth/profile-service'
-import { format } from 'date-fns'
+import { differenceInHours, format } from 'date-fns'
 import { FeedbackMessageService } from '../../../core/services/utility/feedback-message-service'
 import { Database } from '../../../types/database.types'
 import { InputText } from 'primeng/inputtext'
@@ -79,7 +79,12 @@ export class MoniteurCalendar {
     params: () => this.profileService.currentProfile(),
     loader: async ({ params }) => {
       if (!params) return []
-      return await this.reservationService.getReservations(params.id, params.auto_ecole_id, 'moniteur')
+      return await this.reservationService.getReservations(
+        params.id,
+        params.auto_ecole_id,
+        'moniteur',
+        true,
+      )
     },
   })
 
@@ -176,6 +181,6 @@ export class MoniteurCalendar {
     const reservationDate = new Date(
       `${reservation.date_creneau}T${reservation.heure_debut}`,
     ).getTime()
-    return reservationDate - Date.now() > 172800000
+    return differenceInHours(reservationDate, new Date()) >= 48
   }
 }

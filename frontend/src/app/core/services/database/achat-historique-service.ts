@@ -15,6 +15,7 @@ export class AchatHistoriqueService {
       .from('achat_historique')
       .select('*')
       .eq('eleve_id', eleveId)
+      .order('date_achat', { ascending: false })
     if (error) throw error
     return data
   }

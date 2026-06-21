@@ -21,6 +21,7 @@ export class EleveCalendar {
   profileService = inject(ProfileService)
 
   profile = this.profileService.currentProfile
+  loadingClaimReservation = signal<boolean>(false)
 
   calendarResource = resource({
     params: () => this.profile(),
@@ -83,10 +84,6 @@ export class EleveCalendar {
     this.isModalVisible.set(true)
   }
 
-  isMyBooking() {
-    return this.selectedBooking()?.eleve_id === this.profile()?.id
-  }
-
   canCancel() {
     const booking = this.selectedBooking()
     if (!booking) return false
@@ -101,6 +98,7 @@ export class EleveCalendar {
     const reservation = this.selectedBooking()
     const eleveId = this.profile()?.id
     if (!reservation || !eleveId) return
+    this.loadingClaimReservation.set(true)
 
     try {
       await this.reservationService.claimReservation(reservation.id, eleveId)
@@ -108,6 +106,8 @@ export class EleveCalendar {
       this.calendarResource.reload()
     } catch (error) {
       console.error('Erreur réservation', error)
+    } finally {
+      this.loadingClaimReservation.set(false)
     }
   }
 
@@ -122,5 +122,17 @@ export class EleveCalendar {
     } catch (error) {
       console.error('Erreur annulation', error)
     }
+  }
+
+  isPastBooking() {
+    const booking = this.selectedBooking()
+    if (!booking) return true
+
+    const reservationDate = new Date(`${booking.date_creneau}T${booking.heure_debut}`)
+    return reservationDate.getTime() <= Date.now()
+  }
+
+  isMyBooking() {
+    return this.selectedBooking()?.eleve_id === this.profile()?.id
   }
 }

@@ -1,14 +1,14 @@
 <article
-  class="surface-card border-round-lg border-1 surface-border p-3 hover:surface-hover transition-colors"
+  class="surface-card border-round-lg border-1 surface-border p-3 hover:bg-main-surface transition-colors duration-200"
 >
   <div class="flex flex-column md:flex-row md:align-items-center justify-content-between gap-3">
     <div class="font-medium text-color text-lg">{{ competence().competence_nom }}</div>
 
     <div class="flex justify-content-end">
       @if (!canEditMaitrise()) {
-        <p-tag [severity]="severity()" [rounded]="true" styleClass="px-3 text-sm font-bold">{{
-          competence().maitrise
-        }}</p-tag>
+        <p-tag [severity]="severity()" [rounded]="true" styleClass="px-3 text-sm font-bold"
+          >{{ competence().maitrise }}
+        </p-tag>
       } @else {
         <p-select
           [style]="{ '--p-select-border-color': color(), '--p-select-focus-border-color': color() }"

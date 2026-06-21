@@ -1,32 +1,47 @@
-<p-card class="mb-3">
-  <div class="flex justify-content-between align-items-center">
-    <div>
-      <div>heure de départ : {{ reservation().heure_debut?.substring(0, 5) }}</div>
-      <div>date : {{ reservation().date_creneau | date: 'dd/MM/yyyy' }}</div>
-      <div>{{ personRole() }} {{ personName() }}</div>
+<article
+  class="surface-card border-round-xl border-1 surface-border p-4 mb-3 hover:shadow-2 transition-duration-200"
+>
+  <div class="flex flex-column md:flex-row gap-4">
+    <div class="flex-1 flex flex-column gap-3">
+      <div class="flex align-items-center gap-2 text-color font-medium">
+        <i class="pi pi-calendar border-circle surface-ground p-2"></i>
+        <span class="text-lg font-bold">{{
+          reservation().date_creneau | date: 'dd MMMM yyyy'
+        }}</span>
+        <span class="text-primary font-bold"
+          >à {{ reservation().heure_debut?.substring(0, 5) }}</span
+        >
+      </div>
+
+      <div class="flex align-items-center gap-2 text-color">
+        <i class="pi pi-user border-circle surface-ground p-2"></i>
+        <span class="font-bold">{{ personRole() }} {{ personName() }}</span>
+      </div>
     </div>
 
-    <form [formGroup]="form" (ngSubmit)="submit()">
-      <div class="flex flex-column">
-        <div class="text-sm font-bold text-primary w-full">
-          <label for="commentaire">Commentaire</label>
-          <textarea
-            formControlName="commentaire"
-            id="commentaire"
-            type="text"
-            pTextarea
-            class="w-full"
-            rows="5"
-          ></textarea>
-        </div>
+    <form [formGroup]="form" (ngSubmit)="submit()" class="w-full md:w-20rem">
+      <div class="flex flex-column gap-2">
+        <label for="commentaire" class="text-xs font-bold text-color-secondary uppercase"
+          >Commentaire</label
+        >
+        <textarea
+          formControlName="commentaire"
+          id="commentaire"
+          pTextarea
+          class="w-full surface-ground border-1 border-surface-border p-2 border-round-md"
+          rows="3"
+          placeholder="Ajouter une note..."
+        ></textarea>
+
         <p-button
-          class="flex justify-content-end pt-2"
-          [label]="oldCommentaire() ? 'modifier' : 'ajouter'"
+          [label]="oldCommentaire() ? 'Mettre à jour' : 'Ajouter'"
           type="submit"
+          icon="pi pi-save"
           [loading]="loadingSubmit()"
-          [disabled]="form.invalid || oldCommentaire() == form.value.commentaire ? true : false"
+          [disabled]="form.invalid || oldCommentaire() == form.value.commentaire"
+          styleClass="w-full"
         />
       </div>
     </form>
   </div>
-</p-card>
+</article>

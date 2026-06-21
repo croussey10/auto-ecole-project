@@ -1,68 +1,79 @@
 <div
-  class="scroller-calendrier pr-2"
-  style="overflow-y: auto; max-height: 75vh"
+  class="scroller-calendrier px-1 md:px-2"
+  style="overflow-y: auto; max-height: 80vh"
   (scroll)="onScroll($event)"
 >
   @for (month of monthsList(); track month.monthName) {
-    <section class="bloc-mois mb-7" [attr.aria-label]="'Calendrier pour ' + month.monthName">
-      <h2
-        class="text-2xl md:text-3xl font-bold text-primary uppercase m-0 mb-4 sticky top-0 surface-card py-3 z-2 border-bottom-1 surface-border"
+    <section class="bloc-mois mb-6" [attr.aria-label]="'Calendrier pour ' + month.monthName">
+      <div
+        class="flex justify-content-between align-items-center mb-4 sticky top-0 surface-ground z-2 py-3"
       >
-        {{ month.monthName }}
-      </h2>
+        <h2 class="text-2xl font-bold uppercase m-0">{{ month.monthName }}</h2>
+      </div>
 
-      <div class="overflow-x-auto pb-3">
-        <div class="min-w-max-calendar">
-          <div class="monthly-grid-container mb-3 text-color-secondary font-bold text-sm">
-            <div class="text-center bg-surface-ground py-2 border-round">LUN</div>
-            <div class="text-center bg-surface-ground py-2 border-round">MAR</div>
-            <div class="text-center bg-surface-ground py-2 border-round">MER</div>
-            <div class="text-center bg-surface-ground py-2 border-round">JEU</div>
-            <div class="text-center bg-surface-ground py-2 border-round">VEN</div>
-            <div class="text-center bg-surface-ground py-2 border-round">SAM</div>
-            <div class="text-center bg-surface-ground py-2 border-round">DIM</div>
-          </div>
-
-          <div class="monthly-grid-container">
-            @for (cell of month.days; track cell.date) {
-              <article
-                class="case-jour p-2 border-round-lg flex flex-column gap-2"
-                [class.jour-hors-mois]="!cell.isCurrentMonth"
-                [class.jour-passe]="cell.isPast"
-                [class.cursor-pointer]="!cell.isPast && role() === 'moniteur'"
-                [class.hover-effect]="!cell.isPast && role() === 'moniteur'"
-                (click)="!cell.isPast && role() === 'moniteur' && openModal(cell.date)"
-              >
-                <span
-                  class="align-self-end font-bold text-lg"
-                  [class.text-color-secondary]="cell.isPast"
-                  [class.text-color]="!cell.isPast"
-                >
-                  {{ cell.dayNumber }}
-                </span>
-
-                <div class="flex flex-column gap-2 w-full overflow-y-auto">
-                  @for (reservation of cell.reservations; track reservation.id) {
-                    <div
-                      class="text-xs p-2 border-round text-white font-semibold flex flex-column align-items-center justify-content-center shadow-1 hover:shadow-3 transition-all cursor-pointer"
-                      [class.bg-blue-600]="!reservation.eleve_id"
-                      [class.bg-green-600]="reservation.eleve_id"
-                      (click)="$event.stopPropagation(); clickReservation(reservation)"
-                      role="button"
-                      tabindex="0"
-                      [attr.aria-label]="
-                        'Réservation à ' + reservation.heure_debut?.substring(0, 5)
-                      "
-                    >
-                      <span>{{ reservation.heure_debut?.substring(0, 5) }}</span>
-                      <span class="opacity-70 text-xs mt-1">{{ reservation.vehicule }}</span>
-                    </div>
-                  }
-                </div>
-              </article>
-            }
-          </div>
+      <div class="grid-7-cols mb-2 text-color-secondary font-bold text-xs md:text-sm">
+        <div class="text-center">
+          <span class="md:hidden">L</span><span class="hidden md:inline">Lun</span>
         </div>
+        <div class="text-center">
+          <span class="md:hidden">M</span><span class="hidden md:inline">Mar</span>
+        </div>
+        <div class="text-center">
+          <span class="md:hidden">M</span><span class="hidden md:inline">Mer</span>
+        </div>
+        <div class="text-center">
+          <span class="md:hidden">J</span><span class="hidden md:inline">Jeu</span>
+        </div>
+        <div class="text-center">
+          <span class="md:hidden">V</span><span class="hidden md:inline">Ven</span>
+        </div>
+        <div class="text-center">
+          <span class="md:hidden">S</span><span class="hidden md:inline">Sam</span>
+        </div>
+        <div class="text-center">
+          <span class="md:hidden">D</span><span class="hidden md:inline">Dim</span>
+        </div>
+      </div>
+
+      <div class="grid-7-cols">
+        @for (cell of month.days; track cell.date) {
+          <article
+            class="case-jour flex flex-column gap-1 p-1 md:p-2 border-round-sm transition-duration-200"
+            [class.jour-hors-mois]="!cell.isCurrentMonth"
+            [class.jour-passe]="cell.isPast"
+            [class.jour-aujourdhui]="cell.isToday"
+            [class.cursor-pointer]="!cell.isPast && role() === 'moniteur'"
+            (click)="!cell.isPast && role() === 'moniteur' && openModal(cell.date)"
+          >
+            <div class="flex pb-1 md:pb-2">
+              <span
+                class="font-semibold text-xs md:text-sm pl-1 pt-1"
+                [class.text-color-secondary]="cell.isPast"
+                [class.text-color]="!cell.isPast && !cell.isToday"
+                [class.bg-primary]="cell.isToday"
+                [class.text-primary-contrast]="cell.isToday"
+                [style.border-radius]="cell.isToday ? '4px' : ''"
+                [style.padding]="cell.isToday ? '2px 6px' : ''"
+              >
+                {{ cell.dayNumber }}
+              </span>
+            </div>
+
+            <div class="flex flex-column gap-1 overflow-y-auto w-full no-scrollbar pb-1">
+              @for (reservation of cell.reservations; track reservation.id) {
+                <div
+                  class="pill-creneau text-white font-bold flex align-items-center justify-content-center text-center shadow-1 cursor-pointer w-full hover:-translate-y-1 transition-transform"
+                  [class.bg-blue-500]="!reservation.eleve_id"
+                  [class.bg-purple-500]="reservation.eleve_id"
+                  (click)="$event.stopPropagation(); clickReservation(reservation)"
+                  role="button"
+                >
+                  {{ reservation.heure_debut?.substring(0, 5) }}
+                </div>
+              }
+            </div>
+          </article>
+        }
       </div>
     </section>
   }

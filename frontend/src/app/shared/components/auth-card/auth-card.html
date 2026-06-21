@@ -1,5 +1,22 @@
-<p-card class="flex justify-content-center py-6 mt-6">
-  <div class="flex justify-content-center">Bienvenue sur DriveFlow</div>
+<div class="flex justify-content-center align-items-center py-6 mt-6 px-3">
+  <article
+    class="surface-card p-5 md:p-6 border-round-xl border-1 surface-border shadow-4 w-full max-w-30rem transition-duration-200 hover:shadow-5"
+  >
+    <header class="text-center mb-5">
+      <div
+        class="bg-primary-reverse border-circle w-4rem h-4rem flex align-items-center justify-content-center mx-auto mb-3 shadow-1"
+      >
+        <i class="pi pi-car text-2xl text-primary"></i>
+      </div>
 
-  <ng-content></ng-content>
-</p-card>
+      <h1 class="text-2xl md:text-3xl font-bold text-color m-0 mb-2">Bienvenue</h1>
+      <p class="text-color-secondary m-0 text-lg font-medium">
+        sur <span class="text-primary font-bold">{{ slug() | titlecase }}</span>
+      </p>
+    </header>
+
+    <div class="flex flex-column gap-3">
+      <ng-content></ng-content>
+    </div>
+  </article>
+</div>

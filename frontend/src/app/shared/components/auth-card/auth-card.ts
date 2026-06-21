@@ -1,10 +1,12 @@
-import { Component } from '@angular/core'
-import { Card } from 'primeng/card'
+import { Component, input } from '@angular/core'
+import { TitleCasePipe } from '@angular/common'
 
 @Component({
   selector: 'app-auth-card',
-  imports: [Card],
+  imports: [TitleCasePipe],
   templateUrl: './auth-card.html',
   styleUrl: './auth-card.scss',
 })
-export class AuthCard {}
+export class AuthCard {
+  slug = input<string>('')
+}
