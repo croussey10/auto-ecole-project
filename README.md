@@ -47,6 +47,6 @@ Pour faire tourner le projet sur votre machine locale, vous aurez besoin de **No
 1. **Cloner le dépôt :**
 ```bash
    git clone https://github.com/croussey10/auto-ecole-project.git
-   cd front-end
+   cd frontend
    npm install
    npm run start
