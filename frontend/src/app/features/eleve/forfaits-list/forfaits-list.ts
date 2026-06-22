@@ -15,7 +15,7 @@ export class ForfaitsList {
   profileService = inject(ProfileService)
 
   resourceForfaits = resource({
-    params: () => this.profileService.activeAutoEcoleId(),
+    params: () => this.profileService.currentProfile()?.auto_ecole_id,
     loader: async ({ params }) => {
       if (!params) return
       return await this.forfaitService.getForfaits(params)

@@ -104,6 +104,15 @@ export class EleveCalendar {
       await this.reservationService.claimReservation(reservation.id, eleveId)
       this.isModalVisible.set(false)
       this.calendarResource.reload()
+      const profile = this.profile()
+      if (profile) {
+        const updatedProfile = await this.profileService.getProfileInfos(
+          profile.id,
+          'profile',
+          profile.auto_ecole_id,
+        )
+        this.profileService.currentProfile.set(updatedProfile)
+      }
     } catch (error) {
       console.error('Erreur réservation', error)
     } finally {
@@ -119,6 +128,15 @@ export class EleveCalendar {
       await this.reservationService.cancelReservation(reservation.id)
       this.isModalVisible.set(false)
       this.calendarResource.reload()
+      const profile = this.profile()
+      if (profile) {
+        const updatedProfile = await this.profileService.getProfileInfos(
+          profile.id,
+          'profile',
+          profile.auto_ecole_id,
+        )
+        this.profileService.currentProfile.set(updatedProfile)
+      }
     } catch (error) {
       console.error('Erreur annulation', error)
     }

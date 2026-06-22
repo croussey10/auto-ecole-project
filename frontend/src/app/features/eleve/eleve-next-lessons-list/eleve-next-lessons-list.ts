@@ -68,6 +68,15 @@ export class EleveNextLessonsList {
       this.idBeingCancelled.set(reservationId)
       await this.reservationService.cancelReservation(reservationId)
       this.resourceReservations.reload()
+      const profile = this.profile()
+      if (profile) {
+        const updatedProfile = await this.profileService.getProfileInfos(
+          profile.id,
+          'profile',
+          profile.auto_ecole_id,
+        )
+        this.profileService.currentProfile.set(updatedProfile)
+      }
     } catch (error) {
       const authError = error as AuthError
       this.messageService.add({
