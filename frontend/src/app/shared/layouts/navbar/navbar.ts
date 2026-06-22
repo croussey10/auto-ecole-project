@@ -47,7 +47,7 @@ export class Navbar {
           link: `${profileRole}/livret-apprentissage`,
         },
         { label: 'Forfaits', icon: 'pi pi-wallet', link: `${profileRole}/forfaits` },
-        { label: 'Achats', icon: 'pi pi-wallet', link: `${profileRole}/achats` },
+        { label: 'Achats', icon: 'pi pi-receipt', link: `${profileRole}/achats` },
       )
     } else if (profileRole == 'moniteur') {
       menu.push({ label: 'Eleves', icon: 'pi pi-users', link: `${profileRole}/eleves` })

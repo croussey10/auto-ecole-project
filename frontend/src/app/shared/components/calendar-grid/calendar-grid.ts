@@ -65,10 +65,10 @@ export class CalendarGrid implements OnInit {
   ngOnInit() {
     const currentMonth = new Date()
 
-    this.oldestMonthDate = subMonths(currentMonth, 1)
-    this.newestMonthDate = addMonths(currentMonth, 1)
+    this.oldestMonthDate = currentMonth
+    this.newestMonthDate = addMonths(currentMonth, 2)
 
-    this.displayedMonthsDates.set([this.oldestMonthDate, currentMonth, this.newestMonthDate])
+    this.displayedMonthsDates.set([currentMonth, addMonths(currentMonth, 1), this.newestMonthDate])
   }
 
   onScroll(event: Event) {
